@@ -21,17 +21,17 @@ function HeroSection() {
           <div className=" flex flex-col xl:w-[60%] w-full xl:space-y-[24px] ">
             <Header3 className="text-white col-span-1">
               Discover the beauty of self-care with
-              <span className="text-primary"> Goshop's </span> premium
-              cosmetics.
+              <span className="border-primary  "> GrandioseGrin's </span>{" "}
+              premium cosmetics.
             </Header3>
             <Paragraph3 className="xl:mt-[16px] mb-[24px] xl:mb-[48px] text-white">
-              At Goshop, we celebrate your unique beauty, offering products that
-              nourish, inspire, and enhance your natural glow.
+              At GrandioseGrin, we celebrate your unique beauty, offering
+              products that nourish, inspire, and enhance your natural glow.
             </Paragraph3>
 
             <Button
               text="Start Your Beauty Journey"
-              href="/apply"
+              href="/products"
               isLink={true}
               additionalClasses="border-primary xl:w-fit w-full  "
             />
@@ -43,7 +43,7 @@ function HeroSection() {
           className="absolute inset-0 bg-cover xl:-top-[100px] xl:-left-[0px] -left-[150px] -top-[24px] bg-center- z-0"
           style={{
             backgroundImage:
-              "url('https://res.cloudinary.com/dcb4ilgmr/image/upload/w_1000,f_auto/v1729525367/utilities/templates/urban-vintage-ScNzlHZejSU-unsplash_dhylzf.jpg')",
+              "url('https://res.cloudinary.com/dtipo8fg3/image/upload/v1731517423/istockphoto-637324230-612x612as_w7eazz.jpg')",
           }}
         ></div>
         {/* Dark overlay for the background image */}

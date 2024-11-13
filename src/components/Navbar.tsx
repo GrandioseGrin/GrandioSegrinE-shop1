@@ -3,7 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Button from "./Button";
-import { Paragraph2, ParagraphLink1, ParagraphLink2 } from "./Text";
+import {
+  Header3,
+  HeaderAny,
+  Paragraph1,
+  Paragraph2,
+  ParagraphLink1,
+  ParagraphLink2,
+} from "./Text";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import CartSummary from "./Cart/CartSummary";
@@ -52,7 +59,7 @@ function Navbar() {
       }
     >
       <div className="  w-full">
-        <div className=" container1 flex justify-between w-full items-center">
+        <div className=" container1 flex justify-between font-semibold- w-full items-center">
           <div className="lg:hidden">
             <button onClick={toggleMenu} className="focus:outline-none">
               <Image
@@ -65,53 +72,58 @@ function Navbar() {
             </button>
           </div>
           <img src="/images/logo.png" alt="" className="h-[30px]" />
+          {/* <div className=" relative">
+            {" "}
+            <div className=" border-2 border-primary rounded-full w-2 h-2 p- absolute top-1 -left-1 "></div>
+            <HeaderAny className=" text-[24px]">GrandioseGrin</HeaderAny>{" "}
+          </div> */}
           <div className="  gap-[48px] items-center hidden lg:flex">
             <Link href="/">
-              <ParagraphLink1
+              <Paragraph1
                 className={pathname === "/" ? "text-primary font-bold " : " "}
               >
                 Home
-              </ParagraphLink1>
+              </Paragraph1>
             </Link>
             <Link href="/about-us">
               {" "}
-              <ParagraphLink1
+              <Paragraph1
                 className={
                   pathname === "/about-us" ? "text-primary font-bold " : "  "
                 }
               >
                 About
-              </ParagraphLink1>
+              </Paragraph1>
             </Link>
             <Link href="/products">
               {" "}
-              <ParagraphLink1
+              <Paragraph1
                 className={
                   pathname === "/products" ? "text-primary font-bold " : "  "
                 }
               >
                 Shop
-              </ParagraphLink1>
+              </Paragraph1>
             </Link>
             <Link href="/blog">
               {" "}
-              <ParagraphLink1
+              <Paragraph1
                 className={
                   pathname === "/blog" ? "text-primary font-bold " : "  "
                 }
               >
                 Blog
-              </ParagraphLink1>
+              </Paragraph1>
             </Link>
             <Link href="/contact-us">
               {" "}
-              <ParagraphLink1
+              <Paragraph1
                 className={
                   pathname === "/contact-us" ? "text-primary font-bold " : "  "
                 }
               >
                 Contact us
-              </ParagraphLink1>
+              </Paragraph1>
             </Link>
 
             <div className="flex justify-between items-center p-2 px-3   bg-bg_gray rounded-lg w-[400px]  cursor-pointer">

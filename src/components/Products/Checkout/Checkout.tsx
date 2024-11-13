@@ -254,7 +254,7 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
                 />
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center text-[12px]">
               <Field type="checkbox" name="saveInfo" className="mr-2" />
               <label>Save this information for next time</label>
             </div>

@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className=" bg-[#fff0cc]-">
+      <body className=" bg-[#dbd9d2]-">
         <Navbar />
         {children}
         <Footer />

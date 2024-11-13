@@ -27,7 +27,7 @@ function Section4() {
             Effortless Beauty Shopping
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            At Goshop, we believe that finding the perfect skincare and beauty
+            At GrandioseGrin, we believe that finding the perfect skincare and beauty
             products should be easy, enjoyable, and tailored just for you.
           </Paragraph1>
         </div>

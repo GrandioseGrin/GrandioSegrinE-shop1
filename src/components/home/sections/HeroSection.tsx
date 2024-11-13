@@ -15,16 +15,17 @@ function HeroSection() {
 
   return (
     <div className="  ">
-      <div className="xl:py-[120px] relative py-[50px] pt-[140px] bg-p_black pb-[150px]">
+      <div className="xl:py-[100px] relative py-[50px] xl:pt-[180px] pt-[100px] bg-p_black pb-[100px]">
         {/* Background image overlay */}
         <div
-          className="absolute inset-0 bg-cover xl:-top-[200px] xl:-left-[0px] -left-[150px] -top-[24px] bg-center- z-0"
+          className="absolute inset-0 bg-cover  bg-center- z-0"
           style={{
-            backgroundImage: "url('/images/store.jpg')",
+            backgroundImage:
+              "url('https://res.cloudinary.com/dtipo8fg3/image/upload/v1731516500/istockphoto-1536721205-612x612_bdmsat.jpg')",
           }}
         ></div>
         {/* Dark overlay for the background image */}
-        <div className="absolute inset-0  bg-p_black opacity-90 z-0"></div>
+        <div className="absolute inset-0  bg-p_black opacity-80 z-0"></div>
         <div className=" container1 grid grid-cols-1 lg:grid-cols-2 gap-2 items-center ">
           {" "}
           <div
@@ -32,9 +33,13 @@ function HeroSection() {
             data-aos="fade-up-right"
           >
             <Header1 className="text-white mt-4 xl:mt-0">
-              Unlock Your Inner <span className="text-primary"> Glow</span>,
-              Embrace Every <span className="text-primary"> Moment</span> of
-              Radiance, and Shine with Confidence Every Day
+              Welcome to{" "}
+              <span className=" py-2 rounded-[24px] sm:border-b-4 border-primary">
+                {" "}
+                GrandioseGrin{" "}
+              </span>{" "}
+              – your destination for high-quality, original beauty and cosmetic
+              products.
             </Header1>
             <Paragraph3 className="mt-[16px] mb-[48px] text-white">
               Beauty begins with self-love. Indulge in skincare and cosmetics
@@ -44,13 +49,14 @@ function HeroSection() {
             <div className="flex justify-center  xl:flex-row flex-col items-center mt-4 gap-[24px] xl:gap-[32px]">
               <Button
                 text="Shop Now"
-                href="/contact-us"
+                href="/products"
                 isLink={true}
+                border="border-2 border-primary "
                 additionalClasses="border-primary xl:w-fit w-full "
               />
               <Button
                 text="About Us"
-                href="/gallery"
+                href="/about-us"
                 isLink={true}
                 color="text-white"
                 backgroundColor=" bg-p_black"

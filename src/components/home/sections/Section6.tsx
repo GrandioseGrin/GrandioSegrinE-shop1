@@ -25,7 +25,7 @@ function section6() {
         <div className="flex flex-col xl:gap-[24px] items-center w-full text-center pb-[64px]">
           <Header1Plus>
             Discover Your Best <span className="text-primary">Self</span> with
-            Goshop
+            GrandioseGrin
           </Header1Plus>
           <Paragraph1 className="max-w-[883px] text-center">
             Have questions or need guidance? Our team is here to help you find

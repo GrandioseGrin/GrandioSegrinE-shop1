@@ -5,7 +5,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 
 const body_Font = localFont({
-  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Regular.woff",
+  src: "../app/fonts/GeneralSans/fonts/GeneralSans-Regular.woff",
 });
 
 interface ButtonProps {

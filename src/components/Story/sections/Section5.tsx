@@ -26,7 +26,7 @@ function Section5() {
       id: 1,
       question: "Q. What types of skincare and beauty products do you offer?",
       answer:
-        "At Goshop, we offer a wide range of skincare and cosmetic products, including moisturizers, serums, cleansers, and makeup. Each product is crafted to support different skin types and beauty needs.",
+        "At GrandioseGrin, we offer a wide range of skincare and cosmetic products, including moisturizers, serums, cleansers, and makeup. Each product is crafted to support different skin types and beauty needs.",
     },
     {
       id: 2,
