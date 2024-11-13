@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   const commonClasses = `relative overflow-hidden group ${backgroundColor} ${color} ${border} ${body_Font.className} px-[24px] py-[10px] font-medium  text-[12px] sm:text-[14px]  rounded-lg cursor-pointer text-center ${additionalClasses}`;
 
   const hoverEffectClasses =
-    "absolute inset-0 bg-black -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out";
+    "absolute inset-0 bg-black g -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out";
 
   const content = (
     <>
