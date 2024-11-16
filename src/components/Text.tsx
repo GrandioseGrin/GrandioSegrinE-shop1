@@ -2,19 +2,19 @@ import React from "react";
 import localFont from "next/font/local";
 
 const body_Font_Medium = localFont({
-  src: "../app/fonts/Stardom/fonts/Stardom-Regular.woff",
+  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Medium.woff",
 });
 
 const body_Font_Regular = localFont({
-  src: "../app/fonts/Stardom/fonts/Stardom-Regular.woff",
+  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Regular.woff",
 });
 
 const body_Font_Light = localFont({
-  src: "../app/fonts/Stardom/fonts/Stardom-Regular.woff",
+  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Light.woff",
 });
 
 const body_Font_Bold = localFont({
-  src: "../app/fonts/Stardom/fonts/Stardom-Regular.woff",
+  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Bold.woff",
 });
 
 const body_p_regular = localFont({

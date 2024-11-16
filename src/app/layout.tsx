@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "aos/dist/aos.css";
+import Head from "next/head"; // Import Head for adding custom scripts
+
 
 
 const geistSans = localFont({
@@ -29,6 +31,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        {/* Add Cloudinary widget script */}
+        <script
+          src="https://widget.cloudinary.com/v2.0/global/all.js"
+          type="text/javascript"
+          async
+        ></script>
+      </Head>
       <body className=" bg-[#dbd9d2]-">
         <Navbar />
         {children}

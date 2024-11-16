@@ -32,14 +32,14 @@ function LoginForm() {
         <div className=" grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className=" col-span-1 hidden xl:block">
             {" "}
-            <div className=" flex relative">
+            <div className=" flex relative items-center justify-center h-full ">
               {" "}
               <img
-                src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729544814/utilities/templates/GetBee_1_bxzwaf.png"
+                src="/images/logo.png"
                 alt="branding"
                 className="w-full "
               />{" "}
-              <div className="w-5 h-full bg-white flex absolute right-0"></div>
+              {/* <div className="w-5 h-full bg-white flex  right-0"></div> */}
             </div>
           </div>
           <div className=" col-span-1">

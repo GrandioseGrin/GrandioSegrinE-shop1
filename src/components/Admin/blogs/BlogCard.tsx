@@ -6,26 +6,20 @@ import { Paragraph2 } from "@/components/Text";
 import Button from "@/components/Button";
 import BlogModal from "./BlogModal";
 
-interface BlogCardProps {
-  image: string;
+type BlogValues = {
   title: string;
+  blogImageURL1: string;
   description: string;
-  price: number;
-}
+  blog: any;
+};
 
-const BlogCard: React.FC<BlogCardProps> = ({
-  image,
+const BlogCard: React.FC<BlogValues> = ({
+  blogImageURL1,
   title,
-  price,
   description,
+  blog,
 }) => {
-  const [product, setProduct] = useState({
-    title: "Product Title",
-    price: "$49.99",
-    description:
-      "Introducing an exceptional product crafted with precision and designed to meet your every need...",
-    image: "/images/testProduct.jpg",
-  });
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEditClick = () => {
@@ -36,28 +30,24 @@ const BlogCard: React.FC<BlogCardProps> = ({
     setIsModalOpen(false);
   };
 
-  const handleSaveProduct = (updatedProduct: typeof product) => {
-    setProduct(updatedProduct);
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="max-w-full bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-      {isModalOpen && (
-        <BlogModal
-          product={product}
-          onClose={handleModalClose}
-          onSave={handleSaveProduct}
-        />
-      )}
+      {isModalOpen && <BlogModal blog={blog} onClose={handleModalClose} />}
       <div
         onClick={handleEditClick}
         className="bg-white relative hover:border-primary cursor-pointer border-2 rounded-lg"
       >
-        <img className="w-full h-48 object-cover" src={image} alt={title} />
+        <img
+          className="w-full h-48 object-cover"
+          src={blogImageURL1}
+          alt={title}
+        />
         <div className="p-4">
           <h2 className="text-2xl font-semibold text-gray-800 mb-2">{title}</h2>
-          <p className="text-gray-600 mb-4">{description}</p>
+          <p className="text-gray-600 mb-4">
+            {description.split(" ").slice(0, 11).join(" ")}...
+          </p>{" "}
+
         </div>
       </div>
     </div>

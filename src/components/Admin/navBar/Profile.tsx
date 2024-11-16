@@ -25,7 +25,7 @@ const ProfileDropdown = () => {
       {/* Profile Button */}
       <button
         onClick={toggleDropdown}
-        className="flex justify-between items-center gap-2 p-2  rounded-[8px] w-48 bg-white transition"
+        className="flex justify-between items-center gap-2 px-2   rounded-[8px] w-48 bg-white border transition"
       >
         <div className="flex items-center gap-2  ">
           <svg
@@ -66,7 +66,7 @@ const ProfileDropdown = () => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white shadow-md border- rounded-[8px]">
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-md border rounded-[8px]">
           <div className="py-1">
             <Link
               href="/admin/dashboard"

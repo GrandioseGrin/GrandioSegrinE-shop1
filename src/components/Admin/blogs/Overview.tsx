@@ -3,7 +3,7 @@ import BlogsSections from "./BlogsSections";
 
 function BlogOverview() {
   return (
-    <div className="">
+    <div className=" bg-bg_gray min-h-screen">
       <BlogsSections />
     </div>
   );

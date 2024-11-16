@@ -24,7 +24,7 @@ function NavBar() {
   };
 
   return (
-    <div className="bg-bg_gray fixed w-full z-50">
+    <div className="bg-white fixed w-full z-50">
       <div className="container1 py-[12px] w-full text-p_black">
         <div className="flex justify-between items-center">
           <img src="/images/logo.png" alt="" className="h-[40px]" />

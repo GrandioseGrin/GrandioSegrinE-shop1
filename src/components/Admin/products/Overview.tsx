@@ -3,7 +3,7 @@ import ProductSections from "./ProductSections";
 
 function ProductsOverview() {
   return (
-    <div className="">
+    <div className="bg-bg_gray">
       <ProductSections />
     </div>
   );
