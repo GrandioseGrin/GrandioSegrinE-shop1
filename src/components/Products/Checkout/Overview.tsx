@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../ProductCard";
 import {
   Header4,
@@ -12,88 +12,126 @@ import Button from "@/components/Button";
 import Section6 from "@/components/home/sections/Section6";
 import ProductCartCard from "@/components/Cart/ProductCartCard";
 import Checkout from "./Checkout";
+import { db } from "@/lib/firebase";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import useCartStore from "@/stores/cartStore";
+
+type Product = {
+  id: string; // Firestore document IDs are strings
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+  currentPrice: any;
+  productImageURL1: any;
+};
 
 const CheckOutOverview = () => {
-  const product = {
-    title: "Product Title",
-    price: "$49.99",
-    description:
-      "Introducing an exceptional product crafted with precision and designed to meet your every need. This item combines top-tier quality with cutting-edge features, ensuring a seamless experience that fits effortlessly into your lifestyle. Not only does it deliver outstanding performance, but it’s also built with durability in mind, so you can enjoy it for years to come. Every detail, from the intuitive design to the advanced technology, is tailored to provide unparalleled satisfaction. Whether you’re using it daily or for special occasions, this product adapts perfectly, making it a must-have in any household or personal collection. You'll find yourself reaching for it time and time again, appreciating its reliability, ease of use, and the added value it brings.  Get ready to fall in love with a product that truly understands your needs!",
-    images: [
-      "/images/testProduct.jpg",
-      "https://via.placeholder.com/501",
-      "https://via.placeholder.com/502",
-      "https://via.placeholder.com/503",
-    ],
-  };
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<Product | null>(null);
+  const cart = useCartStore((state) => state.cart);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const relatedProducts = [
-    {
-      id: 1,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 1",
-    },
-    {
-      id: 2,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 2",
-    },
-    {
-      id: 3,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 3",
-    },
-    {
-      id: 4,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 4",
-    },
-  ];
+  useEffect(() => {
+    if (cart.length > 0) {
+      const fetchProducts = async () => {
+        try {
+          const ids = cart.map((item) => item.id);
 
-  const [products, setProducts] = useState<any[]>([
-    {
-      id: 1,
-      image: "/images/testProduct.jpg",
-      title: "Cream A",
-      price: 20.99,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      image: "product2.jpg",
-      title: "Cream B",
-      price: 15.49,
-      quantity: 1,
-    },
-  ]);
+          // Firestore query to get products by ID
+          const productsRef = collection(db, "products");
+          const productsQuery = query(
+            productsRef,
+            where("__name__", "in", ids)
+          );
+          const querySnapshot = await getDocs(productsQuery);
 
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+          const productDetails = querySnapshot.docs.map((doc) => ({
+            id: doc.id, // Include Firestore document ID
+            ...doc.data(),
+          })) as Omit<Product, "quantity">[]; // Exclude quantity initially
 
-  // Calculate subtotal and total
+          // Map with cart quantities
+          const updatedProducts = productDetails.map((product) => ({
+            ...product,
+            quantity:
+              cart.find((item) => item.id === product.id)?.quantity || 1,
+          }));
+          // Fetch related products
+          const relatedQuery = query(collection(db, "products"));
+          const relatedSnap = await getDocs(relatedQuery);
+          const related: Product[] = [];
+          relatedSnap.forEach((doc) => {
+            const data = doc.data() as Omit<Product, "id">; // Exclude 'id'
+            related.push({ id: doc.id, ...data });
+          });
+
+          setRelatedProducts(related);
+          setProducts(updatedProducts);
+          setLoading(false)
+        } catch (error) {
+          console.error("Failed to fetch products:", error);
+        }
+      };
+
+      fetchProducts();
+    } else {
+      setProducts([]); // Clear products if cart is empty
+    }
+  }, [cart]);
+
+  const shuffledProducts = [...relatedProducts].sort(() => 0.5 - Math.random());
+  const randomProducts = shuffledProducts.slice(0, 4);
+
   const subtotal = products.reduce(
-    (total, product) => total + product.price * product.quantity,
+    (total, product) => total + product.currentPrice * product.quantity,
     0
   );
-  const tax = 2.5;
-  const shippingFee = 5.0;
-  const total = subtotal + tax + shippingFee;
 
-  // Handle quantity change for a product
-  const handleQuantityChange = (productId: number, delta: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === productId
-          ? { ...product, quantity: Math.max(1, product.quantity + delta) }
-          : product
-      )
-    );
+  const handleQuantityChange = (productId: string, delta: number) => {
+    const cartStore = useCartStore.getState();
+    const existingProduct = cart.find((item) => item.id === productId);
+
+    if (existingProduct) {
+      const newQuantity = existingProduct.quantity + delta;
+
+      if (newQuantity > 0) {
+        // Update the quantity directly in the store
+        cartStore.cart = cartStore.cart.map((item) =>
+          item.id === productId ? { ...item, quantity: newQuantity } : item
+        );
+
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product.id === productId
+              ? { ...product, quantity: newQuantity }
+              : product
+          )
+        );
+      } else {
+        // Remove the product if the quantity reaches zero
+        cartStore.removeFromCart(productId);
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== productId)
+        );
+      }
+    }
   };
 
-  // Handle product removal
-  const handleRemoveProduct = (productId: number) => {
+  const handleRemoveProduct = (productId: string) => {
     setProducts((prevProducts) =>
       prevProducts.filter((product) => product.id !== productId)
     );
+    // Sync removal with Zustand store
+    useCartStore.getState().removeFromCart(productId);
   };
 
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
@@ -103,10 +141,19 @@ const CheckOutOverview = () => {
     setIsSummaryVisible(!isSummaryVisible);
   };
 
+  if (loading)
+    return (
+      <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+        <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+
+
   return (
-    <div>
-      <div className="container1 mx-auto   py-[100px]">
-        <div className=" grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white sm:p-8 rounded-lg">
+    <div >
+      <div className="container1 mx-auto    py-[100px]">
+        <Header4 className=" mb-4">Checkout</Header4>
+        <div className=" grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white  rounded-lg">
           <div className="block sm:hidden">
             <div className=" flex justify-between bg-bg_gray p-2 px-4 rounded-lg items-center ">
               <button
@@ -133,7 +180,7 @@ const CheckOutOverview = () => {
               </button>
 
               <ParagraphLink1 className="text-lg font-bold">
-                ${total.toFixed(2)}
+                {`₦ ${new Intl.NumberFormat("en-US").format(Number(subtotal))}`}
               </ParagraphLink1>
             </div>
 
@@ -158,10 +205,7 @@ const CheckOutOverview = () => {
                   )}
                 </div>
                 <hr />
-                <div className="flex- hidden justify-between">
-                  <Paragraph1>Taxes:</Paragraph1>
-                  <Paragraph1>${tax.toFixed(2)}</Paragraph1>
-                </div>
+
                 <div className="flex justify-between">
                   <Paragraph1>Shipping fee:</Paragraph1>
                   <Paragraph1 className="text-gray-500">
@@ -170,7 +214,12 @@ const CheckOutOverview = () => {
                 </div>
                 <div className="flex justify-between font-semibold">
                   <ParagraphLink1>Total:</ParagraphLink1>
-                  <ParagraphLink1>${total.toFixed(2)}</ParagraphLink1>
+                  <ParagraphLink1>
+                    {" "}
+                    {`₦ ${new Intl.NumberFormat("en-US").format(
+                      Number(subtotal)
+                    )}`}
+                  </ParagraphLink1>
                 </div>
               </div>
             )}
@@ -178,36 +227,38 @@ const CheckOutOverview = () => {
 
           {/* Right section - Product Images */}
           <div className=" sm:col-span-3">
-            <Checkout
-              products={products}
-              total={total.toFixed(2)}
-              logoUrl="/images/logo.png"
-            />
+            <div className=" sm:p-4 bg-bg_gray rounded-lg">
+              <Checkout
+                products={products}
+                total={subtotal}
+                logoUrl="/images/logo.png"
+              />
+            </div>
           </div>
 
           {/* Left section - Product Details */}
           <div className="sm:col-span-2 hidden sm:block">
-            <div className="p-4 space-y-4 overflow-y-auto h-[300px] bg-bg_gray px-4 rounded-lg scrollbar-hide">
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <ProductCartCard
-                    key={product.id}
-                    product={product}
-                    onRemove={handleRemoveProduct}
-                    onQuantityChange={handleQuantityChange}
-                  />
-                ))
-              ) : (
-                <p className="text-center text-gray-500">Your cart is empty.</p>
-              )}
+            <div className=" bg-bg_gray rounded-lg p-4">
+              <div className=" space-y-4 overflow-y-auto h-[300px]  rounded-lg scrollbar-hide">
+                {products.length > 0 ? (
+                  products.map((product) => (
+                    <ProductCartCard
+                      key={product.id}
+                      product={product}
+                      onRemove={handleRemoveProduct}
+                      onQuantityChange={handleQuantityChange}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">
+                    Your cart is empty.
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Summary */}
             <div className="p-4  space-y-2">
-              <div className="flex- hidden justify-between">
-                <Paragraph1>Taxes:</Paragraph1>
-                <Paragraph1>${tax.toFixed(2)}</Paragraph1>
-              </div>
               <div className="flex justify-between">
                 <Paragraph1>Shipping fee:</Paragraph1>
                 <Paragraph1 className="text-gray-500">
@@ -216,7 +267,12 @@ const CheckOutOverview = () => {
               </div>
               <div className="flex justify-between font-semibold">
                 <ParagraphLink1>Total:</ParagraphLink1>
-                <ParagraphLink1>${total.toFixed(2)}</ParagraphLink1>
+                <ParagraphLink1>
+                  {" "}
+                  {`₦ ${new Intl.NumberFormat("en-US").format(
+                    Number(subtotal)
+                  )}`}
+                </ParagraphLink1>
               </div>
             </div>
           </div>
@@ -224,20 +280,20 @@ const CheckOutOverview = () => {
 
         {/* Related Products Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Other Products</h2>
+          {/* <h2 className="text-2xl font-semibold mb-4">Other Products</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {relatedProducts.map((product) => (
-              <div key={product.id}>
-                <ProductCard
-                  image={product.image}
-                  title={product.title}
-                  description="A brief description of the product."
-                  price={29.99}
-                  onAddToCart={() => console.log("Added to cart")}
-                />
-              </div>
+            {randomProducts.map((relatedProduct) => (
+              <ProductCard
+                key={relatedProduct.id}
+                image={
+                  relatedProduct.productImageURL1 || "" // Use the first image of related products
+                }
+                title={relatedProduct.name}
+                price={relatedProduct.currentPrice}
+                product={relatedProduct}
+              />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       <Section6 />

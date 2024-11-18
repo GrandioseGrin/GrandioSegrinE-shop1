@@ -1,118 +1,143 @@
 "use client";
 
-import React, { useState } from "react";
-import { Header4, Header5, ParagraphLink1 } from "@/components/Text";
-import Button from "@/components/Button";
-import Section6 from "@/components/home/sections/Section6";
-import ProductCard from "@/components/Products/ProductCard";
+import React, { useState, useEffect } from "react";
+import { db } from "@/lib/firebase"; // Firestore setup
+import { collection, getDocs } from "firebase/firestore";
+import { useParams } from "next/navigation";
 import BlogCard from "../BlogCard";
 
-const ProductDetail = () => {
-  const product = {
-    title: "Product Title",
-    price: "$49.99",
-    description:
-      "Introducing an exceptional product crafted with precision and designed to meet your every need. This item combines top-tier quality with cutting-edge features, ensuring a seamless experience that fits effortlessly into your lifestyle. Not only does it deliver outstanding performance, but it’s also built with durability in mind, so you can enjoy it for years to come. Every detail, from the intuitive design to the advanced technology, is tailored to provide unparalleled satisfaction. Whether you’re using it daily or for special occasions, this product adapts perfectly, making it a must-have in any household or personal collection. You'll find yourself reaching for it time and time again, appreciating its reliability, ease of use, and the added value it brings.  Get ready to fall in love with a product that truly understands your needs!",
-    images: [
-      "/images/testProduct.jpg",
-      "https://via.placeholder.com/501",
-      "https://via.placeholder.com/502",
-      "https://via.placeholder.com/503",
-    ],
+interface BlogValues {
+  id: string;
+  title: string;
+  description: string;
+  blogImageURL1: string;
+  timestamp: string;
+}
+
+const BlogPage: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState<BlogValues | null>(null);
+  const { slug } = useParams();
+  const [blogs, setBlogs] = useState<BlogValues[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "blogs"));
+        const blogsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as BlogValues[];
+
+        const currentBlog = blogsData.find((b) => b.id === slug);
+        setBlog(currentBlog || null);
+
+        // Filter out the current blog
+        setBlogs(blogsData.filter((b) => b.id !== slug));
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [slug]);
+
+  const processText = (text: string) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+      .replace(/__(.*?)__/g, "<i>$1</i>")
+      .replace(
+        /### (.*?)(\n|$)/g,
+        '<h3 class="text-xl font-bold pt-6 pb-2">$1</h3>'
+      )
+      .replace(
+        /## (.*?)(\n|$)/g,
+        '<h2 class="text-2xl font-bold pt-8 pb-2">$1</h2>'
+      )
+      .replace(/- (.*?)(\n|$)/g, '<li class="pb-4 pt-1">$1</li>')
+      .replace(
+        /(\d+)\. (.*?)(\n|$)/g,
+        '<p class="pb-4 pt-1" value="$1">$1.  $2</p>'
+      )
+      .replace(
+        /\[(.*?)\]\((.*?)\)/g,
+        '<a href="$2" target="_blank" class="text-primary font-medium">$1</a>'
+      );
   };
 
-  const relatedProducts = [
-    {
-      id: 1,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 1",
-    },
-    {
-      id: 2,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 2",
-    },
-    {
-      id: 3,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 3",
-    },
-    {
-      id: 4,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 4",
-    },
-  ];
+  const formatDate = (firebaseTimestamp: string): string => {
+    const date = new Date(firebaseTimestamp);
+    const day = date.getDate();
+    const dayWithSuffix = `${day}${getOrdinalSuffix(day)}`;
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
 
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+    return `${dayWithSuffix} ${month}, ${year}`;
+  };
+
+  const getOrdinalSuffix = (day: number): string => {
+    if (day > 3 && day < 21) return "th";
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (!blog) return <p>Blog not found.</p>;
 
   return (
-    <div>
-      <div className="container1 mx-auto px-4  py-[100px]">
-        <div className=" grid h-full grid-cols-1 sm:grid-cols-5 gap-8 bg-white sm:p-8 p-2 py-4 rounded-lg">
-          {/* Right section - Product Images */}
-          <div className=" col-span-4">
-            <div className="w-full   rounded-lg mb-4 ">
-              <Header4>{product.title}</Header4>
-              Author: <span className="text-gray-500">Dr. John Doe</span>
-              <hr className=" mb-8" />
-              <img
-                src={selectedImage}
-                alt="Selected Product"
-                className="h-[200px] w-full rounded-lg object-cover"
-              />
-              <ParagraphLink1 className=" font-medium">
-                {" "}
-                Description
-              </ParagraphLink1>
-              <p className="text-gray-600 mb-6">{product.description}</p>
-              <ParagraphLink1 className=" font-medium">
-                {" "}
-                Description
-              </ParagraphLink1>
-              <p className="text-gray-600 mb-6">{product.description}</p>
-            </div>
-          </div>
-
-          {/* Left section - Product Details */}
-          <div className="col-span-1 space-y-4 hidden sm:block">
-            <BlogCard
-              title="How to Use Our Products"
-              description="Learn how to maximize the benefits of our skincare range."
-              image="https://via.placeholder.com/300"
-              link="/blog/how-to-use-our-products"
+    <div className="container1 mt-[60px] px-4 py-8 min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        {/* Blog Details */}
+        <div className="sm:col-span-3">
+          <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+          <p className="text-gray-500 mb-2">{formatDate(blog.timestamp)}</p>
+          <div className="h-[300px] w-full my-4 flex border">
+            <img
+              src={blog.blogImageURL1}
+              alt="Blog Cover"
+              className="w-full h-full object-cover"
             />
-            <BlogCard
-              title="How to Use Our Products"
-              description="Learn how to maximize the benefits of our skincare range."
-              image="https://via.placeholder.com/300"
-              link="/blog/how-to-use-our-products"
-            />
-            
           </div>
+          <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: processText(blog.description) }}
+          ></div>
         </div>
 
-        {/* Related Products Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Shop With Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {relatedProducts.map((product) => (
-              <div key={product.id}>
-                <ProductCard
-                  image={product.image}
-                  title={product.title}
-                  description="A brief description of the product."
-                  price={29.99}
-                  onAddToCart={() => console.log("Added to cart")}
+        {/* Related Blogs */}
+        <div>
+          {blogs.length > 0
+            ? blogs.map((blog) => (
+                <BlogCard
+                  key={blog.id}
+                  title={blog.title}
+                  description={blog.description}
+                  image={blog.blogImageURL1}
+                  link={`/blog/${blog.id}`}
                 />
-              </div>
-            ))}
-          </div>
+              ))
+            : Array(4)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[300px] w-full bg-gray-200 rounded-md mb-4 animate-pulse"
+                  ></div>
+                ))}
         </div>
       </div>
-      <Section6 />
     </div>
   );
 };
 
-export default ProductDetail;
+export default BlogPage;

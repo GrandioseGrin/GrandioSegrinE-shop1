@@ -1,34 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header3, Paragraph1, ParagraphLink1 } from "../Text";
 import AOS from "aos";
-import { useState } from "react";
 import BlogCard from "./BlogCard";
+import { db } from "@/lib/firebase"; // Firestore setup
+import { collection, addDoc, getDocs } from "firebase/firestore";
+
+type BlogValues = {
+  id: string;
+  title: string;
+  blogImageURL1: string;
+  blogImagePublicId1: string;
+  description: string;
+};
 
 function BlogIntro() {
+  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState<BlogValues[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "blogs"));
+        const blogsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+          };
+        }) as BlogValues[];
+
+        setBlogs(blogsData);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
     });
   });
-
-  const categories = [
-    "Creams",
-    "Lipsticks",
-    "Foundations",
-    "Serums",
-    "Masks",
-    "Lotions",
-  ];
-
-  const [isOpen, setIsOpen] = useState(false);
-  const filters = [
-    "Trending",
-    "Latest",
-    "Price: Low to High",
-    "Price: High to Low",
-  ];
 
   return (
     <div>
@@ -39,23 +56,37 @@ function BlogIntro() {
           data-aos="fade-up"
         >
           <Header3>
-            Where Your <span className="text-primary">Beauty</span> Shines
-            Brightest
+            Discover the <span className="text-primary">Beauty</span> Within
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            Each product is carefully crafted to celebrate your unique beauty,
-            empowering you to express yourself with confidence, elegance, and
-            radiance.
+            Welcome to our beauty blog, your go-to source for the latest
+            updates, tips, and trends in the world of beauty. Here, we celebrate
+            individuality and inspire confidence, elegance, and self-expression
+            in every glow.
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}
         <div className=" grid grid-cols-1 xl:grid-cols-3  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-          <BlogCard
-            title="How to Use Our Products"
-            description="Learn how to maximize the benefits of our skincare range."
-            image="https://via.placeholder.com/300"
-            link="/blog/how-to-use-our-products"
-          />
+          {blogs && blogs.length > 0
+            ? blogs.map((blog: any) => (
+                <div key={blog.id}>
+                  <BlogCard
+                    title={blog.title}
+                    description={blog.description}
+                    image={blog.blogImageURL1}
+                    link={`/blog/${blog.id}`}
+                  />
+                </div>
+              ))
+            : Array(6)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
+                  ></div>
+                ))}
+
           <BlogCard
             title="How to Use Our Products"
             description="Learn how to maximize the benefits of our skincare range."

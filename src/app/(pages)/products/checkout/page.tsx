@@ -3,7 +3,7 @@ import React from "react";
 
 function CheckeOutDetail() {
   return (
-    <div className="">
+    <div className="min-h-screen">
       <Overview />
     </div>
   );

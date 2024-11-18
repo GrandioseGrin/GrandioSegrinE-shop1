@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { db } from "@/lib/firebase"; // Import Firestore database
+import { collection, addDoc } from "firebase/firestore"; // Firestore functions
+import { sendEmail } from "@/lib/serverActions"; // Import server action
+import useCartStore from "@/stores/cartStore";
+import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info store
+import html2canvas from "html2canvas";
 
 type Product = {
   id: number;
@@ -10,35 +16,55 @@ type Product = {
 };
 
 type CheckoutProps = {
-  products: Product[];
+  products: any;
   total: number;
   logoUrl: string;
 };
 
+const validationSchema = Yup.object({
+  email: Yup.string().email("Invalid email").required("Required"),
+  phoneNumber: Yup.string().required("Required"),
+  country: Yup.string().required("Required"),
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  address: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
+  zipCode: Yup.string().required("Required"),
+});
+
 const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
+  const {
+    email,
+    phoneNumber,
+    country,
+    firstName,
+    lastName,
+    address,
+    city,
+    state,
+    zipCode,
+    saveInfo,
+    setUserInfo,
+  } = useUserInfoStore();
   const [activeTab, setActiveTab] = useState(0);
   const [shippingInfo, setShippingInfo] = useState({
-    email: "",
-    country: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
+    email: email || "",
+    phoneNumber: phoneNumber || "",
+    country: country || "",
+    firstName: firstName || "",
+    lastName: lastName || "",
+    address: address || "",
+    city: city || "",
+    state: state || "",
+    zipCode: zipCode || "",
+    saveInfo: saveInfo || true,
+    note: "",
   });
-  const [shippingMethod, setShippingMethod] = useState("");
 
-  const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Required"),
-    country: Yup.string().required("Required"),
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
-    address: Yup.string().required("Required"),
-    city: Yup.string().required("Required"),
-    state: Yup.string().required("Required"),
-    zipCode: Yup.string().required("Required"),
-  });
+  const [shippingMethod, setShippingMethod] = useState("");
+  const clearCart = useCartStore((state) => state.clearCart);
+  const [isloading, setIsLoading] = useState(false);
 
   const handleNext = (values: typeof shippingInfo) => {
     setShippingInfo(values);
@@ -47,8 +73,86 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
 
   const handleBack = () => setActiveTab((prev) => prev - 1);
 
+  const handleSaveInfo = (values: any, save: boolean) => {
+    if (save) {
+      setUserInfo({
+        ...values,
+        saveInfo: true,
+      });
+    }
+  };
+
+  const shippingFee = 200; // Define the shipping fee
+
+  const submitOrderToFirestore = async (values: any) => {
+    setIsLoading(true);
+
+    try {
+      const docRef = await addDoc(collection(db, "Orders"), {
+        ...values,
+        timestamp: new Date(),
+        viewed: false,
+        shipped: false,
+        shippingFee,
+        TotalPaid: total + shippingFee,
+        products: products.map((product: any) => product.id), // Map product IDs
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+
+     
+
+      // Send email notification
+      await sendEmail();
+
+      setIsLoading(false); // Mark loading as complete
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      setIsLoading(false); // Mark loading as complete in case of error
+    }
+  };
+
+  const handleDownloadReceipt = async () => {
+    const receiptDiv = document.getElementById("receipt");
+
+    if (receiptDiv) {
+      // Ensure images are loaded
+      const images = receiptDiv.querySelectorAll("img");
+      await Promise.all(
+        Array.from(images).map((img) => {
+          return new Promise((resolve) => {
+            if (img.complete) resolve(true);
+            else img.onload = img.onerror = () => resolve(true);
+          });
+        })
+      );
+
+      // Capture the receipt div
+      const canvas = await html2canvas(receiptDiv, {
+        useCORS: true,
+        height: 1122,
+        scale: 2,
+      });
+
+      // Convert to image and download
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = "receipt-a4.png";
+      link.click();
+    }
+
+    // Clear the cart
+    clearCart();
+  };
+
   return (
-    <div className="  space-y-6 bg-white ">
+    <div className="  space-y-6 bg-white sm:p-4 p-0 relative rounded-lg">
+      {isloading && (
+        <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+          <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
+        </div>
+      )}
       <div className="flex justify-around- items-center gap-2 border-b- pb-3">
         <button
           onClick={() => setActiveTab(0)}
@@ -110,7 +214,10 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
         <Formik
           initialValues={shippingInfo}
           validationSchema={validationSchema}
-          onSubmit={(values) => handleNext(values)}
+          onSubmit={(values) => {
+            handleNext(values);
+            handleSaveInfo(values, values.saveInfo);
+          }}
         >
           <Form className="space-y-4 min-h-screen">
             <div>
@@ -156,9 +263,7 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
                 className="mt-1 block w-full p-2 border rounded-md"
               >
                 <option value="">Select Country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="UK">United Kingdom</option>
+                <option value="NG">Nigeria</option>
               </Field>
               <ErrorMessage
                 name="country"
@@ -229,10 +334,15 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
                 <label className="block text-sm font-medium text-gray-700">
                   State
                 </label>
+
                 <Field
                   name="state"
+                  as="select"
                   className="mt-1 block w-full p-2 border rounded-md"
-                />
+                >
+                  <option value="">Select State</option>
+                  <option value="NG">Lagos</option>
+                </Field>
                 <ErrorMessage
                   name="state"
                   component="div"
@@ -292,7 +402,7 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
               {shippingInfo.zipCode}
             </p>
           </div>
-          <div>
+          <div className="min-h-[500px]">
             <h3 className="font-semibold text-gray-700">
               Select Shipping Method
             </h3>
@@ -329,7 +439,10 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
               Back
             </button>
             <button
-              onClick={() => setActiveTab(2)}
+              onClick={() => {
+                submitOrderToFirestore(shippingInfo); // Pass the required values
+                setActiveTab(2);
+              }}
               className="w-full bg-primary text-white py-2 rounded-md hover:bg-black ml-4"
             >
               Next
@@ -340,30 +453,63 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
 
       {/* Receipt Tab */}
       {activeTab === 2 && (
-        <div className="space-y-4 text-center min-h-screen">
-          <img src={logoUrl} alt="Company Logo" className="mx-auto w-16 h-16" />
-          <h3 className="font-semibold text-gray-700">Order Summary</h3>
-          <div className="space-y-2">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex justify-between items-center"
-              >
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-10 h-10 rounded object-cover"
-                />
-                <p className="text-gray-700">{product.title}</p>
-                <p className="text-gray-700 font-semibold">
-                  ${product.price.toFixed(2)}
-                </p>
-              </div>
-            ))}
+        <div>
+          <div
+            id="receipt"
+            className="space-y-4 p-4 max-w-[793px]  min-h-screen relative"
+          >
+            <img src={logoUrl} alt="Company Logo" className="mx-auto w- h-16" />
+            <h3 className="font-semibold text-gray-700">Order Summary</h3>
+            <div className="space-y-2">
+              {products.map((product: any) => (
+                <div
+                  key={product.id}
+                  className="grid grid-cols-5 items-center border-b "
+                >
+                  <div className=" col-span-2 flex items-center gap-2">
+                    <img
+                      src={product.productImageURL1}
+                      alt={product.name}
+                      className="w-16 h-16 rounded object-cover"
+                    />
+                    <p className="text-gray-700">{product.name}</p>
+                  </div>
+                  <p className="text-gray-700">
+                    {" "}
+                    {`₦ ${new Intl.NumberFormat("en-US").format(
+                      Number(product.currentPrice)
+                    )}`}
+                  </p>
+
+                  <p className="text-gray-700">Qt: {product.quantity}</p>
+                  <p className="text-gray-700 font-semibold text-end">
+                    {`₦ ${new Intl.NumberFormat("en-US").format(
+                      Number(product.currentPrice * product.quantity)
+                    )}`}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 font-semibold flex justify-between text-gray-700">
+              <p>Shipping fee</p>
+              <p>{`₦ ${new Intl.NumberFormat("en-US").format(
+                Number(shippingFee)
+              )}`}</p>
+            </div>
+            <div className=" font-semibold flex justify-between text-gray-700">
+              <p>Total</p>
+              <p>{`₦ ${new Intl.NumberFormat("en-US").format(
+                Number(total)
+              )}`}</p>
+            </div>
           </div>
-          <div className="border-t pt-4 font-semibold text-gray-700">
-            Total: ${Number(total).toFixed(2)}
-          </div>
+          <button
+            onClick={handleDownloadReceipt}
+            className=" text-center px-6 w-full  bg-primary text-white py-2 rounded-md hover:bg-black "
+          >
+            Download Receipt
+          </button>
         </div>
       )}
     </div>

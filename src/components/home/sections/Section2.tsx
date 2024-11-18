@@ -13,12 +13,18 @@ import AOS from "aos";
 import RandomFaces from "./others/RandomFaces";
 import ProductCard from "@/components/Products/ProductCard";
 
-function Section2() {
+interface Section2Props {
+  featuredProducts: any;
+}
+
+const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
     });
   });
+
+
 
   return (
     <div>
@@ -39,40 +45,31 @@ function Section2() {
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}
-        <div className=" grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          
+        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+          {featuredProducts && featuredProducts.length > 0
+            ? featuredProducts
+                .slice(0, 4)
+                .map((product: any) => (
+                  <ProductCard
+                    key={product.id}
+                    image={product.productImageURL1}
+                    title={product.name}
+                    price={product.currentPrice}
+                    product={product}
+                  />
+                ))
+            : Array(4)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
+                  ></div>
+                ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Section2;

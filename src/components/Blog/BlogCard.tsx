@@ -18,10 +18,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
       <img className="w-full h-48 object-cover" src={image} alt={title} />
       <div className="p-4">
         <h2 className="text-2xl font-semibold text-gray-800 mb-2">{title}</h2>
-        <p className="text-gray-600 mb-4">{description}</p>
+        <p className="text-gray-600 mb-4">
+          {" "}
+          {description.split(" ").slice(0, 11).join(" ")}...
+        </p>
         <a
           href={link}
-          className="text-indigo-600 hover:text-indigo-800 font-semibold"
+          className="text-primary hover:underline font-semibold"
         >
           Read More
         </a>

@@ -11,7 +11,11 @@ import React from "react";
 import AOS from "aos";
 import ProductCard from "@/components/Products/ProductCard";
 
-function Section3() {
+interface Section3Props {
+  latestProducts: any;
+}
+
+const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -36,39 +40,31 @@ function Section3() {
             forefront of beauty trends.
           </Paragraph1>
         </div>
-        <div className=" grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
-          <ProductCard
-            image="/images/testProduct.jpg"
-            title="Product Title"
-            description="A brief description of the product."
-            price={29.99}
-            onAddToCart={() => console.log("Added to cart")}
-          />
+        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+          {latestProducts && latestProducts.length > 0
+            ? latestProducts
+                .slice(0, 4)
+                .map((product: any) => (
+                  <ProductCard
+                    key={product.id}
+                    image={product.productImageURL1}
+                    title={product.name}
+                    price={product.currentPrice}
+                    product={product}
+                  />
+                ))
+            : Array(4)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
+                  ></div>
+                ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Section3;

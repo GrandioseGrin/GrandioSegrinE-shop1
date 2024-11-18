@@ -1,65 +1,117 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../ProductCard";
 import { Header4, Header5, ParagraphLink1 } from "@/components/Text";
 import Button from "@/components/Button";
 import Section6 from "@/components/home/sections/Section6";
+import { useParams } from "next/navigation";
+import { db } from "@/lib/firebase";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  currentPrice: string;
+  oldPrice?: string;
+  productImageURL1?: string;
+  productImageURL2?: string;
+  productImageURL3?: string;
+  productImageURL4?: string;
+  productImageURL5?: string;
+  productImages: any;
+}
 
 const ProductDetail = () => {
-  const product = {
-    title: "Product Title",
-    price: "$49.99",
-    description:
-      "Introducing an exceptional product crafted with precision and designed to meet your every need. This item combines top-tier quality with cutting-edge features, ensuring a seamless experience that fits effortlessly into your lifestyle. Not only does it deliver outstanding performance, but it’s also built with durability in mind, so you can enjoy it for years to come. Every detail, from the intuitive design to the advanced technology, is tailored to provide unparalleled satisfaction. Whether you’re using it daily or for special occasions, this product adapts perfectly, making it a must-have in any household or personal collection. You'll find yourself reaching for it time and time again, appreciating its reliability, ease of use, and the added value it brings.  Get ready to fall in love with a product that truly understands your needs!",
-    images: [
-      "/images/testProduct.jpg",
-      "https://via.placeholder.com/501",
-      "https://via.placeholder.com/502",
-      "https://via.placeholder.com/503",
-    ],
-  };
+  const { productID } = useParams() as { productID: string };
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const relatedProducts = [
-    {
-      id: 1,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 1",
-    },
-    {
-      id: 2,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 2",
-    },
-    {
-      id: 3,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 3",
-    },
-    {
-      id: 4,
-      image: "https://via.placeholder.com/150",
-      title: "Related Product 4",
-    },
-  ];
+  useEffect(() => {
+    if (!productID) return;
 
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+    const fetchProductAndRelated = async () => {
+      try {
+        // Fetch main product
+        const productRef = doc(db, "products", productID);
+        const productSnap = await getDoc(productRef);
+
+        if (productSnap.exists()) {
+          const productData = productSnap.data() as Product;
+
+          // Dynamically construct images array
+          const productImages = [
+            productData.productImageURL1,
+            productData.productImageURL2,
+            productData.productImageURL3,
+            productData.productImageURL4,
+            productData.productImageURL5,
+          ].filter((url) => url !== undefined); // Filter out undefined values
+
+          setProduct({ ...productData, productImages });
+          setSelectedImage(productImages[0] || null); // Set the first image as selected by default
+
+          // Fetch related products
+          const relatedQuery = query(collection(db, "products"));
+          const relatedSnap = await getDocs(relatedQuery);
+          const related: Product[] = [];
+          relatedSnap.forEach((doc) => {
+            const data = doc.data() as Omit<Product, "id">; // Exclude 'id'
+            related.push({ id: doc.id, ...data });
+          });
+
+          setRelatedProducts(related);
+        } else {
+          console.error("No product found with this ID");
+        }
+      } catch (error) {
+        console.error("Error fetching product or related products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductAndRelated();
+  }, [productID]);
+
+ const shuffledProducts = [...relatedProducts].sort(() => 0.5 - Math.random());
+ const randomProducts = shuffledProducts.slice(0, 4);
+
+  if (loading)
+    return (
+      <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+        <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+
+  if (!product) return <div>Product not found.</div>;
 
   return (
     <div>
-      <div className="container1 mx-auto px-4  py-[100px]">
-        <div className=" grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white p-2 py-4 sm:p-8  rounded-lg">
+      <div className="container mx-auto px-4 py-[100px]">
+        <div className="grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white p-2 py-4 sm:p-8 rounded-lg">
           {/* Right section - Product Images */}
-          <div className=" sm:col-span-3">
-            <div className="w-full sm:h-[500px]  rounded-lg mb-4 flex items-center justify-center">
+          <div className="sm:col-span-3">
+            <div className="w-full sm:h-[500px] rounded-lg mb-4 flex items-center justify-center">
               <img
-                src={selectedImage}
+                src={selectedImage!}
                 alt="Selected Product"
                 className="max-h-full w-full rounded-lg object-contain"
               />
             </div>
-            <div className="flex gap-2 w-full overflow-hidden overflow-x-auto scrollbar-hide p-1">
-              {product.images.map((image, index) => (
+            <div className="flex gap-2 w-full overflow-hidden overflow-x-auto p-1">
+              {product.productImages?.map((image: any, index: any) => (
                 <img
                   key={index}
                   src={image}
@@ -75,28 +127,28 @@ const ProductDetail = () => {
 
           {/* Left section - Product Details */}
           <div className="sm:col-span-2">
-            <Header4>{product.title}</Header4>
-            <div className=" flex gap-4 mt-2">
-              <Header5 className="">{product.price}</Header5>
-              <p className="text-xl text-gray-700 mb-4 line-through">
-                {product.price}
-              </p>
+            <Header4>{product.name}</Header4>
+            <div className="flex gap-4 mt-2">
+              <Header5>{product.currentPrice}</Header5>
+              {product.oldPrice && (
+                <p className="text-xl text-gray-700 mb-4 line-through">
+                  {product.oldPrice}
+                </p>
+              )}
             </div>
             <Button
               text="Add to Cart"
-              // onClick={handleClick} // onClick is passed from a client component
               additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
             />
-            <hr className=" mb-8 " />
+            <hr className="mb-8" />
 
-            <ParagraphLink1 className=" font-medium">
-              {" "}
-              Description
-            </ParagraphLink1>
-            <p className="text-gray-600 mb-6 text-justify">{product.description}</p>
+            <ParagraphLink1 className="font-medium">Description</ParagraphLink1>
+
+            <p className="text-gray-600 mb-6 text-justify">
+              {product.description}
+            </p>
             <Button
               text="Add to Cart"
-              // onClick={handleClick} // onClick is passed from a client component
               additionalClasses="border-white bg-black w-full flex justify-center"
             />
           </div>
@@ -104,18 +156,18 @@ const ProductDetail = () => {
 
         {/* Related Products Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Related Products</h2>
+          <Header5 className="text-2xl font-semibold mb-4">Other Products</Header5>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {relatedProducts.map((product) => (
-              <div key={product.id}>
-                <ProductCard
-                  image={product.image}
-                  title={product.title}
-                  description="A brief description of the product."
-                  price={29.99}
-                  onAddToCart={() => console.log("Added to cart")}
-                />
-              </div>
+            {randomProducts.map((relatedProduct) => (
+              <ProductCard
+                key={relatedProduct.id}
+                image={
+                  relatedProduct.productImageURL1 || "" // Use the first image of related products
+                }
+                title={relatedProduct.name}
+                price={relatedProduct.currentPrice}
+                product={relatedProduct}
+              />
             ))}
           </div>
         </div>

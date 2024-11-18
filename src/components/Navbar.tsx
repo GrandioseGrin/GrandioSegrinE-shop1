@@ -14,28 +14,19 @@ import {
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import CartSummary from "./Cart/CartSummary";
+import useCartStore, { useCartCount } from "@/stores/cartStore";
+import SearchBar from "./SearchBar";
 
 function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
-  const [products, setProducts] = useState<any[]>([
-    {
-      id: 1,
-      image: "/images/testProduct.jpg",
-      title: "Cream A",
-      price: 20.99,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      image: "product2.jpg",
-      title: "Cream B",
-      price: 15.49,
-      quantity: 1,
-    },
-  ]);
+  const cartCount = useCartCount();
+  const toggleCart = useCartStore((state) => state.toggleCart);
+  const cartOpen = useCartStore((state) => state.cartOpen);
+  
 
+  
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -105,6 +96,7 @@ function Navbar() {
                 Shop
               </Paragraph1>
             </Link>
+            
             <Link href="/blog">
               {" "}
               <Paragraph1
@@ -126,31 +118,11 @@ function Navbar() {
               </Paragraph1>
             </Link>
 
-            <div className="flex justify-between items-center p-2 px-3   bg-bg_gray rounded-lg w-[400px]  cursor-pointer">
-              <input
-                type="text"
-                placeholder="Search for product..."
-                className="flex-grow outline-none bg-bg_gray text-gray-700"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6 text-gray-400"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </div>
+           <SearchBar />
           </div>
 
           <div
-            onClick={() => setCartOpen(true)}
+            onClick={() => toggleCart()}
             className=" border rounded-lg p-2 cursor-pointer flex relative "
           >
             {" "}
@@ -169,17 +141,13 @@ function Navbar() {
               />
             </svg>
             <div className=" absolute -top-2 -right-4 bg-primary p-1 px-2 text-white text-[10px] rounded-full">
-              0
+              {cartCount > 0 ? cartCount : 0}
             </div>
           </div>
 
           <CartSummary
-            isOpen={isCartOpen}
-            onClose={() => setCartOpen(false)}
-            products={products}
-            tax={2.5}
-            shippingFee={5.0}
-            setProducts={setProducts} // <-- Add this line
+            isOpen={cartOpen}
+            onClose={() => toggleCart()}
           />
         </div>
 

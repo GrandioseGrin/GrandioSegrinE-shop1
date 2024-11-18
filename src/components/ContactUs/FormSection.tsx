@@ -20,14 +20,14 @@ const validationSchema = Yup.object({
     .email("Please enter a valid email address")
     .required("Email is required"),
   phoneNumber: Yup.string().required("Phone number is required"),
-  eventDate: Yup.string().required("Event date is required"),
   contact_methods: Yup.array()
     .of(Yup.string())
     .min(1, "Please select at least one contact method"),
   services_needed: Yup.array()
     .of(Yup.string())
     .min(1, "Please select at least one service"),
-  budget: Yup.string().required("Budget is required"),
+  location: Yup.string().required("location is required"),
+  productDetail: Yup.string().required("Product Detail is required"),
 });
 
 const FormComponent = () => {
@@ -71,13 +71,11 @@ const FormComponent = () => {
       lastName: "",
       email: "",
       phoneNumber: "",
-      eventDate: "",
-      location: "",
       contact_methods: [],
       services_needed: [],
+      location: "",
+      productDetail: "",
       aboutushow: "",
-      eventdetail: "",
-      budget: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -430,15 +428,15 @@ const FormComponent = () => {
                 </ParagraphLink1>
               </label>
               <textarea
-                name="eventdetail"
+                name="productDetail"
                 onChange={formik.handleChange}
                 placeholder="Provide information about your request or specific questions"
                 onBlur={formik.handleBlur}
-                value={formik.values.eventdetail}
+                value={formik.values.productDetail}
                 className="w-full border rounded-[10px] p-2 h-[169px] outline-none "
               />
-              {formik.touched.eventdetail && formik.errors.eventdetail ? (
-                <div className="text-red-500 ">{formik.errors.eventdetail}</div>
+              {formik.touched.productDetail && formik.errors.productDetail ? (
+                <div className="text-red-500 ">{formik.errors.productDetail}</div>
               ) : null}
             </div>{" "}
             <div>
