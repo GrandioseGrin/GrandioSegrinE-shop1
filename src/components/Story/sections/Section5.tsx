@@ -62,7 +62,7 @@ function Section5() {
 
   return (
     <div>
-      <div className=" container1 pt-[24px] xl:pt-[100px] text-p_black">
+      <div className=" container1 py-[54px] xl:p5-[100px] text-p_black">
         {" "}
         <div
           className=" flex flex-col xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"

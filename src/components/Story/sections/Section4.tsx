@@ -16,7 +16,7 @@ function Section4() {
 
   return (
     <div className=" bg-bg_gray">
-      <div className=" container1 py-[24px] xl:py-[100px]  text-p_black">
+      <div className=" container1 py-[54px] xl:py-[100px]  text-p_black">
         {" "}
         <div
           className=" flex flex-col xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
@@ -27,8 +27,9 @@ function Section4() {
             Effortless Beauty Shopping
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            At GrandioseGrin, we believe that finding the perfect skincare and beauty
-            products should be easy, enjoyable, and tailored just for you.
+            At GrandioseGrin, we believe that finding the perfect skincare and
+            beauty products should be easy, enjoyable, and tailored just for
+            you.
           </Paragraph1>
         </div>
         <div className=" grid grid-cols-1 xl:grid-cols-6 gap-[24px] xl:gap-[30px]">
@@ -63,7 +64,7 @@ function Section4() {
                 </Paragraph2>
                 <div>
                   <Link
-                    href="/shop"
+                    href="/products"
                     className="text-[20px] font-bold underline"
                   >
                     <ParagraphLink1>Shop Now</ParagraphLink1>
@@ -101,7 +102,7 @@ function Section4() {
                 </Paragraph2>
                 <div>
                   <Link
-                    href="/cart"
+                    href="/products"
                     className="text-[20px] font-bold underline"
                   >
                     <ParagraphLink1>View Your Cart</ParagraphLink1>
@@ -138,7 +139,7 @@ function Section4() {
                 </Paragraph2>
                 <div>
                   <Link
-                    href="/shop"
+                    href="/products"
                     className="text-[20px] font-bold underline"
                   >
                     <ParagraphLink1>Explore More Products</ParagraphLink1>

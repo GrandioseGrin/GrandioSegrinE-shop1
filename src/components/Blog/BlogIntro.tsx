@@ -56,7 +56,9 @@ function BlogIntro() {
           data-aos="fade-up"
         >
           <Header3>
-            Discover the <span className="text-primary">Beauty</span> Within
+            Explore the World of{" "}
+            <span className="text-primary text-center">Beauty</span> and
+            Wellness
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
             Welcome to our beauty blog, your go-to source for the latest
@@ -86,19 +88,6 @@ function BlogIntro() {
                     className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
                   ></div>
                 ))}
-
-          <BlogCard
-            title="How to Use Our Products"
-            description="Learn how to maximize the benefits of our skincare range."
-            image="https://via.placeholder.com/300"
-            link="/blog/how-to-use-our-products"
-          />
-          <BlogCard
-            title="How to Use Our Products"
-            description="Learn how to maximize the benefits of our skincare range."
-            image="https://via.placeholder.com/300"
-            link="/blog/how-to-use-our-products"
-          />
         </div>
       </div>
     </div>

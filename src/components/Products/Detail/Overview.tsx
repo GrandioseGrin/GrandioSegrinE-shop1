@@ -90,7 +90,7 @@ const ProductDetail = () => {
 
   if (loading)
     return (
-      <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+      <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50 ">
         <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
       </div>
     );
@@ -110,7 +110,7 @@ const ProductDetail = () => {
                 className="max-h-full w-full rounded-lg object-contain"
               />
             </div>
-            <div className="flex gap-2 w-full overflow-hidden overflow-x-auto p-1">
+            <div className="flex gap-2 w-full overflow-hidden overflow-x-auto scrollbar-hide p-1">
               {product.productImages?.map((image: any, index: any) => (
                 <img
                   key={index}
@@ -128,11 +128,17 @@ const ProductDetail = () => {
           {/* Left section - Product Details */}
           <div className="sm:col-span-2">
             <Header4>{product.name}</Header4>
-            <div className="flex gap-4 mt-2">
-              <Header5>{product.currentPrice}</Header5>
+            <div className="flex items-center  gap-4 py-2">
+              <Header5>
+                {`₦ ${new Intl.NumberFormat("en-US").format(
+                  Number(product.currentPrice)
+                )}`}
+              </Header5>
               {product.oldPrice && (
-                <p className="text-xl text-gray-700 mb-4 line-through">
-                  {product.oldPrice}
+                <p className="text-[12px] text-gray-700 mb-4 sm:mb-0 line-through">
+                  {`₦ ${new Intl.NumberFormat("en-US").format(
+                    Number(product.oldPrice)
+                  )}`}
                 </p>
               )}
             </div>
@@ -156,7 +162,9 @@ const ProductDetail = () => {
 
         {/* Related Products Section */}
         <div className="mt-12">
-          <Header5 className="text-2xl font-semibold mb-4">Other Products</Header5>
+          <Header5 className="text-2xl font-semibold mb-4">
+            Other Products
+          </Header5>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {randomProducts.map((relatedProduct) => (
               <ProductCard

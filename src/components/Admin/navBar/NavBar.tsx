@@ -28,9 +28,7 @@ function NavBar() {
       <div className="container1 py-[12px] w-full text-p_black">
         <div className="flex justify-between items-center">
           <img src="/images/logo.png" alt="" className="h-[40px]" />
-          <div className="xl:flex gap-[24px] hidden">
-            
-          </div>
+          <div className="xl:flex gap-[24px] hidden"></div>
           <div className="xl:flex gap-[24px] hidden">
             <Profile />
           </div>

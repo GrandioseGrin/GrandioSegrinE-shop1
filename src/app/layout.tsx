@@ -39,7 +39,7 @@ export default function RootLayout({
           async
         ></script>
       </Head>
-      <body className=" bg-[#dbd9d2]-">
+      <body className=" bg-[#f1efe8]-">
         <Navbar />
         {children}
         <Footer />

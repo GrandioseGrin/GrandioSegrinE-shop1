@@ -3,7 +3,7 @@ import React from "react";
 
 function ProductDetail() {
   return (
-    <div className="pt-[5000px]-">
+    <div className="pt-[5000px]- min-h-screen">
       <Overview />
     </div>
   );
