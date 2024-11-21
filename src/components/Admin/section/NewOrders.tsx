@@ -15,156 +15,152 @@ import React, { useState, useEffect } from "react";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore"; // Firestore functions
 import AOS from "aos";
-import SearchBar from "../navBar/SearchBar";
+import SearchBar from "./SearchBar";
 import SummaryBlocks from "./SummaryBlocks";
+import { AnyARecord } from "dns";
+import countries from "../logistics/CountriesWithFlags";
 
-type Submission = {
+type Product = {
   id: string;
   initials: string;
   name: string;
+  productImageURL1: string;
+  quantity: number;
+  price: number;
+  TotalPaid: any;
+};
+
+type Order = {
+  id: string;
+  initials: string;
+  name: string;
+  quantity: number;
+  products: Product[];
   firstName: string;
-  secondName: string;
+  lastName: string;
   email: string;
   phoneNumber: string;
-  eventDate: string;
-  location: string;
-  eventdetail: string;
-  aboutushow: string;
-  contact_methods: string[];
-  services_needed: string[];
-  budget: string;
+  currency: string;
+  address: string;
+  country: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  message: string;
+  totalPaid: string;
+  shippingFee: string;
+  paymentMethod: string;
   viewed: boolean;
+  shipped: boolean;
   timestamp: string;
 };
 
 function NewOrders() {
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [filteredSubmissions, setFilteredSubmissions] = useState<Submission[]>(
-    []
-  );
-
-  const [selectedSubmission, setSelectedSubmission] =
-    useState<Submission | null>(null);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const [totalSubmissions, setTotalSubmissions] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const fetchSubmissions = async () => {
+    const fetchOrders = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "formSubmissions"));
+        const querySnapshot = await getDocs(collection(db, "Orders"));
 
-        type Submission = {
-          id: string;
-          initials: string;
-          name: string;
-          firstName: string;
-          secondName: string;
-          email: string;
-          phoneNumber: string;
-          eventDate: string;
-          location: string;
-          eventdetail: string;
-          aboutushow: string;
-          contact_methods: string[];
-          services_needed: string[];
-          budget: string;
-          viewed: boolean;
-          timestamp: string;
-        };
+        const ordersData: Order[] = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const products = data.products || []; // Ensure products is defined as an array
+          return {
+            id: doc.id,
+            name: `${doc.data().firstName} ${doc.data().lastName}`,
+            initials: doc.data().firstName[0] + doc.data().lastName[0], // Assuming you have firstName and lastName in your form
+            products: data.products || [],
+            quantity: products.reduce(
+              (total: any, product: any) => total + (product.quantity || 0),
+              0
+            ),
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            currency: data.currency,
+            address: data.address,
+            country: data.country,
+            city: data.city,
+            state: data.state,
+            zipCode: data.zipCode,
+            message: data.message,
+            totalPaid: data.totalPaid,
+            shippingFee: data.shippingFee,
+            paymentMethod: data.paymentMethod,
+            viewed: data.viewed || false,
+            shipped: data.shipped || false,
+            timestamp: data.timestamp ? data.timestamp.toDate() : null,
+          };
+        });
 
-        const submissionData: Submission[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          initials: doc.data().firstName[0] + doc.data().lastName[0], // Assuming you have firstName and lastName in your form
-          name: `${doc.data().firstName} ${doc.data().lastName}`,
-          firstName: doc.data().firstName,
-          secondName: doc.data().lastName,
-          email: doc.data().email,
-          phoneNumber: doc.data().phoneNumber,
-          eventDate: doc.data().eventDate,
-          location: doc.data().location,
-          eventdetail: doc.data().eventdetail,
-          aboutushow: doc.data().aboutushow,
-          contact_methods: doc.data().contact_methods,
-          services_needed: doc.data().services_needed,
-          budget: doc.data().budget,
-          viewed: doc.data().viewed || false, // Retrieve 'viewed' field, defaulting to false
-          timestamp: doc.data().timestamp
-            ? doc.data().timestamp.toDate()
-            : null,
-        }));
+        setTotalOrders(ordersData.length);
+        setUnreadCount(ordersData.filter((order) => !order.viewed).length);
 
-        // Update total submissions and unread submissions count
-        setTotalSubmissions(submissionData.length);
-        setUnreadCount(submissionData.filter((s) => !s.viewed).length);
-
-        // Sort submissions by timestamp, handling nulls
-        submissionData.sort((a, b) => {
-          // @ts-ignore
-          const timeA = a.timestamp ? a.timestamp.getTime() : 0;
-          // @ts-ignore
-          const timeB = b.timestamp ? b.timestamp.getTime() : 0;
+        ordersData.sort((a, b) => {
+          const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+          const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
           return timeB - timeA;
         });
 
-        setSubmissions(submissionData);
-        setFilteredSubmissions(submissionData); // Initialize filtered submissions
+        setOrders(ordersData);
+        setFilteredOrders(ordersData);
       } catch (error) {
-        console.error("Error fetching submissions: ", error);
+        console.error("Error fetching orders: ", error);
       } finally {
-        setLoading(false); // Stop loading when data is fetched
+        setLoading(false);
       }
     };
 
-    fetchSubmissions();
+    fetchOrders();
   }, []);
 
-  // Filter unread submissions
-  const showUnreadSubmissions = () => {
-    const unread = submissions.filter((submission) => !submission.viewed);
-    setFilteredSubmissions(unread);
+  const showUnreadOrders = () => {
+    const unread = orders.filter((order) => !order.viewed);
+    setFilteredOrders(unread);
   };
 
-  function showAllSubmissions() {
-    setFilteredSubmissions(submissions); // Show all submissions
-  }
+  const showAllOrders = () => {
+    setFilteredOrders(orders);
+  };
 
-  const handleClick = async (submission: Submission) => {
+  const handleClick = async (order: Order) => {
     // Update the viewed status in Firestore
-    const submissionDocRef = doc(
-      db,
-      "formSubmissions",
-      submission.id.toString()
-    ); // Assuming id is the Firestore document ID
+    const orderDocRef = doc(db, "Orders", order.id.toString()); // Assuming id is the Firestore document ID
 
     try {
-      await updateDoc(submissionDocRef, { viewed: true }); // Update the viewed field
-      console.log("Document updated successfully");
+      await updateDoc(orderDocRef, { viewed: true }); // Update the viewed field
+      console.log("Order viewed status updated successfully");
     } catch (error) {
-      console.error("Error updating document: ", error);
+      console.error("Error updating order: ", error);
     }
 
-    // Set the submission as viewed
-    const updatedSubmissions = submissions.map((sub) =>
-      sub.id === submission.id ? { ...sub, viewed: true } : sub
+    // Set the order as viewed in the local state
+    const updatedOrders = orders.map((ord) =>
+      ord.id === order.id ? { ...ord, viewed: true } : ord
     );
-    setSubmissions(updatedSubmissions); // Update state with viewed submission
-    setSelectedSubmission(submission);
+    setOrders(updatedOrders); // Update the orders state
+    setFilteredOrders(updatedOrders); // Ensure filtered list reflects changes
+    setSelectedOrder(order);
 
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleBack = () => {
-    setSelectedSubmission(null);
+    setSelectedOrder(null);
   };
 
   // Predefined list of colors to cycle through
   const bgColors = ["bg-red-500", "bg-green-500", "bg-blue-600"];
-
-  console.log(selectedSubmission); // Check if the object is populated
 
   React.useEffect(() => {
     AOS.init({
@@ -214,55 +210,13 @@ function NewOrders() {
     return ` ${formattedDate}`;
   };
 
-  const products = [
-    {
-      title: "Moisturizing Cream",
-      price: 29.99,
-      description:
-        "A luxurious cream that provides deep hydration for all skin types.",
-      image: "/images/testProduct.jpg",
-      quantity: 3,
-    },
-    {
-      title: "Anti-Aging Serum",
-      price: 59.99,
-      description:
-        "An advanced serum formulated to reduce signs of aging and boost radiance.",
-      image: "/images/testProduct.jpg",
-      quantity: 2,
-    },
-    {
-      title: "Brightening Toner",
-      price: 19.99,
-      description:
-        "A toner that evens out skin tone and leaves a radiant, glowing complexion.",
-      image: "/images/testProduct.jpg",
-      quantity: 5,
-    },
-    {
-      title: "Soothing Eye Cream",
-      price: 39.99,
-      description: "Gentle eye cream that reduces puffiness and dark circles.",
-      image: "/images/testProduct.jpg",
-      quantity: 1,
-    },
-    {
-      title: "Nourishing Lip Balm",
-      price: 9.99,
-      description:
-        "A lip balm that hydrates and protects your lips, keeping them soft and supple.",
-      image: "/images/testProduct.jpg",
-      quantity: 6,
-    },
-  ];
-
   return (
     <div>
       {" "}
       <div className="mx-4- xl:mx-0 ">
         <div className="  bg-white py-[35px]  rounded-lg shadow-md">
           <div className="px-2  xl:px-4">
-            {selectedSubmission ? (
+            {selectedOrder ? (
               // Render the detailed view if a submission is selected
               <div data-aos="zoom-in" className="">
                 <div className=" flex  border-b pb-2 w-full  gap-4 items-center">
@@ -280,22 +234,20 @@ function NewOrders() {
                   <div className=" flex w-full-">
                     <div className="flex items-center space-x-4">
                       <div
-                        className={`w-[50px] h-[50px] flex items-center justify-center text-white rounded-full bg-primary -${
-                          bgColors[
-                            selectedSubmission.id.length % bgColors.length
-                          ]
+                        className={`w-[50px] h-[50px] flex items-center justify-center  rounded-full bg-primary -${
+                          bgColors[selectedOrder.id.length % bgColors.length]
                         }`}
                       >
-                        <span className="text-lg font-bold">
-                          {selectedSubmission.initials}
+                        <span className="text-lg font-bold uppercase">
+                          {selectedOrder.initials}
                         </span>
                       </div>
                       <div>
-                        <Header5 className="text-[23px] ">
-                          {selectedSubmission.name}
+                        <Header5 className="text-[23px]  ">
+                          {selectedOrder.name}
                         </Header5>
                         <Paragraph2 className="text-sm sm:-mt-2 font-semibold-">
-                          {selectedSubmission.email}
+                          {selectedOrder.email}
                         </Paragraph2>
                       </div>
                     </div>
@@ -307,39 +259,45 @@ function NewOrders() {
                     <div className=" flex justify-between items-center">
                       <Paragraph2 className="text-sm text-gray-500  underline-">
                         {formatTimestamp(
-                          typeof selectedSubmission.timestamp === "string"
-                            ? new Date(selectedSubmission.timestamp) // Convert string to Date
-                            : selectedSubmission.timestamp // Use as is if it's already a Date object
+                          typeof selectedOrder.timestamp === "string"
+                            ? new Date(selectedOrder.timestamp) // Convert string to Date
+                            : selectedOrder.timestamp // Use as is if it's already a Date object
                         )}{" "}
                         {/* Use the custom formatting function */}
                       </Paragraph2>
                       <Paragraph2 className="text-sm text-gray-500  underline-">
-                        pending
+                        {selectedOrder.shipped ? "shipped" : "pending"}
                       </Paragraph2>
                     </div>
 
-                    {products.map((product, index) => (
+                    {selectedOrder.products.map((product, index) => (
                       <div
                         key={index}
                         className="flex- grid grid-cols-6 relative justify-between items-center bg-white p-2 px-3  rounded-lg"
                       >
                         <img
-                          src={product.image}
-                          alt={product.title}
+                          src={product.productImageURL1}
+                          alt={product.name}
                           className="w-16 h-16 object-cover rounded"
                         />
                         <ParagraphLink2 className="font-bold col-span-2 ">
-                          {product.title}
+                          {product.name}
                         </ParagraphLink2>
                         <Paragraph1 className="text-gray-500 ">
-                          $ {product.price.toFixed(2)}
+                          ₦{" "}
+                          {new Intl.NumberFormat("en-US", {}).format(
+                            Number(product.price)
+                          )}{" "}
                         </Paragraph1>
                         <Paragraph1 className="text-gray-500 ">
                           Qt: {product.quantity}
                         </Paragraph1>
                         <div>
                           <Paragraph1 className="font-bold">
-                            ${(product.price * product.quantity).toFixed(2)}
+                            ₦{" "}
+                            {new Intl.NumberFormat("en-US", {}).format(
+                              Number(product.price * product.quantity)
+                            )}{" "}
                           </Paragraph1>
                         </div>
                       </div>
@@ -350,7 +308,12 @@ function NewOrders() {
                           Shipping Fee
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">$ 3,500</p>
+                          <p className=" ">
+                            ₦{" "}
+                            {new Intl.NumberFormat("en-US", {}).format(
+                              Number(selectedOrder.shippingFee)
+                            )}{" "}
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -359,7 +322,10 @@ function NewOrders() {
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px] border-b-4 border-secondary">
                           <ParagraphLink1 className=" font-extrabold ">
-                            $ 50,000.00
+                            ₦{" "}
+                            {new Intl.NumberFormat("en-US", {}).format(
+                              Number(selectedOrder.totalPaid)
+                            )}
                           </ParagraphLink1>
                         </div>
                       </div>
@@ -368,7 +334,7 @@ function NewOrders() {
                           First Name
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.firstName}</p>
+                          <p className=" ">{selectedOrder.firstName}</p>
                         </div>
                       </div>
                       <div>
@@ -376,7 +342,7 @@ function NewOrders() {
                           Last Name
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.secondName}</p>
+                          <p className=" ">{selectedOrder.lastName}</p>
                         </div>
                       </div>
                       <div>
@@ -384,7 +350,7 @@ function NewOrders() {
                           E-mail address{" "}
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.email}</p>
+                          <p className=" ">{selectedOrder.email}</p>
                         </div>
                       </div>
                       <div>
@@ -392,7 +358,7 @@ function NewOrders() {
                           Phone Number{" "}
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.phoneNumber}</p>
+                          <p className=" ">{selectedOrder.phoneNumber}</p>
                         </div>
                       </div>
 
@@ -401,7 +367,14 @@ function NewOrders() {
                           Country{" "}
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.eventDate}</p>
+                          <p className=" ">
+                            {selectedOrder.country}
+
+                            {countries.find(
+                              (country) =>
+                                country.code === selectedOrder.country
+                            )?.name || selectedOrder.country}
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -409,7 +382,7 @@ function NewOrders() {
                           State{" "}
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedSubmission.location}</p>
+                          <p className=" ">{selectedOrder.state}</p>
                         </div>
                       </div>
                     </div>
@@ -417,10 +390,18 @@ function NewOrders() {
                   <div className=" px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
                     <div>
                       <ParagraphLink1 className="  text-cente font-bold ">
+                        Payment Method{" "}
+                      </ParagraphLink1>
+                      <div className=" p-6 bg-white rounded-[12px]">
+                        <p className=" ">{selectedOrder.paymentMethod}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <ParagraphLink1 className="  text-cente font-bold ">
                         Address{" "}
                       </ParagraphLink1>
                       <div className=" p-6 bg-white rounded-[12px]">
-                        <p className=" ">{selectedSubmission.eventdetail}</p>
+                        <p className=" ">{selectedOrder.address}</p>
                       </div>
                     </div>
                     <div className=" grid grid-cols-2  gap-4 sm:gap-[40px] ">
@@ -429,7 +410,7 @@ function NewOrders() {
                           City
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">$ {selectedSubmission.budget}</p>
+                          <p className=" ">$ {selectedOrder.city}</p>
                         </div>
                       </div>
                       <div>
@@ -437,7 +418,7 @@ function NewOrders() {
                           Zip Code
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">$ {selectedSubmission.budget}</p>
+                          <p className=" ">$ {selectedOrder.zipCode}</p>
                         </div>
                       </div>
                     </div>
@@ -447,13 +428,15 @@ function NewOrders() {
                         Message/Note{" "}
                       </ParagraphLink1>
                       <div className=" p-6 bg-white rounded-[12px]">
-                        <p className=" ">{selectedSubmission.aboutushow}</p>
+                        <p className=" ">{selectedOrder.message}</p>
                       </div>
                     </div>
-                                  </div>
-                                  <div className=" flex justify-center">
-                                      <button className=" px-4 py-1 font-bold rounded-lg text-white bg-primary text-[14px] hover:bg-black" >Done</button>
-                                  </div>
+                  </div>
+                  <div className=" flex justify-center">
+                    <button className=" px-4 py-1 font-bold rounded-lg text-white bg-primary text-[14px] hover:bg-black">
+                      Done
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : loading ? (
@@ -465,9 +448,9 @@ function NewOrders() {
               <div className="space-y-2 scrollable-div- overflow-y-auto- max-h-screen- ">
                 <div className=" flex items-center justify-between gap-4">
                   <SearchBar
-                    submissions={submissions}
+                    orders={orders} // Pass orders instead of submissions
                     // @ts-ignore
-                    onSearchResults={setFilteredSubmissions}
+                    onSearchResults={setFilteredOrders} // Use setFilteredOrders to update results
                   />
                   <div className="relative">
                     <button onClick={toggleFilter}>
@@ -489,13 +472,13 @@ function NewOrders() {
 
                     {isFilterOpen && (
                       <div className="absolute space-y- z-10 -bottom-[120px] right-0 bg-white px-4 py-2 rounded-lg shadow-md">
-                        <button onClick={() => showAllSubmissions()}>
+                        <button onClick={() => showAllOrders()}>
                           <Paragraph2 className="text-sm whitespace-nowrap">
                             All submissions
                           </Paragraph2>
                         </button>
 
-                        <button onClick={() => showUnreadSubmissions()}>
+                        <button onClick={() => showUnreadOrders()}>
                           <Paragraph2 className="text-sm whitespace-nowrap">
                             All unread orders
                           </Paragraph2>
@@ -507,13 +490,13 @@ function NewOrders() {
                 <div className=" h-screen space-y-4 overflow-y-auto scrollable-div px-2 ">
                   <Header5 className="pt-3">New Orders</Header5>
 
-                  {filteredSubmissions.map((submission, index) => (
+                  {filteredOrders.map((order, index) => (
                     <div
-                      key={submission.id}
+                      key={order.id}
                       className={`flex items-center border px-2  space-x-4 py-2 bg-white rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 ${
-                        submission.viewed ? "text-gray-400" : "" // Change text color for viewed submissions
+                        order.viewed ? "text-gray-400" : "" // Change text color for viewed orders
                       }`}
-                      onClick={() => handleClick(submission)}
+                      onClick={() => handleClick(order)}
                     >
                       <div
                         className={`w-[10%] h-full flex items-center justify-center  text- rounded-lg  `}
@@ -535,25 +518,30 @@ function NewOrders() {
                         </svg>
                       </div>
                       <Paragraph1 className="text-lg font-semibold w-[20%] whitespace-nowrap truncate overflow-hidden">
-                        {submission.name}
+                        {order.name}
                       </Paragraph1>
                       <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
-                        Qt: 100
+                        Qt: {order.quantity}
                       </Paragraph1>
                       <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
-                        Lagos
+                        {order.state}
                       </Paragraph1>
                       <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
-                        Nigeria
+                        {countries.find(
+                          (country) => country.code === order.country
+                        )?.name || order.country}{" "}
                       </Paragraph1>
                       <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
-                        11/30/2024
+                        {new Date(order.timestamp).toLocaleDateString("en-US")}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] whitespace-nowrap font-bold truncate overflow-hidden ">
-                        $100
+                      <Paragraph1 className="w-[18%] whitespace-nowrap font-bold truncate overflow-hidden ">
+                        ₦
+                        {new Intl.NumberFormat("en-US", {}).format(
+                          Number(order.totalPaid)
+                        )}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] text-[#e6c533] text-primary- whitespace-nowrap truncate overflow-hidden ">
-                        pending
+                      <Paragraph1 className="w-[2%] text-[#e6c533] text-primary- whitespace-nowrap truncate overflow-hidden ">
+                        {order.shipped ? "o" : "o"}
                       </Paragraph1>
                     </div>
                   ))}

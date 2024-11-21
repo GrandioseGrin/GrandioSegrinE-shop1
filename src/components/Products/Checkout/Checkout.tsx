@@ -1,8 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { db } from "@/lib/firebase"; // Import Firestore database
-import { collection, addDoc } from "firebase/firestore"; // Firestore functions
+import {
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore"; // Firestore functions
 import { sendEmail } from "@/lib/serverActions"; // Import server action
 import useCartStore from "@/stores/cartStore";
 import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info store
@@ -10,15 +17,31 @@ import html2canvas from "html2canvas";
 
 type Product = {
   id: number;
-  image: string;
-  title: string;
+  productImageURL1: string;
+  name: string;
   price: number;
+  quantity: number;
+  currentPrice: number;
 };
 
+interface State {
+  id: string;
+  name: string;
+  shippingFee: number;
+}
+
+interface Country {
+  code: string;
+  name: string;
+  shippingFee: number;
+  states: State[];
+}
 type CheckoutProps = {
   products: any;
   total: number;
   logoUrl: string;
+  onShippingFeeChange: (fee: number) => void; // Callback for shipping fee
+  onTotalBillChange: (totalBill: number) => void;
 };
 
 const validationSchema = Yup.object({
@@ -33,7 +56,13 @@ const validationSchema = Yup.object({
   zipCode: Yup.string().required("Required"),
 });
 
-const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
+const Checkout: React.FC<CheckoutProps> = ({
+  products,
+  total,
+  logoUrl,
+  onShippingFeeChange,
+  onTotalBillChange,
+}) => {
   const {
     email,
     phoneNumber,
@@ -51,12 +80,12 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
   const [shippingInfo, setShippingInfo] = useState({
     email: email || "",
     phoneNumber: phoneNumber || "",
-    country: country || "",
+    country: "",
     firstName: firstName || "",
     lastName: lastName || "",
     address: address || "",
     city: city || "",
-    state: state || "",
+    state: "",
     zipCode: zipCode || "",
     saveInfo: saveInfo || true,
     note: "",
@@ -65,6 +94,79 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
   const [shippingMethod, setShippingMethod] = useState("");
   const clearCart = useCartStore((state) => state.clearCart);
   const [isloading, setIsLoading] = useState(false);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>("");
+  const [selectedState, setSelectedState] = useState<State | null>(null);
+  const [states, setStates] = useState<State[]>([]);
+
+  const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchShippingData = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "shippingFees"));
+        const fetchedData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+       const formattedCountries = fetchedData.map((country) => ({
+         code: (country as any).countryCode,
+         name: (country as any).countryName,
+         shippingFee: (country as any).shippingFee || 0,
+         states: (country as any).states || [],
+       }));
+
+        setCountries(formattedCountries);
+      } catch (error) {
+        console.error("Error fetching shipping data:", error);
+      }
+    };
+
+    fetchShippingData();
+  }, []);
+
+  const handleCountryChange = (
+    value: string,
+    setFieldValue: (field: string, value: any) => void
+  ) => {
+    setSelectedCountryCode(value);
+
+    const country = countries.find((c) => c.code === value);
+    if (country) {
+      setStates(country.states || []);
+      setFieldValue("state", "");
+      calculateTotalShippingFee(country.shippingFee, null);
+    } else {
+      setStates([]);
+      calculateTotalShippingFee(0, null);
+    }
+
+    setFieldValue("country", value);
+  };
+
+  const handleStateChange = (
+    value: string,
+    setFieldValue: (field: string, value: any) => void
+  ) => {
+    const state = states.find((s) => s.name === value);
+    const country = countries.find((c) => c.code === selectedCountryCode);
+
+    if (state && country) {
+      calculateTotalShippingFee(country.shippingFee, state.shippingFee);
+    } else if (country) {
+      calculateTotalShippingFee(country.shippingFee, null);
+    }
+
+    setFieldValue("state", value);
+  };
+
+  const calculateTotalShippingFee = (
+    countryFee: number,
+    stateFee: number | null
+  ) => {
+    setTotalShippingFee(countryFee + (stateFee || 0));
+  };
 
   const handleNext = (values: typeof shippingInfo) => {
     setShippingInfo(values);
@@ -82,35 +184,88 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
     }
   };
 
-  const shippingFee = 200; // Define the shipping fee
+  const totalBill = total + totalShippingFee;
 
-  const submitOrderToFirestore = async (values: any) => {
-    setIsLoading(true);
+ const sanitizeProduct = (product: any) => {
+   if (
+     !product.id ||
+     !product.name ||
+     product.productImageURL1 === undefined ||
+     product.quantity === undefined ||
+     product.currentPrice === undefined
+   ) {
+     throw new Error(`Invalid product data: ${JSON.stringify(product)}`);
+   }
 
-    try {
-      const docRef = await addDoc(collection(db, "Orders"), {
-        ...values,
-        timestamp: new Date(),
-        viewed: false,
-        shipped: false,
-        shippingFee,
-        TotalPaid: total + shippingFee,
-        products: products.map((product: any) => product.id), // Map product IDs
-      });
+   return {
+     id: product.id,
+     name: product.name,
+     quantity: product.quantity,
+     productImageURL1: product.productImageURL1,
+     price: parseFloat(product.currentPrice), // Ensure numeric type
+     totalPrice: product.quantity * parseFloat(product.currentPrice),
+   };
+ };
 
-      console.log("Document written with ID: ", docRef.id);
+ const submitOrderToFirestore = async (values: any) => {
+   setIsLoading(true);
 
-     
+   try {
+     // Sanitize and format the products array
+     const sanitizedProducts = products.map(sanitizeProduct);
 
-      // Send email notification
-      await sendEmail();
+     // Add the order document to Firestore
+     const docRef = await addDoc(collection(db, "Orders"), {
+       ...values,
+       timestamp: new Date(),
+       viewed: false,
+       shipped: false,
+       shippingFee: totalShippingFee,
+       totalPaid: totalBill,
+       products: sanitizedProducts, // Use sanitized products
+     });
 
-      setIsLoading(false); // Mark loading as complete
-    } catch (error) {
-      console.error("Error adding document: ", error);
-      setIsLoading(false); // Mark loading as complete in case of error
-    }
-  };
+     console.log("Document written with ID: ", docRef.id);
+
+     // Update the available quantity for each product
+     const updateProductPromises = products.map(async (product: any) => {
+       const productRef = doc(db, "products", product.id);
+
+       // Fetch the current availableAmount
+       const productSnapshot = await getDoc(productRef);
+       if (!productSnapshot.exists()) {
+         throw new Error(`Product with ID ${product.id} does not exist.`);
+       }
+
+       const productData = productSnapshot.data();
+       const availableAmount = parseInt(productData.availableAmount, 10); // Ensure numeric
+       const newAvailableAmount = availableAmount - product.quantity;
+
+       // Check if the quantity is sufficient
+       if (newAvailableAmount < 0) {
+         throw new Error(
+           `Not enough stock for product ${product.name}. Only ${availableAmount} available.`
+         );
+       }
+
+       // Update the availableAmount in Firestore
+       await updateDoc(productRef, { availableAmount: newAvailableAmount });
+     });
+
+     // Wait for all updates to complete
+     await Promise.all(updateProductPromises);
+
+     // Send email notification
+     await sendEmail();
+
+     setIsLoading(false); // Mark loading as complete
+     console.log("Order and product quantities updated successfully.");
+   } catch (error) {
+     console.error("Error processing order: ", error);
+     setIsLoading(false); // Mark loading as complete in case of error
+   }
+ };
+
 
   const handleDownloadReceipt = async () => {
     const receiptDiv = document.getElementById("receipt");
@@ -145,6 +300,12 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
     // Clear the cart
     clearCart();
   };
+
+  useEffect(() => {
+    onShippingFeeChange(totalShippingFee); // Notify the parent about the shipping fee
+    const totalBill = total + totalShippingFee;
+    onTotalBillChange(totalBill); // Notify the parent about the total bill
+  }, [totalShippingFee, total, onShippingFeeChange, onTotalBillChange]);
 
   return (
     <div className="  space-y-6 bg-white sm:p-4 p-0 relative rounded-lg">
@@ -219,173 +380,189 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
             handleSaveInfo(values, values.saveInfo);
           }}
         >
-          <Form className="space-y-4 min-h-screen">
-            <div>
+          {({ setFieldValue }) => (
+            <Form className="space-y-4 min-h-screen">
+              <div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Email
+                    </label>
+                    <Field
+                      name="email"
+                      type="email"
+                      className="mt-1 block w-full p-2 border rounded-md"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Phone number
+                    </label>
+                    <Field
+                      name="phoneNumber"
+                      className="mt-1 block w-full p-2 border rounded-md"
+                    />
+                    <ErrorMessage
+                      name="phoneNumber"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Country
+                </label>
+                <Field
+                  name="country"
+                  as="select"
+                  className="mt-1 block w-full p-2 border rounded-md"
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    handleCountryChange(e.target.value, setFieldValue)
+                  }
+                >
+                  <option value="">Select Country</option>
+                  {countries.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.name}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="country"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Email
+                    First Name
                   </label>
                   <Field
-                    name="email"
-                    type="email"
+                    name="firstName"
                     className="mt-1 block w-full p-2 border rounded-md"
                   />
                   <ErrorMessage
-                    name="email"
+                    name="firstName"
                     component="div"
                     className="text-red-500 text-sm"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Phone number
+                    Last Name
                   </label>
                   <Field
-                    name="phoneNumber"
+                    name="lastName"
                     className="mt-1 block w-full p-2 border rounded-md"
                   />
                   <ErrorMessage
-                    name="phoneNumber"
+                    name="lastName"
                     component="div"
                     className="text-red-500 text-sm"
                   />
                 </div>
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Country
-              </label>
-              <Field
-                name="country"
-                as="select"
-                className="mt-1 block w-full p-2 border rounded-md"
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Address
+                </label>
+                <Field
+                  name="address"
+                  className="mt-1 block w-full p-2 border rounded-md"
+                />
+                <ErrorMessage
+                  name="address"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  City
+                </label>
+                <Field
+                  name="city"
+                  className="mt-1 block w-full p-2 border rounded-md"
+                />
+                <ErrorMessage
+                  name="city"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    State
+                  </label>
+
+                  <Field
+                    name="state"
+                    as="select"
+                    className="mt-1 block w-full p-2 border rounded-md"
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      handleStateChange(e.target.value, setFieldValue)
+                    }
+                  >
+                    <option value="">Select State</option>
+                    {states.map((state) => (
+                      <option key={state.id} value={state.name}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="state"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Zip Code
+                  </label>
+                  <Field
+                    name="zipCode"
+                    className="mt-1 block w-full p-2 border rounded-md"
+                  />
+                  <ErrorMessage
+                    name="zipCode"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center text-[12px]">
+                <Field type="checkbox" name="saveInfo" className="mr-2" />
+                <label>Save this information for next time</label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Message/Note
+                </label>
+                <Field
+                  name="note"
+                  className="mt-1 block w-full p-2 border rounded-md"
+                  placeholder="Add a message or ask for product advice, or write a note for your friend if this is a gift..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-primary text-white py-2 rounded-md hover:bg-black "
               >
-                <option value="">Select Country</option>
-                <option value="NG">Nigeria</option>
-              </Field>
-              <ErrorMessage
-                name="country"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  First Name
-                </label>
-                <Field
-                  name="firstName"
-                  className="mt-1 block w-full p-2 border rounded-md"
-                />
-                <ErrorMessage
-                  name="firstName"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Last Name
-                </label>
-                <Field
-                  name="lastName"
-                  className="mt-1 block w-full p-2 border rounded-md"
-                />
-                <ErrorMessage
-                  name="lastName"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Address
-              </label>
-              <Field
-                name="address"
-                className="mt-1 block w-full p-2 border rounded-md"
-              />
-              <ErrorMessage
-                name="address"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                City
-              </label>
-              <Field
-                name="city"
-                className="mt-1 block w-full p-2 border rounded-md"
-              />
-              <ErrorMessage
-                name="city"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  State
-                </label>
-
-                <Field
-                  name="state"
-                  as="select"
-                  className="mt-1 block w-full p-2 border rounded-md"
-                >
-                  <option value="">Select State</option>
-                  <option value="NG">Lagos</option>
-                </Field>
-                <ErrorMessage
-                  name="state"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Zip Code
-                </label>
-                <Field
-                  name="zipCode"
-                  className="mt-1 block w-full p-2 border rounded-md"
-                />
-                <ErrorMessage
-                  name="zipCode"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-            </div>
-            <div className="flex items-center text-[12px]">
-              <Field type="checkbox" name="saveInfo" className="mr-2" />
-              <label>Save this information for next time</label>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Message/Note
-              </label>
-              <Field
-                name="note"
-                className="mt-1 block w-full p-2 border rounded-md"
-                placeholder="Add a message or ask for product advice, or write a note for your friend if this is a gift..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary text-white py-2 rounded-md hover:bg-black "
-            >
-              Next
-            </button>
-          </Form>
+                Next
+              </button>
+            </Form>
+          )}
         </Formik>
       )}
 
@@ -459,6 +636,19 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
             className="space-y-4 p-4 max-w-[793px]  min-h-screen relative"
           >
             <img src={logoUrl} alt="Company Logo" className="mx-auto w- h-16" />
+
+            <div className=" pt-8 flex items-center w-full gap-2">
+              <div className=" whitespace-nowrap ">Custumer Name:</div>
+              <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                {firstName} {lastName}
+              </div>
+            </div>
+            <div className=" pb-8 flex items-center w-full gap-2">
+              <div className=" whitespace-nowrap ">Custumer email:</div>
+              <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                {email}
+              </div>
+            </div>
             <h3 className="font-semibold text-gray-700">Order Summary</h3>
             <div className="space-y-2">
               {products.map((product: any) => (
@@ -494,13 +684,13 @@ const Checkout: React.FC<CheckoutProps> = ({ products, total, logoUrl }) => {
             <div className="pt-4 font-semibold flex justify-between text-gray-700">
               <p>Shipping fee</p>
               <p>{`₦ ${new Intl.NumberFormat("en-US").format(
-                Number(shippingFee)
+                Number(totalShippingFee)
               )}`}</p>
             </div>
             <div className=" font-semibold flex justify-between text-gray-700">
               <p>Total</p>
               <p>{`₦ ${new Intl.NumberFormat("en-US").format(
-                Number(total)
+                Number(totalBill)
               )}`}</p>
             </div>
           </div>

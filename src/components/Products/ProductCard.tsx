@@ -52,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               Number(price)
             )}`}
             onClick={handleAddToCart}
-            additionalClasses=" border-0 whitespace-nowrap  "
+            additionalClasses=" border-0 whitespace-nowrap "
           />{" "}
         </div>
         <Link href={`/products/${productID}`}>

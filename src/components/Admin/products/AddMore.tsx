@@ -6,7 +6,13 @@ import * as Yup from "yup";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, addDoc, getDocs } from "firebase/firestore"; // Firebase methods
 import toast from "react-hot-toast";
-import { Header2, Header3, Header4, Header5, ParagraphLink1 } from "@/components/Text";
+import {
+  Header2,
+  Header3,
+  Header4,
+  Header5,
+  ParagraphLink1,
+} from "@/components/Text";
 
 type ProductValues = {
   name: string;
@@ -23,6 +29,7 @@ type ProductValues = {
   currentPrice: number;
   oldPrice: number;
   availableAmount: number;
+  productWeight: number;
   category: string;
   selectedCategory: any;
   description: string;
@@ -45,6 +52,7 @@ const initialValues: ProductValues = {
   currentPrice: 0,
   oldPrice: 0,
   availableAmount: 0,
+  productWeight: 0,
   category: "",
   selectedCategory: {},
   description: "",
@@ -93,6 +101,8 @@ function AddMore() {
     currentPrice: Yup.number().required("Current price is required"),
     oldPrice: Yup.number().required("Old price is required"),
     availableAmount: Yup.number().required("Avaliable quantity is required"),
+    productWeight: Yup.number().required("Product weight quantity is required"),
+
     category: Yup.string().required("Category is required"),
     description: Yup.string().required("Description is required"),
   });
@@ -199,13 +209,12 @@ function AddMore() {
     }
   };
 
-
   const formatCurrency = (value: any) => {
-  if (!value) return "";
-  const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
-  return `₦ ${Number(numericValue).toLocaleString()}`; // Format as currency
+    if (!value) return "";
+    const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+    return `₦ ${Number(numericValue).toLocaleString()}`; // Format as currency
   };
-  
+
   return (
     <div>
       {isAddProductOpen && (
@@ -494,19 +503,35 @@ function AddMore() {
                       </div>
                     </div>
 
-                    <div>
-                      <label>Available Quantity</label>
-                      <Field
-                        name="availableAmount"
-                        type="text"
-                        placeholder="Enter Product Available Quantity"
-                        className="w-full outline-none border-primary border p-2 rounded-lg my-2"
-                      />
-                      <ErrorMessage
-                        name="availableAmount"
-                        component="div"
-                        className="text-red-500 text-[12px]"
-                      />
+                    <div className=" grid grid-cols-2 gap-2 ">
+                      <div>
+                        <label>Available Quantity</label>
+                        <Field
+                          name="availableAmount"
+                          type="text"
+                          placeholder="Enter Product Available Quantity"
+                          className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                        />
+                        <ErrorMessage
+                          name="availableAmount"
+                          component="div"
+                          className="text-red-500 text-[12px]"
+                        />
+                      </div>{" "}
+                      <div>
+                        <label>Product Weight</label>
+                        <Field
+                          name="productWeight"
+                          type="text"
+                          placeholder="Enter Product Available Quantity"
+                          className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                        />
+                        <ErrorMessage
+                          name="productWeight"
+                          component="div"
+                          className="text-red-500 text-[12px]"
+                        />
+                      </div>
                     </div>
                     <div>
                       <label>Category</label>
@@ -570,7 +595,7 @@ function AddMore() {
                       <button
                         type="button"
                         onClick={() => setIsAddProductOpen(false)}
-                        className="mt-4 w-fit py-1 px-4 bg-bg_gray text-white rounded-md"
+                        className="mt-4 w-fit py-1 px-4 bg-bg_gray text-p_black rounded-md"
                       >
                         Close
                       </button>

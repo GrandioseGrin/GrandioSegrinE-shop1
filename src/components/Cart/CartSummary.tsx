@@ -24,6 +24,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
   const cart = useCartStore((state) => state.cart);
   const [products, setProducts] = useState<Product[]>([]);
   const [isloading, setIsLoading] = useState(false);
+  
 
   useEffect(() => {
     if (cart.length > 0) {

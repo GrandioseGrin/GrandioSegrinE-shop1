@@ -28,6 +28,7 @@ interface Product {
   currentPrice: number;
   oldPrice: number;
   availableAmount: number;
+  productWeight: number;
   category: string;
   selectedCategory: any;
   description: string;
@@ -55,6 +56,7 @@ type ProductValues = {
   currentPrice: number;
   oldPrice: number;
   availableAmount: number;
+  productWeight: number;
   category: string;
   selectedCategory: any;
   description: string;
@@ -90,6 +92,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     currentPrice: product.currentPrice,
     oldPrice: product.oldPrice,
     availableAmount: product.availableAmount,
+    productWeight: product.productWeight,
     category: product.category,
     selectedCategory: product.selectedCategory,
     description: product.name,
@@ -123,6 +126,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
      currentPrice: Yup.number().required("Current price is required"),
      oldPrice: Yup.number().required("Old price is required"),
      availableAmount: Yup.number().required("Avaliable quantity is required"),
+     productWeight: Yup.number().required("Avaliable quantity is required"),
      category: Yup.string().required("Category is required"),
      description: Yup.string().required("Description is required"),
    });
@@ -488,21 +492,37 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                     />
                   </div>
                 </div>
-
-                <div>
-                  <label>Available Quantity</label>
-                  <Field
-                    name="availableAmount"
-                    type="text"
-                    placeholder="Enter Product Available Quantity"
-                    className="w-full outline-none border-primary border p-2 rounded-lg my-2"
-                  />
-                  <ErrorMessage
-                    name="availableAmount"
-                    component="div"
-                    className="text-red-500 text-[12px]"
-                  />
+                <div className=" grid grid-cols-2 gap-2 ">
+                  <div>
+                    <label>Available Quantity</label>
+                    <Field
+                      name="availableAmount"
+                      type="text"
+                      placeholder="Enter Product Available Quantity"
+                      className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                    />
+                    <ErrorMessage
+                      name="availableAmount"
+                      component="div"
+                      className="text-red-500 text-[12px]"
+                    />
+                  </div>{" "}
+                  <div>
+                    <label>Product Weight</label>
+                    <Field
+                      name="productWeight"
+                      type="text"
+                      placeholder="Enter Product Available Quantity"
+                      className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                    />
+                    <ErrorMessage
+                      name="productWeight"
+                      component="div"
+                      className="text-red-500 text-[12px]"
+                    />
+                  </div>
                 </div>
+
                 <div>
                   <label>Category</label>
                   {loadingCategories ? (
@@ -563,7 +583,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                   <button
                     type="button"
                     onClick={() => onClose()}
-                    className="mt-4 w-fit py-1 px-4 bg-bg_gray text-white rounded-md"
+                    className="mt-4 w-fit py-1 px-4 bg-bg_gray text-p_black rounded-md"
                   >
                     Close
                   </button>
@@ -571,7 +591,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                     type="submit"
                     className="mt-4 w-fit py-1 px-4 bg-primary text-white rounded-md"
                   >
-                    Add Product
+                    Update Product
                   </button>
                 </div>
               </Form>

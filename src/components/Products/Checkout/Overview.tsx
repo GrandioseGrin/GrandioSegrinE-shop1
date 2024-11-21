@@ -40,6 +40,17 @@ const CheckOutOverview = () => {
   const cart = useCartStore((state) => state.cart);
   const [products, setProducts] = useState<Product[]>([]);
 
+  const [shippingFee, setShippingFee] = useState(0);
+  const [totalBill, setTotalBill] = useState(0);
+
+  const handleShippingFeeChange = (fee: number) => {
+    setShippingFee(fee);
+  };
+
+  const handleTotalBillChange = (totalBill: number) => {
+    setTotalBill(totalBill);
+  };
+
   useEffect(() => {
     if (cart.length > 0) {
       const fetchProducts = async () => {
@@ -150,7 +161,7 @@ const CheckOutOverview = () => {
 
 
   return (
-    <div >
+    <div>
       <div className="container1 mx-auto    py-[100px]">
         <Header4 className=" mb-4">Checkout</Header4>
         <div className=" grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white  rounded-lg">
@@ -232,6 +243,8 @@ const CheckOutOverview = () => {
                 products={products}
                 total={subtotal}
                 logoUrl="/images/logo.png"
+                onShippingFeeChange={handleShippingFeeChange}
+                onTotalBillChange={handleTotalBillChange}
               />
             </div>
           </div>
@@ -261,39 +274,19 @@ const CheckOutOverview = () => {
             <div className="p-4  space-y-2">
               <div className="flex justify-between">
                 <Paragraph1>Shipping fee:</Paragraph1>
-                <Paragraph1 className="text-gray-500">
-                  Calculated at checkout
-                </Paragraph1>
+                <Paragraph1 className="text-gray-500">{shippingFee}</Paragraph1>
               </div>
               <div className="flex justify-between font-semibold">
                 <ParagraphLink1>Total:</ParagraphLink1>
                 <ParagraphLink1>
                   {" "}
                   {`₦ ${new Intl.NumberFormat("en-US").format(
-                    Number(subtotal)
+                    Number(totalBill)
                   )}`}
                 </ParagraphLink1>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Related Products Section */}
-        <div className="mt-12">
-          {/* <h2 className="text-2xl font-semibold mb-4">Other Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {randomProducts.map((relatedProduct) => (
-              <ProductCard
-                key={relatedProduct.id}
-                image={
-                  relatedProduct.productImageURL1 || "" // Use the first image of related products
-                }
-                title={relatedProduct.name}
-                price={relatedProduct.currentPrice}
-                product={relatedProduct}
-              />
-            ))}
-          </div> */}
         </div>
       </div>
       <Section6 />

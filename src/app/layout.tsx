@@ -5,8 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "aos/dist/aos.css";
 import Head from "next/head"; // Import Head for adding custom scripts
-
-
+import NetworkStatusChecker from "./NetworkStatusChecker";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +39,8 @@ export default function RootLayout({
         ></script>
       </Head>
       <body className=" bg-[#f1efe8]-">
+        <NetworkStatusChecker />
+
         <Navbar />
         {children}
         <Footer />
