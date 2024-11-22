@@ -201,6 +201,8 @@ function Navbar() {
                   Contact us
                 </ParagraphLink1>
               </Link>
+              <CurrencySwitcher />
+              <SearchBar />
             </div>{" "}
           </div>
         )}

@@ -22,6 +22,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import useCartStore from "@/stores/cartStore";
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 type Product = {
   id: string; // Firestore document IDs are strings
@@ -42,6 +43,9 @@ const CheckOutOverview = () => {
 
   const [shippingFee, setShippingFee] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
+  
+    const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
 
   const handleShippingFeeChange = (fee: number) => {
     setShippingFee(fee);
@@ -191,7 +195,13 @@ const CheckOutOverview = () => {
               </button>
 
               <ParagraphLink1 className="text-lg font-bold">
-                {`₦ ${new Intl.NumberFormat("en-US").format(Number(subtotal))}`}
+                {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                  Number(
+                    selectedCurrency === "USD" && exchangeRate > 0
+                      ? (subtotal / exchangeRate).toFixed(2)
+                      : subtotal
+                  )
+                )}`}{" "}
               </ParagraphLink1>
             </div>
 
@@ -227,8 +237,12 @@ const CheckOutOverview = () => {
                   <ParagraphLink1>Total:</ParagraphLink1>
                   <ParagraphLink1>
                     {" "}
-                    {`₦ ${new Intl.NumberFormat("en-US").format(
-                      Number(subtotal)
+                    {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                      Number(
+                        selectedCurrency === "USD" && exchangeRate > 0
+                          ? (subtotal / exchangeRate).toFixed(2)
+                          : subtotal
+                      )
                     )}`}
                   </ParagraphLink1>
                 </div>
@@ -274,14 +288,26 @@ const CheckOutOverview = () => {
             <div className="p-4  space-y-2">
               <div className="flex justify-between">
                 <Paragraph1>Shipping fee:</Paragraph1>
-                <Paragraph1 className="text-gray-500">{shippingFee}</Paragraph1>
+                <Paragraph1 className="text-gray-500">
+                  {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                    Number(
+                      selectedCurrency === "USD" && exchangeRate > 0
+                        ? (shippingFee / exchangeRate).toFixed(2)
+                        : shippingFee
+                    )
+                  )}`}
+                </Paragraph1>
               </div>
               <div className="flex justify-between font-semibold">
                 <ParagraphLink1>Total:</ParagraphLink1>
                 <ParagraphLink1>
                   {" "}
-                  {`₦ ${new Intl.NumberFormat("en-US").format(
-                    Number(totalBill)
+                  {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                    Number(
+                      selectedCurrency === "USD" && exchangeRate > 0
+                        ? (totalBill / exchangeRate).toFixed(2)
+                        : totalBill
+                    )
                   )}`}
                 </ParagraphLink1>
               </div>

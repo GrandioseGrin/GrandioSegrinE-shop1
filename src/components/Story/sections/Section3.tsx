@@ -37,7 +37,7 @@ function Section3() {
         <div className=" grid col-span-1 xl:items-center xl:grid-cols-6 gap-[24px] xl:gap-[30px]">
           <div className=" xl:col-span-3">
             <div
-              className=" bg-white rounded-lg p-[31px] overflow-hidden "
+              className=" bg-white rounded-lg p-[31px overflow-hidden "
               data-aos="fade-left"
             >
               <img

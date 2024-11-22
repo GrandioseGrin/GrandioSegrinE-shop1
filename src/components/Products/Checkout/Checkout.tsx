@@ -103,8 +103,7 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
-    const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
-
+  const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
 
   useEffect(() => {
     const fetchShippingData = async () => {
@@ -115,12 +114,12 @@ const Checkout: React.FC<CheckoutProps> = ({
           ...doc.data(),
         }));
 
-       const formattedCountries = fetchedData.map((country) => ({
-         code: (country as any).countryCode,
-         name: (country as any).countryName,
-         shippingFee: (country as any).shippingFee || 0,
-         states: (country as any).states || [],
-       }));
+        const formattedCountries = fetchedData.map((country) => ({
+          code: (country as any).countryCode,
+          name: (country as any).countryName,
+          shippingFee: (country as any).shippingFee || 0,
+          states: (country as any).states || [],
+        }));
 
         setCountries(formattedCountries);
       } catch (error) {
@@ -191,86 +190,85 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const totalBill = total + totalShippingFee;
 
- const sanitizeProduct = (product: any) => {
-   if (
-     !product.id ||
-     !product.name ||
-     product.productImageURL1 === undefined ||
-     product.quantity === undefined ||
-     product.currentPrice === undefined
-   ) {
-     throw new Error(`Invalid product data: ${JSON.stringify(product)}`);
-   }
+  const sanitizeProduct = (product: any) => {
+    if (
+      !product.id ||
+      !product.name ||
+      product.productImageURL1 === undefined ||
+      product.quantity === undefined ||
+      product.currentPrice === undefined
+    ) {
+      throw new Error(`Invalid product data: ${JSON.stringify(product)}`);
+    }
 
-   return {
-     id: product.id,
-     name: product.name,
-     quantity: product.quantity,
-     productImageURL1: product.productImageURL1,
-     price: parseFloat(product.currentPrice), // Ensure numeric type
-     totalPrice: product.quantity * parseFloat(product.currentPrice),
-   };
- };
+    return {
+      id: product.id,
+      name: product.name,
+      quantity: product.quantity,
+      productImageURL1: product.productImageURL1,
+      price: parseFloat(product.currentPrice), // Ensure numeric type
+      totalPrice: product.quantity * parseFloat(product.currentPrice),
+    };
+  };
 
- const submitOrderToFirestore = async (values: any) => {
-   setIsLoading(true);
+  const submitOrderToFirestore = async (values: any) => {
+    setIsLoading(true);
 
-   try {
-     // Sanitize and format the products array
-     const sanitizedProducts = products.map(sanitizeProduct);
+    try {
+      // Sanitize and format the products array
+      const sanitizedProducts = products.map(sanitizeProduct);
 
-     // Add the order document to Firestore
-     const docRef = await addDoc(collection(db, "Orders"), {
-       ...values,
-       timestamp: new Date(),
-       viewed: false,
-       shipped: false,
-       shippingFee: totalShippingFee,
-       totalPaid: totalBill,
-       products: sanitizedProducts, // Use sanitized products
-     });
+      // Add the order document to Firestore
+      const docRef = await addDoc(collection(db, "Orders"), {
+        ...values,
+        timestamp: new Date(),
+        viewed: false,
+        shipped: false,
+        shippingFee: totalShippingFee,
+        totalPaid: totalBill,
+        products: sanitizedProducts, // Use sanitized products
+      });
 
-     console.log("Document written with ID: ", docRef.id);
+      console.log("Document written with ID: ", docRef.id);
 
-     // Update the available quantity for each product
-     const updateProductPromises = products.map(async (product: any) => {
-       const productRef = doc(db, "products", product.id);
+      // Update the available quantity for each product
+      const updateProductPromises = products.map(async (product: any) => {
+        const productRef = doc(db, "products", product.id);
 
-       // Fetch the current availableAmount
-       const productSnapshot = await getDoc(productRef);
-       if (!productSnapshot.exists()) {
-         throw new Error(`Product with ID ${product.id} does not exist.`);
-       }
+        // Fetch the current availableAmount
+        const productSnapshot = await getDoc(productRef);
+        if (!productSnapshot.exists()) {
+          throw new Error(`Product with ID ${product.id} does not exist.`);
+        }
 
-       const productData = productSnapshot.data();
-       const availableAmount = parseInt(productData.availableAmount, 10); // Ensure numeric
-       const newAvailableAmount = availableAmount - product.quantity;
+        const productData = productSnapshot.data();
+        const availableAmount = parseInt(productData.availableAmount, 10); // Ensure numeric
+        const newAvailableAmount = availableAmount - product.quantity;
 
-       // Check if the quantity is sufficient
-       if (newAvailableAmount < 0) {
-         throw new Error(
-           `Not enough stock for product ${product.name}. Only ${availableAmount} available.`
-         );
-       }
+        // Check if the quantity is sufficient
+        if (newAvailableAmount < 0) {
+          throw new Error(
+            `Not enough stock for product ${product.name}. Only ${availableAmount} available.`
+          );
+        }
 
-       // Update the availableAmount in Firestore
-       await updateDoc(productRef, { availableAmount: newAvailableAmount });
-     });
+        // Update the availableAmount in Firestore
+        await updateDoc(productRef, { availableAmount: newAvailableAmount });
+      });
 
-     // Wait for all updates to complete
-     await Promise.all(updateProductPromises);
+      // Wait for all updates to complete
+      await Promise.all(updateProductPromises);
 
-     // Send email notification
-     await sendEmail();
+      // Send email notification
+      await sendEmail();
 
-     setIsLoading(false); // Mark loading as complete
-     console.log("Order and product quantities updated successfully.");
-   } catch (error) {
-     console.error("Error processing order: ", error);
-     setIsLoading(false); // Mark loading as complete in case of error
-   }
- };
-
+      setIsLoading(false); // Mark loading as complete
+      console.log("Order and product quantities updated successfully.");
+    } catch (error) {
+      console.error("Error processing order: ", error);
+      setIsLoading(false); // Mark loading as complete in case of error
+    }
+  };
 
   const handleDownloadReceipt = async () => {
     const receiptDiv = document.getElementById("receipt");
@@ -674,7 +672,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                     {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                       Number(
                         selectedCurrency === "USD" && exchangeRate > 0
-                          ? product.currentPrice / exchangeRate
+                          ? (product.currentPrice / exchangeRate).toFixed(2)
                           : product.currentPrice
                       )
                     )}`}
@@ -685,7 +683,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                     {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                       Number(
                         (selectedCurrency === "USD" && exchangeRate > 0
-                          ? product.currentPrice / exchangeRate
+                          ? (product.currentPrice / exchangeRate).toFixed(2)
                           : product.currentPrice) * product.quantity
                       )
                     )}`}
@@ -706,7 +704,7 @@ const Checkout: React.FC<CheckoutProps> = ({
             </div>
             <div className=" font-semibold flex justify-between text-gray-700">
               <p>Total</p>
-              <p>{`₦ ${new Intl.NumberFormat("en-US").format(
+              <p>{`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                 Number(
                   selectedCurrency === "USD" && exchangeRate > 0
                     ? totalBill / exchangeRate

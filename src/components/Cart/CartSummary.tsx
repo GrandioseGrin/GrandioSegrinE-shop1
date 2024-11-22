@@ -70,19 +70,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
 
 
   const subtotal = products.reduce(
-    (total, product) =>
-      total +
-      (selectedCurrency === "USD" && exchangeRate > 0
-        ? product.currentPrice / exchangeRate
-        : product.currentPrice) *
-        product.quantity,
+    (total, product) => total + product.currentPrice * product.quantity,
     0
   );
 
-  const formattedPrice =
-    selectedCurrency === "USD"
-      ? subtotal.toFixed(2) // Format for USD with 2 decimal places
-      : subtotal; // Format for NGN (comma-separated)
+  
 
   const handleQuantityChange = (productId: string, delta: number) => {
     const cartStore = useCartStore.getState();
@@ -172,7 +164,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
           <ParagraphLink1>Total:</ParagraphLink1>
           <ParagraphLink1>
             {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
-              Number(formattedPrice)
+              Number(
+                selectedCurrency === "USD" && exchangeRate > 0
+                  ? (subtotal / exchangeRate).toFixed(2)
+                  : subtotal
+              )
             )}`}
           </ParagraphLink1>
         </div>
