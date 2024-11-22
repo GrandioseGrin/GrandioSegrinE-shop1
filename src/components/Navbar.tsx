@@ -16,6 +16,7 @@ import Image from "next/image";
 import CartSummary from "./Cart/CartSummary";
 import useCartStore, { useCartCount } from "@/stores/cartStore";
 import SearchBar from "./SearchBar";
+import CurrencySwitcher from "./CurrencySwitcher";
 
 function Navbar() {
   const pathname = usePathname();
@@ -24,9 +25,7 @@ function Navbar() {
   const cartCount = useCartCount();
   const toggleCart = useCartStore((state) => state.toggleCart);
   const cartOpen = useCartStore((state) => state.cartOpen);
-  
 
-  
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -96,7 +95,7 @@ function Navbar() {
                 Shop
               </Paragraph1>
             </Link>
-            
+
             <Link href="/blog">
               {" "}
               <Paragraph1
@@ -118,7 +117,8 @@ function Navbar() {
               </Paragraph1>
             </Link>
 
-           <SearchBar />
+            <SearchBar />
+            <CurrencySwitcher />
           </div>
 
           <div
@@ -145,10 +145,7 @@ function Navbar() {
             </div>
           </div>
 
-          <CartSummary
-            isOpen={cartOpen}
-            onClose={() => toggleCart()}
-          />
+          <CartSummary isOpen={cartOpen} onClose={() => toggleCart()} />
         </div>
 
         {/* mobile dropdown */}

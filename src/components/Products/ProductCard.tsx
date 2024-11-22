@@ -4,7 +4,7 @@ import Button from "../Button";
 import Link from "next/link";
 import useCartStore from "../../stores/cartStore";
 import AOS from "aos";
-
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 interface ProductCardProps {
   image: string;
@@ -22,19 +22,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const addToCart = useCartStore((state) => state.addToCart);
   const toggleCart = useCartStore((state) => state.toggleCart);
   const productID = product.id;
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
-  const handleAddToCart = () => {
-    addToCart(productID); // Just pass the ID
-    // @ts-ignore
-    toggleCart(true); // Ensure the cart is open
-  };
+  const displayPrice =
+    selectedCurrency === "USD" && exchangeRate > 0
+      ? price / exchangeRate // Convert to USD
+      : price; // Default to NGN
 
+  const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
 
+  const formattedPrice =
+    selectedCurrency === "USD"
+      ? displayPrice.toFixed(2) // Format for USD with 2 decimal places
+      : displayPrice; // Format for NGN (comma-separated)
+
+  
+   const handleAddToCart = () => {
+     addToCart(productID); // Just pass the ID
+     // @ts-ignore
+     toggleCart(true); // Ensure the cart is open
+   };
+  
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
     });
   });
+
 
   return (
     <div
@@ -48,9 +62,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {title}{" "}
           </Paragraph2>
           <Button
-            text={`₦ ${new Intl.NumberFormat("en-US", {}).format(
-              Number(price)
-            )}`}
+            text={`${currencySymbol} ${new Intl.NumberFormat(
+              "en-US",
+              {}
+            ).format(Number(formattedPrice))}`}
             onClick={handleAddToCart}
             additionalClasses=" border-0 whitespace-nowrap "
           />{" "}

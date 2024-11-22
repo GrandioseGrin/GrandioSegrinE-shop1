@@ -1,5 +1,6 @@
 import React from "react";
 import { Paragraph1, ParagraphLink2 } from "../Text";
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 
 type ProductCartCardProps = {
@@ -13,6 +14,20 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
   onRemove,
   onQuantityChange,
 }) => {
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
+
+  const displayPrice =
+    selectedCurrency === "USD" && exchangeRate > 0
+      ? product.currentPrice / exchangeRate // Convert to USD
+      : product.currentPrice; // Default to NGN
+
+  const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
+
+  const formattedPrice =
+    selectedCurrency === "USD"
+      ? displayPrice.toFixed(2) // Format for USD with 2 decimal places
+      : displayPrice; // Format for NGN (comma-separated)
+
   return (
     <div className="flex relative justify-between items-start bg-white p-2 px-3 rounded-lg">
       <div className="flex gap-2 items-center">
@@ -45,8 +60,8 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
       </div>
       <div>
         <Paragraph1 className="font-bold">
-          {`₦ ${new Intl.NumberFormat("en-US").format(
-            Number(product.currentPrice * product.quantity)
+          {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+            Number(formattedPrice * product.quantity)
           )}`}
         </Paragraph1>
         <button

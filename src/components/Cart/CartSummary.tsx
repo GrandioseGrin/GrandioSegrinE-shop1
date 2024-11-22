@@ -5,6 +5,7 @@ import ProductCartCard from "./ProductCartCard";
 import useCartStore from "@/stores/cartStore";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 type Product = {
   id: string; // Firestore document IDs are strings
@@ -24,7 +25,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
   const cart = useCartStore((state) => state.cart);
   const [products, setProducts] = useState<Product[]>([]);
   const [isloading, setIsLoading] = useState(false);
-  
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -65,10 +66,23 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
     }
   }, [cart]);
 
+    const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
+
+
   const subtotal = products.reduce(
-    (total, product) => total + product.currentPrice * product.quantity,
+    (total, product) =>
+      total +
+      (selectedCurrency === "USD" && exchangeRate > 0
+        ? product.currentPrice / exchangeRate
+        : product.currentPrice) *
+        product.quantity,
     0
   );
+
+  const formattedPrice =
+    selectedCurrency === "USD"
+      ? subtotal.toFixed(2) // Format for USD with 2 decimal places
+      : subtotal; // Format for NGN (comma-separated)
 
   const handleQuantityChange = (productId: string, delta: number) => {
     const cartStore = useCartStore.getState();
@@ -157,7 +171,9 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between font-semibold">
           <ParagraphLink1>Total:</ParagraphLink1>
           <ParagraphLink1>
-            {`₦ ${new Intl.NumberFormat("en-US").format(Number(subtotal))}`}
+            {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+              Number(formattedPrice)
+            )}`}
           </ParagraphLink1>
         </div>
       </div>

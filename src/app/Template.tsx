@@ -54,13 +54,7 @@ export default function Home() {
         onClick={handleClick} // onClick is passed from a client component
         additionalClasses="border-white bg-black w-[300px]"
       />
-      <ProductCard
-        image="/images/testProduct.jpg"
-        title="Product Title"
-        description="A brief description of the product."
-        price={29.99}
-        onAddToCart={() => console.log("Added to cart")}
-      />
+     
     </div>
   );
 }

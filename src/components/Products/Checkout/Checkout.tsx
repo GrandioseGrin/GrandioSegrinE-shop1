@@ -14,6 +14,7 @@ import { sendEmail } from "@/lib/serverActions"; // Import server action
 import useCartStore from "@/stores/cartStore";
 import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info store
 import html2canvas from "html2canvas";
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 type Product = {
   id: number;
@@ -98,8 +99,12 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>("");
   const [selectedState, setSelectedState] = useState<State | null>(null);
   const [states, setStates] = useState<State[]>([]);
-
   const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
+
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
+
+    const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
+
 
   useEffect(() => {
     const fetchShippingData = async () => {
@@ -666,15 +671,23 @@ const Checkout: React.FC<CheckoutProps> = ({
                   </div>
                   <p className="text-gray-700">
                     {" "}
-                    {`₦ ${new Intl.NumberFormat("en-US").format(
-                      Number(product.currentPrice)
+                    {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                      Number(
+                        selectedCurrency === "USD" && exchangeRate > 0
+                          ? product.currentPrice / exchangeRate
+                          : product.currentPrice
+                      )
                     )}`}
                   </p>
 
                   <p className="text-gray-700">Qt: {product.quantity}</p>
                   <p className="text-gray-700 font-semibold text-end">
-                    {`₦ ${new Intl.NumberFormat("en-US").format(
-                      Number(product.currentPrice * product.quantity)
+                    {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                      Number(
+                        (selectedCurrency === "USD" && exchangeRate > 0
+                          ? product.currentPrice / exchangeRate
+                          : product.currentPrice) * product.quantity
+                      )
                     )}`}
                   </p>
                 </div>
@@ -683,14 +696,22 @@ const Checkout: React.FC<CheckoutProps> = ({
 
             <div className="pt-4 font-semibold flex justify-between text-gray-700">
               <p>Shipping fee</p>
-              <p>{`₦ ${new Intl.NumberFormat("en-US").format(
-                Number(totalShippingFee)
+              <p>{`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                Number(
+                  selectedCurrency === "USD" && exchangeRate > 0
+                    ? totalShippingFee / exchangeRate
+                    : totalShippingFee
+                )
               )}`}</p>
             </div>
             <div className=" font-semibold flex justify-between text-gray-700">
               <p>Total</p>
               <p>{`₦ ${new Intl.NumberFormat("en-US").format(
-                Number(totalBill)
+                Number(
+                  selectedCurrency === "USD" && exchangeRate > 0
+                    ? totalBill / exchangeRate
+                    : totalBill
+                )
               )}`}</p>
             </div>
           </div>

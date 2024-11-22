@@ -9,6 +9,7 @@ import Link from "next/link";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import ExchangeRateComponent from "./ExchangeRateComponent";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +30,9 @@ function NavBar() {
         <div className="flex justify-between items-center">
           <img src="/images/logo.png" alt="" className="h-[40px]" />
           <div className="xl:flex gap-[24px] hidden"></div>
-          <div className="xl:flex gap-[24px] hidden">
+          <div className="xl:flex gap-[24px] hidden items-center">
+           <ExchangeRateComponent />
+
             <Profile />
           </div>
           <div className="xl:hidden z-[999] flex">
