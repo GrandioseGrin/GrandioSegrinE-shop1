@@ -635,7 +635,7 @@ const Checkout: React.FC<CheckoutProps> = ({
             <p className="text-gray-600 outline-none">
               {shippingInfo.phoneNumber}
             </p>
-            <p className="text-gray-600 outline-none">{shippingInfo.email}</p>
+            <p className="text-gray-600 outline-none text-decoration-none">{shippingInfo.email}</p>
 
             <p className="text-gray-600 pb-6">
               {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
@@ -744,7 +744,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                 </div>
                 <div className=" flex items-center w-full gap-2">
                   <div className="  ">Email:</div>
-                  <div className=" px-2 py-1 border-b rounded-lg- w-full outline-none">
+                  <div className=" px-2 py-1 border-b text-decoration-none rounded-lg- w-full outline-none">
                     {email}
                   </div>
                 </div>

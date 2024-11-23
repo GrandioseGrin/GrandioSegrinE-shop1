@@ -117,3 +117,9 @@ html, body {
     background-color: #757373; /* Color of the scrollbar thumb (indicator) */
     border-radius: 10px; /* Optional: to round the thumb edges */
 }
+
+.div-email {
+  text-decoration: none; /* Ensures there's no underline */
+  border: none;          /* Removes any border */
+  outline: none;         /* Ensures there's no outline */
+}
