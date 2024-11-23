@@ -15,6 +15,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import useCartStore from "@/stores/cartStore";
 
 interface Product {
   id: string;
@@ -38,6 +39,8 @@ const ProductDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleCart = useCartStore((state) => state.toggleCart);
 
   useEffect(() => {
     if (!productID) return;
@@ -86,8 +89,14 @@ const ProductDetail = () => {
     fetchProductAndRelated();
   }, [productID]);
 
- const shuffledProducts = [...relatedProducts].sort(() => 0.5 - Math.random());
- const randomProducts = shuffledProducts.slice(0, 4);
+  const shuffledProducts = [...relatedProducts].sort(() => 0.5 - Math.random());
+  const randomProducts = shuffledProducts.slice(0, 4);
+
+  const handleAddToCart = () => {
+    addToCart(productID); // Just pass the ID
+    // @ts-ignore
+    toggleCart(true); // Ensure the cart is open
+  };
 
   if (loading)
     return (
@@ -145,6 +154,7 @@ const ProductDetail = () => {
             </div>
             <Button
               text="Add to Cart"
+              onClick={handleAddToCart}
               additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
             />
             <hr className="mb-6" />
@@ -159,6 +169,7 @@ const ProductDetail = () => {
             </p>
             <Button
               text="Add to Cart"
+              onClick={handleAddToCart}
               additionalClasses="border-white bg-black w-full flex justify-center"
             />
           </div>
