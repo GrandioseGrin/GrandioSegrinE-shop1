@@ -615,8 +615,10 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
             <p className="text-gray-600">
               {shippingInfo.firstName} <span> {shippingInfo.lastName}</span>
             </p>
-            <p className="text-gray-600">{shippingInfo.phoneNumber}</p>
-            <p className="text-gray-600">{shippingInfo.email}</p>
+            <p className="text-gray-600 outline-none">
+              {shippingInfo.phoneNumber}
+            </p>
+            <p className="text-gray-600 outline-none">{shippingInfo.email}</p>
 
             <p className="text-gray-600 pb-6">
               {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
@@ -723,7 +725,7 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
                 </div>
                 <div className=" pb-8 flex items-center w-full gap-2">
                   <div className="  ">email:</div>
-                  <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                  <div className=" px-2 py-1 border-b rounded-lg- w-full outline-none">
                     {email}
                   </div>
                 </div>
