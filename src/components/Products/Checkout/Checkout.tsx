@@ -636,22 +636,27 @@ const Checkout: React.FC<CheckoutProps> = ({
         <div>
           <div
             id="receipt"
-            className="space-y-4 p-4 max-w-[793px]  min-h-screen relative"
+            className="space-y-6  max-w-[793px]  min-h-screen relative"
           >
             <img src={logoUrl} alt="Company Logo" className="mx-auto w- h-16" />
+            <div>
+              <h2 className="font-semibold text-gray-700 mb-2">Custmer Details</h2>
+              <div>
+                <div className=" flex items-center w-full gap-2">
+                  <div className="  ">Name:</div>
+                  <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                    {firstName} {lastName}
+                  </div>
+                </div>
+                <div className=" pb-8 flex items-center w-full gap-2">
+                  <div className="  ">email:</div>
+                  <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                    {email}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <div className=" pt-8 flex items-center w-full gap-2">
-              <div className=" whitespace-nowrap ">Custumer Name:</div>
-              <div className=" px-2 py-1 border-b rounded-lg- w-full">
-                {firstName} {lastName}
-              </div>
-            </div>
-            <div className=" pb-8 flex items-center w-full gap-2">
-              <div className=" whitespace-nowrap ">Custumer email:</div>
-              <div className=" px-2 py-1 border-b rounded-lg- w-full">
-                {email}
-              </div>
-            </div>
             <h3 className="font-semibold text-gray-700">Order Summary</h3>
             <div className="space-y-2">
               {products.map((product: any) => (

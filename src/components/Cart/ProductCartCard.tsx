@@ -36,9 +36,11 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
           alt={product.name}
           className="w-16 h-16 object-cover rounded"
         />
-        <div className="flex-1">
-          <ParagraphLink2 className="font-bold">{product.name}</ParagraphLink2>
-          <div className="flex gap-2 items-center justify-between">
+        <div className=" space-y-2">
+          <ParagraphLink2 className="font-bold truncate overflow-hidden whitespace-nowrap w-[80%]">
+            {product.name}
+          </ParagraphLink2>
+          <div className="flex gap-4 items-center ">
             <Paragraph1 className="text-gray-500">Qt:</Paragraph1>
             <div className="flex gap-4 items-center justify-between border rounded-lg px-4">
               <button
@@ -59,7 +61,7 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
         </div>
       </div>
       <div>
-        <Paragraph1 className="font-bold">
+        <Paragraph1 className="font-bold whitespace-nowrap">
           {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
             Number(formattedPrice * product.quantity)
           )}`}

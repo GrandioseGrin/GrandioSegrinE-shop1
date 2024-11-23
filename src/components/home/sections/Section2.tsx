@@ -31,7 +31,7 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
       <div className=" container1 pt-[24px] xl:pt-[100px]  text-p_black">
         {" "}
         <div
-          className=" flex flex-col gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
+          className=" flex flex-col gap-[8px] xl:gap-[24px] text-center items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3>

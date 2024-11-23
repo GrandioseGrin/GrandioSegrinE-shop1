@@ -23,6 +23,7 @@ interface Product {
   category: string;
   currentPrice: string;
   oldPrice?: string;
+  availableAmount: any;
   productImageURL1?: string;
   productImageURL2?: string;
   productImageURL3?: string;
@@ -135,7 +136,7 @@ const ProductDetail = () => {
                 )}`}
               </Header5>
               {product.oldPrice && (
-                <p className="text-[12px] text-gray-700 mb-4 sm:mb-0 line-through">
+                <p className="text-[12px] text-gray-700  sm:mb-0 line-through">
                   {`₦ ${new Intl.NumberFormat("en-US").format(
                     Number(product.oldPrice)
                   )}`}
@@ -146,8 +147,11 @@ const ProductDetail = () => {
               text="Add to Cart"
               additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
             />
-            <hr className="mb-8" />
+            <hr className="mb-6" />
 
+            <div className=" flex gap-2 mb-4 text-gray-600 text-[12px]">
+              <p>Available Quantity:</p> <p>{product.availableAmount}</p>
+            </div>
             <ParagraphLink1 className="font-medium">Description</ParagraphLink1>
 
             <p className="text-gray-600 mb-6 text-justify">

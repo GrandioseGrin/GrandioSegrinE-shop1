@@ -116,7 +116,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 z-20 border right-0 h-full text-p_black w-[400px] bg-bg_gray shadow-lg transform ${
+      className={`fixed top-0 z-20 border right-0 h-full text-p_black w-full sm:w-[400px] bg-bg_gray shadow-lg transform ${
         isOpen ? "translate-x-0" : "translate-x-full"
       } transition-transform duration-300 ease-in-out`}
     >

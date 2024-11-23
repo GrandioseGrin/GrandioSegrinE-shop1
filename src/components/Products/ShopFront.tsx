@@ -164,7 +164,7 @@ function Overview() {
           </div>
         )}
         <div
-          className=" flex flex-col gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
+          className=" flex flex-col text-center gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3>

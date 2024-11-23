@@ -52,7 +52,7 @@ function BlogIntro() {
       <div className=" container1 py-[24px] xl:py-[100px] pt-[100px]  text-p_black">
         {" "}
         <div
-          className=" flex flex-col gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
+          className=" flex flex-col gap-[8px] text-center xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3>

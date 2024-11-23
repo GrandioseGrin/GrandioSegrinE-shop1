@@ -166,11 +166,11 @@ const CheckOutOverview = () => {
 
   return (
     <div>
-      <div className="container1 mx-auto    py-[100px]">
+      <div className="container1  py-[100px]">
         <Header4 className=" mb-4">Checkout</Header4>
         <div className=" grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white  rounded-lg">
           <div className="block sm:hidden">
-            <div className=" flex justify-between bg-bg_gray p-2 px-4 rounded-lg items-center ">
+            <div className=" flex justify-between bg-bg_gray p-2 px-2 rounded-lg items-center ">
               <button
                 onClick={toggleSummary}
                 className=" flex gap-1 items-center text-[12px] text-primary "
