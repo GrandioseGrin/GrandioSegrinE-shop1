@@ -152,11 +152,17 @@ const ProductDetail = () => {
                 </p>
               )}
             </div>
-            <Button
-              text="Add to Cart"
-              onClick={handleAddToCart}
-              additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
-            />
+            {product.availableAmount === 0 ? (
+              <div className="py-2 flex w-full justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
+                Out of Stock
+              </div>
+            ) : (
+              <Button
+                text="Add to Cart"
+                onClick={handleAddToCart}
+                additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
+              />
+            )}
             <hr className="mb-6" />
 
             <div className=" flex gap-2 mb-4 text-gray-600 text-[12px]">
@@ -167,11 +173,17 @@ const ProductDetail = () => {
             <p className="text-gray-600 mb-6 text-justify">
               {product.description}
             </p>
-            <Button
-              text="Add to Cart"
-              onClick={handleAddToCart}
-              additionalClasses="border-white bg-black w-full flex justify-center"
-            />
+            {product.availableAmount === 0 ? (
+              <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
+                Out of Stock
+              </div>
+            ) : (
+              <Button
+                text="Add to Cart"
+                onClick={handleAddToCart}
+                additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
+              />
+            )}
           </div>
         </div>
 

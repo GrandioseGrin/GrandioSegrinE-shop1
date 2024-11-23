@@ -36,19 +36,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
       ? displayPrice.toFixed(2) // Format for USD with 2 decimal places
       : displayPrice; // Format for NGN (comma-separated)
 
-  
-   const handleAddToCart = () => {
-     addToCart(productID); // Just pass the ID
-     // @ts-ignore
-     toggleCart(true); // Ensure the cart is open
-   };
-  
+  const handleAddToCart = () => {
+    addToCart(productID); // Just pass the ID
+    // @ts-ignore
+    toggleCart(true); // Ensure the cart is open
+  };
+
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
     });
   });
-
 
   return (
     <div
@@ -61,14 +59,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {" "}
             {title}{" "}
           </Paragraph2>
-          <Button
-            text={`${currencySymbol} ${new Intl.NumberFormat(
-              "en-US",
-              {}
-            ).format(Number(formattedPrice))}`}
-            onClick={handleAddToCart}
-            additionalClasses=" border-0 whitespace-nowrap "
-          />{" "}
+          {product.availableAmount === 0 ? (
+            <div className="py-2 flex px-2 justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
+              Null
+            </div>
+          ) : (
+            <Button
+              text={`${currencySymbol} ${new Intl.NumberFormat(
+                "en-US",
+                {}
+              ).format(Number(formattedPrice))}`}
+              onClick={handleAddToCart}
+              additionalClasses=" border-0 whitespace-nowrap "
+            />
+          )}{" "}
         </div>
         <Link href={`/products/${productID}`}>
           {" "}
