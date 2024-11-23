@@ -51,7 +51,7 @@ const SearchBar: React.FC<SearchInputProps> = ({ orders, onSearchResults }) => {
   };
 
   return (
-    <div className="flex border w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl items-center gap-3 rounded-full px-4 py-3 bg-white text-sm sm:text-base">
+    <div className="flex border w-full max-w-full  items-center gap-3 rounded-full px-4 py-3 bg-white text-sm sm:text-base">
       <img src="/icons/search.svg" alt="search-icon" className="w-5 h-5" />
       <input
         type="text"

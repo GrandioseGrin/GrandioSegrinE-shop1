@@ -303,7 +303,7 @@ const FormComponent = () => {
                     <input
                       type="checkbox"
                       name="services_needed"
-                      value="weddings"
+                      value="Creams"
                       onChange={formik.handleChange}
                       className="form-checkbox min-h-5 min-w-5 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
                     />
@@ -318,7 +318,7 @@ const FormComponent = () => {
                     <input
                       type="checkbox"
                       name="services_needed"
-                      value="portraits"
+                      value="Lipsticks"
                       onChange={formik.handleChange}
                       className="form-checkbox min-h-5 min-w-5 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
                     />
@@ -333,7 +333,7 @@ const FormComponent = () => {
                     <input
                       type="checkbox"
                       name="services_needed"
-                      value="events"
+                      value="Foundations"
                       onChange={formik.handleChange}
                       className="form-checkbox min-h-5 min-w-5 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
                     />
@@ -363,7 +363,7 @@ const FormComponent = () => {
                     <input
                       type="checkbox"
                       name="services_needed"
-                      value="commercial"
+                      value="Lotion"
                       onChange={formik.handleChange}
                       className="form-checkbox min-h-5 min-w-5 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
                     />
@@ -436,7 +436,9 @@ const FormComponent = () => {
                 className="w-full border rounded-[10px] p-2 h-[169px] outline-none "
               />
               {formik.touched.productDetail && formik.errors.productDetail ? (
-                <div className="text-red-500 ">{formik.errors.productDetail}</div>
+                <div className="text-red-500 ">
+                  {formik.errors.productDetail}
+                </div>
               ) : null}
             </div>{" "}
             <div>

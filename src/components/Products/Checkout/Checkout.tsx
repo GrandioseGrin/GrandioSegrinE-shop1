@@ -43,6 +43,7 @@ type CheckoutProps = {
   products: any;
   total: number;
   logoUrl: string;
+  totalProductWeight: any;
   onShippingFeeChange: (fee: number) => void; // Callback for shipping fee
   onTotalBillChange: (totalBill: number) => void;
 };
@@ -63,6 +64,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   products,
   total,
   logoUrl,
+  totalProductWeight,
   onShippingFeeChange,
   onTotalBillChange,
 }) => {
@@ -104,6 +106,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
   const [paymentDenied, setPaymentDenied] = useState(false);
   const [canceledPay, setCanceledPay] = useState(false);
+  const [paymentResponse, setPaymentResponse] = useState(null); // State to store payment response
 
   const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
@@ -136,7 +139,8 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const handleCountryChange = (
     value: string,
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: (field: string, value: any) => void,
+    totalProductWeight: number = 0 // Default to 0 if not provided
   ) => {
     setSelectedCountryCode(value);
 
@@ -144,10 +148,10 @@ const Checkout: React.FC<CheckoutProps> = ({
     if (country) {
       setStates(country.states || []);
       setFieldValue("state", "");
-      calculateTotalShippingFee(country.shippingFee, null);
+      calculateTotalShippingFee(country.shippingFee, null, totalProductWeight); // Pass totalProductWeight
     } else {
       setStates([]);
-      calculateTotalShippingFee(0, null);
+      calculateTotalShippingFee(0, null, totalProductWeight); // Pass totalProductWeight
     }
 
     setFieldValue("country", value);
@@ -155,15 +159,20 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const handleStateChange = (
     value: string,
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: (field: string, value: any) => void,
+    totalProductWeight: number = 0 // Default to 0 if not provided
   ) => {
     const state = states.find((s) => s.name === value);
     const country = countries.find((c) => c.code === selectedCountryCode);
 
     if (state && country) {
-      calculateTotalShippingFee(country.shippingFee, state.shippingFee);
+      calculateTotalShippingFee(
+        country.shippingFee,
+        state.shippingFee,
+        totalProductWeight
+      ); // Pass totalProductWeight
     } else if (country) {
-      calculateTotalShippingFee(country.shippingFee, null);
+      calculateTotalShippingFee(country.shippingFee, null, totalProductWeight); // Pass totalProductWeight
     }
 
     setFieldValue("state", value);
@@ -171,9 +180,10 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const calculateTotalShippingFee = (
     countryFee: number,
-    stateFee: number | null
+    stateFee: number | null,
+    totalProductWeight: number
   ) => {
-    setTotalShippingFee(countryFee + (stateFee || 0));
+    setTotalShippingFee(countryFee + (stateFee || 0) + totalProductWeight);
   };
 
   const handleNext = (values: typeof shippingInfo) => {
@@ -321,8 +331,7 @@ const Checkout: React.FC<CheckoutProps> = ({
 
   const currencyWave = selectedCurrency === "USD" ? "USD" : "NGN";
 
-const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
-
+  const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
 
   const config = {
     public_key: publicKey,
@@ -354,14 +363,14 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
       )}
 
       <div className="flex justify-around- items-center gap-2 border-b- pb-3">
-        <button
-          onClick={() => setActiveTab(0)}
+        <div
+          // onClick={() => setActiveTab(0)}
           className={`text-sm  ${
             activeTab === 0 ? "text-primary font-semibold" : "text-gray-400"
           }`}
         >
           Information
-        </button>
+        </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -377,14 +386,14 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
           />
         </svg>
 
-        <button
+        <div
           // onClick={() => setActiveTab(1)}
           className={`text-sm ${
             activeTab === 1 ? "text-primary font-semibold" : "text-gray-400"
           }`}
         >
           Payment
-        </button>
+        </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -399,14 +408,14 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
             d="m8.25 4.5 7.5 7.5-7.5 7.5"
           />
         </svg>
-        <button
+        <div
           // onClick={() => setActiveTab(2)}
           className={`text-sm  ${
             activeTab === 2 ? "text-primary font-semibold" : "text-gray-400"
           }`}
         >
           Receipt
-        </button>
+        </div>
       </div>
 
       {/* Information Tab */}
@@ -463,7 +472,11 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
                   as="select"
                   className="mt-1 block w-full p-2 border rounded-md"
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                    handleCountryChange(e.target.value, setFieldValue)
+                    handleCountryChange(
+                      e.target.value,
+                      setFieldValue,
+                      totalProductWeight
+                    )
                   }
                 >
                   <option value="">Select Country</option>
@@ -548,7 +561,11 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
                     as="select"
                     className="mt-1 block w-full p-2 border rounded-md"
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                      handleStateChange(e.target.value, setFieldValue)
+                      handleStateChange(
+                        e.target.value,
+                        setFieldValue,
+                        totalProductWeight
+                      )
                     }
                   >
                     <option value="">Select State</option>
@@ -678,7 +695,9 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
               onClick={() => {
                 handleFlutterPayment({
                   callback: (response) => {
-                    console.log(response);
+                    // console.log(response);
+                    // @ts-ignore
+                    setPaymentResponse(response);
                     if (response.status === "successful") {
                       submitOrderToFirestore(shippingInfo);
                       setActiveTab(2);
@@ -723,12 +742,22 @@ const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
                     {firstName} {lastName}
                   </div>
                 </div>
-                <div className=" pb-8 flex items-center w-full gap-2">
-                  <div className="  ">email:</div>
+                <div className=" flex items-center w-full gap-2">
+                  <div className="  ">Email:</div>
                   <div className=" px-2 py-1 border-b rounded-lg- w-full outline-none">
                     {email}
                   </div>
                 </div>
+                {/* @ts-ignore */}
+                {paymentResponse?.status === "successful" && (
+                  <div className=" pb-8 text-gray-500 text-[12px]  items-center w-full gap-2">
+                    <div className="  ">Transaction Reference:</div>
+                    <div className="  py-1 border-b rounded-lg- w-full outline-none">
+                      {/* @ts-ignore */}
+                      {paymentResponse.flw_ref}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

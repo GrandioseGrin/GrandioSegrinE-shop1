@@ -32,6 +32,7 @@ type Product = {
   quantity: number;
   currentPrice: any;
   productImageURL1: any;
+  productWeight: any;
 };
 
 const CheckOutOverview = () => {
@@ -44,8 +45,8 @@ const CheckOutOverview = () => {
   const [shippingFee, setShippingFee] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
   const { selectedCurrency, exchangeRate } = useExchangeRateStore();
-  
-    const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
+
+  const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
 
   const handleShippingFeeChange = (fee: number) => {
     setShippingFee(fee);
@@ -91,7 +92,7 @@ const CheckOutOverview = () => {
 
           setRelatedProducts(related);
           setProducts(updatedProducts);
-          setLoading(false)
+          setLoading(false);
         } catch (error) {
           console.error("Failed to fetch products:", error);
         }
@@ -108,6 +109,12 @@ const CheckOutOverview = () => {
 
   const subtotal = products.reduce(
     (total, product) => total + product.currentPrice * product.quantity,
+    0
+  );
+
+  // Calculate total product weight
+  const totalProductWeight = products.reduce(
+    (total, product) => total + (product.productWeight || 0) * product.quantity,
     0
   );
 
@@ -162,7 +169,6 @@ const CheckOutOverview = () => {
         <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
       </div>
     );
-
 
   return (
     <div>
@@ -262,6 +268,7 @@ const CheckOutOverview = () => {
               <Checkout
                 products={products}
                 total={subtotal}
+                totalProductWeight={totalProductWeight}
                 logoUrl="/images/logo.png"
                 onShippingFeeChange={handleShippingFeeChange}
                 onTotalBillChange={handleTotalBillChange}

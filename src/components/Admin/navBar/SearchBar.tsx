@@ -3,7 +3,7 @@ import React, { useState } from "react";
 interface Submission {
   id: string;
   name: string;
-  eventdetail: string;
+  productDetail: string;
 }
 
 interface SearchInputProps {
@@ -26,7 +26,7 @@ const SearchBar: React.FC<SearchInputProps> = ({
     const filteredResults = submissions.filter(
       (submission) =>
         submission.name.toLowerCase().includes(value.toLowerCase()) ||
-        submission.eventdetail.toLowerCase().includes(value.toLowerCase())
+        submission.productDetail.toLowerCase().includes(value.toLowerCase())
     );
 
     // Call the parent component's function to update search results

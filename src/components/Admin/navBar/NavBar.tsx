@@ -25,13 +25,13 @@ function NavBar() {
   };
 
   return (
-    <div className="bg-white fixed w-full z-50">
+    <div className="bg-white fixed w-full border-b z-50">
       <div className="container1 py-[12px] w-full text-p_black">
         <div className="flex justify-between items-center">
           <img src="/images/logo.png" alt="" className="h-[40px]" />
           <div className="xl:flex gap-[24px] hidden"></div>
           <div className="xl:flex gap-[24px] hidden items-center">
-           <ExchangeRateComponent />
+            <ExchangeRateComponent />
 
             <Profile />
           </div>
@@ -47,21 +47,30 @@ function NavBar() {
           </div>
         </div>
 
-        <div className="pt-4 xl:hidden ">{/* <SearchBar /> */}</div>
+        {/* <div className="pt-4 xl:hidden "><SearchBar /></div> */}
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-0 right-0 h-full w-[50%] max-w-[300px] bg-white py-[24px] pt-[50px] border flex flex-col justify-center- items-center- space-y-[24px] transition-transform duration-300 ease-in-out ${
+          className={`fixed top-0 right-0 h-full w-[100%] max-w-[300px]- bg-white py-[24px] pt-[50px] border flex flex-col justify-center- items-center- space-y-[24px] transition-transform duration-300 ease-in-out ${
             menuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           <div className="container1 flex flex-col w-full items-center-">
-            <div className="py-1">
+            <div className="py-1 space-y-6">
+              <div className="w-full text-left border rounded-[8px] px-2 py-2 flex gap-2 text-gray-700 hover:bg-bg_gray">
+                <Profile />
+              </div>
+
+              <div className="w-full text-left border rounded-[8px] px-2 py-2 flex gap-2 text-gray-700 hover:bg-bg_gray">
+                <ExchangeRateComponent />
+              </div>
+
               <button
                 onClick={handleSignOut}
                 className="w-full text-left border rounded-[8px] px-2 py-2 flex gap-2 text-gray-700 hover:bg-bg_gray"
               >
                 <img src="/icons/logout.svg" alt="" />
+
                 <ParagraphLink1 className=" font-semibold">
                   Logout
                 </ParagraphLink1>

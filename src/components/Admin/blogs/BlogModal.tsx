@@ -29,11 +29,12 @@ const BlogModal: React.FC<ModalProps> = ({ blog, onClose }) => {
   const [isloading, setIsLoading] = useState(false);
 
   const initialValues: BlogValues = {
-    title: blog.title || "",
-    blogImageURL1: blog.blogImageURL1 || "",
-    blogImagePublicId1: blog.blogImagePublicId1 || "", // Default to empty string
-    description: blog.description || "",
+    title: blog?.title || "", 
+    blogImageURL1: blog?.blogImageURL1 || "",
+    blogImagePublicId1: blog?.blogImagePublicId1 || "",
+    description: blog?.description || "",
   };
+
 
   const [formData, setFormData] = useState(initialValues);
 
@@ -230,7 +231,7 @@ const BlogModal: React.FC<ModalProps> = ({ blog, onClose }) => {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                    className="px-4 py-2 text-white bg-primary -600 rounded-md hover:bg-black -700"
                   >
                     Save
                   </button>

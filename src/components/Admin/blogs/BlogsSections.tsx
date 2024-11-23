@@ -52,6 +52,7 @@ function BlogsSections() {
 
   const handleModalClose = () => {
     setSelectedBlog(null);
+    setIsAddBlogOpen(false);
   };
 
   if (loading)
@@ -65,6 +66,10 @@ function BlogsSections() {
     <div>
       <div className="container1  pt-[100px] xl:pt-[104px] pb-[24px] ">
         <div className=" pb-[24px]">
+          {isAddBlogOpen && (
+            <BlogModal blog={null} onClose={handleModalClose} />
+          )}
+
           <div>
             <Header4>All Blogs</Header4>
           </div>
@@ -88,7 +93,7 @@ function BlogsSections() {
             <div className="absolute py-2 right-0 -top-[80px] z-20 mt-2 w-[250px] whitespace-nowrap px-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
               <div
                 onClick={() => setIsAddBlogOpen(!isAddBlogOpen)}
-                className="py-1"
+                className="py-1 cursor-pointer"
               >
                 <ParagraphLink1>Create New Blog </ParagraphLink1>
               </div>

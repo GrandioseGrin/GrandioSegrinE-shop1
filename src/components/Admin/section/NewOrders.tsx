@@ -61,6 +61,7 @@ function NewOrders() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const [totalOrders, setTotalOrders] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -121,7 +122,7 @@ function NewOrders() {
     };
 
     fetchOrders();
-  }, []);
+  }, [refresh]);
 
   const showUnreadOrders = () => {
     const unread = orders.filter((order) => !order.viewed);
@@ -167,6 +168,16 @@ function NewOrders() {
       duration: 1000,
     });
   });
+
+  const markAsShipped = async (orderId: any) => {
+    try {
+      const orderRef = doc(db, "Orders", orderId); // Reference to the specific document
+      await updateDoc(orderRef, { shipped: true }); // Update the shipped field to true
+      setRefresh((prev) => !prev);
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
+  };
 
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -410,7 +421,7 @@ function NewOrders() {
                           City
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">$ {selectedOrder.city}</p>
+                          <p className=" ">{selectedOrder.city}</p>
                         </div>
                       </div>
                       <div>
@@ -418,7 +429,7 @@ function NewOrders() {
                           Zip Code
                         </ParagraphLink1>
                         <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">$ {selectedOrder.zipCode}</p>
+                          <p className=" ">{selectedOrder.zipCode}</p>
                         </div>
                       </div>
                     </div>
@@ -432,8 +443,11 @@ function NewOrders() {
                       </div>
                     </div>
                   </div>
-                  <div className=" flex justify-center">
-                    <button className=" px-4 py-1 font-bold rounded-lg text-white bg-primary text-[14px] hover:bg-black">
+                  <div className="flex justify-center">
+                    <button
+                      className="px-4 py-1 font-bold rounded-lg text-white bg-primary text-[14px] hover:bg-black"
+                      onClick={() => markAsShipped(selectedOrder.id)} // Pass the order ID
+                    >
                       Done
                     </button>
                   </div>
@@ -517,31 +531,35 @@ function NewOrders() {
                           />
                         </svg>
                       </div>
-                      <Paragraph1 className="text-lg font-semibold w-[20%] whitespace-nowrap truncate overflow-hidden">
+                      <Paragraph1 className="sm:text-lg font-semibold w-full sm:w-[20%] whitespace-nowrap truncate overflow-hidden">
                         {order.name}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
+                      <Paragraph1 className="w-[10%] sm:block hidden whitespace-nowrap truncate overflow-hidden ">
                         Qt: {order.quantity}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
+                      <Paragraph1 className="w-[10%] sm:block hidden whitespace-nowrap truncate overflow-hidden ">
                         {order.state}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
+                      <Paragraph1 className="w-[10%] sm:block hidden whitespace-nowrap truncate overflow-hidden ">
                         {countries.find(
                           (country) => country.code === order.country
                         )?.name || order.country}{" "}
                       </Paragraph1>
-                      <Paragraph1 className="w-[10%] whitespace-nowrap truncate overflow-hidden ">
+                      <Paragraph1 className="w-[10%] sm:block hidden whitespace-nowrap truncate overflow-hidden ">
                         {new Date(order.timestamp).toLocaleDateString("en-US")}
                       </Paragraph1>
-                      <Paragraph1 className="w-[18%] whitespace-nowrap font-bold truncate overflow-hidden ">
+                      <Paragraph1 className="w-[18%] sm:block hidden whitespace-nowrap font-bold truncate overflow-hidden ">
                         ₦
                         {new Intl.NumberFormat("en-US", {}).format(
                           Number(order.totalPaid)
                         )}
                       </Paragraph1>
-                      <Paragraph1 className="w-[2%] text-[#e6c533] text-primary- whitespace-nowrap truncate overflow-hidden ">
-                        {order.shipped ? "o" : "o"}
+                      <Paragraph1
+                        className={`sm:w-[2%] w-[12%] text-primary- whitespace-nowrap truncate overflow-hidden ${
+                          order.shipped ? "text-primary" : "text-[#e6c533]"
+                        }`}
+                      >
+                        {order.shipped ? "✔" : "o"}
                       </Paragraph1>
                     </div>
                   ))}

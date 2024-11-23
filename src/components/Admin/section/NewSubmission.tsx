@@ -26,13 +26,11 @@ type Submission = {
   secondName: string;
   email: string;
   phoneNumber: string;
-  eventDate: string;
   location: string;
-  eventdetail: string;
+  productDetail: string;
   aboutushow: string;
   contact_methods: string[];
   services_needed: string[];
-  budget: string;
   viewed: boolean;
   timestamp: string;
 };
@@ -64,13 +62,11 @@ function NewSubmission() {
           secondName: string;
           email: string;
           phoneNumber: string;
-          eventDate: string;
           location: string;
-          eventdetail: string;
+          productDetail: string;
           aboutushow: string;
           contact_methods: string[];
           services_needed: string[];
-          budget: string;
           viewed: boolean;
           timestamp: string;
         };
@@ -83,13 +79,11 @@ function NewSubmission() {
           secondName: doc.data().lastName,
           email: doc.data().email,
           phoneNumber: doc.data().phoneNumber,
-          eventDate: doc.data().eventDate,
           location: doc.data().location,
-          eventdetail: doc.data().eventdetail,
+          productDetail: doc.data().productDetail,
           aboutushow: doc.data().aboutushow,
           contact_methods: doc.data().contact_methods,
           services_needed: doc.data().services_needed,
-          budget: doc.data().budget,
           viewed: doc.data().viewed || false, // Retrieve 'viewed' field, defaulting to false
           timestamp: doc.data().timestamp
             ? doc.data().timestamp.toDate()
@@ -239,11 +233,11 @@ function NewSubmission() {
           </div>
 
           <div className=" grid grid-cols-1 sm:grid-cols-5 gap-4">
-            <div className=" col-span-3">
+            <div className=" sm:col-span-3">
               {" "}
               <NewOrders />
             </div>
-            <div className=" col-span-2">
+            <div className=" sm:col-span-2">
               <div className="mx-4- xl:mx-0 ">
                 <div className="  bg-white py-[35px] p  rounded-lg shadow-md">
                   <div className="px-2  xl:px-4">
@@ -299,7 +293,7 @@ function NewSubmission() {
                               )}{" "}
                               {/* Use the custom formatting function */}
                             </Paragraph2>
-                            <div className=" grid grid-cols-1 xl:grid-cols-2 items-center gap-4 sm:gap-[40px] ">
+                            <div className=" grid grid-cols-1 xl:grid-cols-1 items-center gap-4 sm:gap-[40px] ">
                               <div>
                                 <ParagraphLink1 className="  text-cente font-bold ">
                                   First Name
@@ -399,7 +393,7 @@ function NewSubmission() {
                               </div>
                               <div>
                                 <ParagraphLink1 className=" font-bold">
-                                  Type of Service Needed
+                                  Product Category
                                 </ParagraphLink1>
                                 <div className="flex w-full flex-col">
                                   <div className="mt-[12px] flex flex-col gap-[16px]">
@@ -412,17 +406,20 @@ function NewSubmission() {
                                           let displayText = "";
 
                                           switch (service_needed) {
-                                            case "weddings":
-                                              displayText = "Weddings";
+                                            case "Creams":
+                                              displayText = "Creams";
                                               break;
-                                            case "portraits":
-                                              displayText = "Portraits";
+                                            case "Lipsticks":
+                                              displayText = "Lipsticks";
                                               break;
-                                            case "events":
-                                              displayText = "Events";
+                                            case "Foundations":
+                                              displayText = "Foundations";
                                               break;
-                                            case "commercial":
-                                              displayText = "Commercial";
+                                            case "Serums":
+                                              displayText = "Serums";
+                                              break;
+                                            case "Lotion":
+                                              displayText = "Lotion";
                                               break;
                                             case "others":
                                               displayText = "Others";
@@ -463,17 +460,7 @@ function NewSubmission() {
 
                               <div>
                                 <ParagraphLink1 className="  text-cente font-bold ">
-                                  Date of Event/Session
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
-                                  <p className=" ">
-                                    {selectedSubmission.eventDate}
-                                  </p>
-                                </div>
-                              </div>
-                              <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
-                                  Location of Event/Session{" "}
+                                  Location{" "}
                                 </ParagraphLink1>
                                 <div className=" p-6 bg-white rounded-[12px]">
                                   <p className=" ">
@@ -486,25 +473,15 @@ function NewSubmission() {
                           <div className=" px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
                             <div>
                               <ParagraphLink1 className="  text-cente font-bold ">
-                                Event Details/Message
+                                Details/Message
                               </ParagraphLink1>
                               <div className=" p-6 bg-white rounded-[12px]">
                                 <p className=" ">
-                                  {selectedSubmission.eventdetail}
+                                  {selectedSubmission.productDetail}
                                 </p>
                               </div>
                             </div>
 
-                            <div>
-                              <ParagraphLink1 className="  text-cente font-bold ">
-                                Budget
-                              </ParagraphLink1>
-                              <div className=" p-6 bg-white rounded-[12px]">
-                                <p className=" ">
-                                  $ {selectedSubmission.budget}
-                                </p>
-                              </div>
-                            </div>
                             <div>
                               <ParagraphLink1 className="  text-cente font-bold ">
                                 How Did You Hear About Us?
@@ -608,7 +585,7 @@ function NewSubmission() {
                                 </Paragraph1>
 
                                 <Paragraph2 className=" text-sm xl:-mt-2 truncate overflow-hidden whitespace-nowrap lg: max-w-[90%] -max-w-[300px]">
-                                  {submission.eventdetail}
+                                  {submission.productDetail}
                                 </Paragraph2>
                               </div>
                             </div>
