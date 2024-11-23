@@ -198,10 +198,10 @@ const CheckOutOverview = () => {
                 {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                   Number(
                     selectedCurrency === "USD" && exchangeRate > 0
-                      ? (subtotal / exchangeRate).toFixed(2)
-                      : subtotal
+                      ? (totalBill / exchangeRate).toFixed(2)
+                      : totalBill
                   )
-                )}`}{" "}
+                )}`}
               </ParagraphLink1>
             </div>
 
@@ -230,7 +230,13 @@ const CheckOutOverview = () => {
                 <div className="flex justify-between">
                   <Paragraph1>Shipping fee:</Paragraph1>
                   <Paragraph1 className="text-gray-500">
-                    Calculated at checkout
+                    {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
+                      Number(
+                        selectedCurrency === "USD" && exchangeRate > 0
+                          ? (shippingFee / exchangeRate).toFixed(2)
+                          : shippingFee
+                      )
+                    )}`}
                   </Paragraph1>
                 </div>
                 <div className="flex justify-between font-semibold">
@@ -240,8 +246,8 @@ const CheckOutOverview = () => {
                     {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                       Number(
                         selectedCurrency === "USD" && exchangeRate > 0
-                          ? (subtotal / exchangeRate).toFixed(2)
-                          : subtotal
+                          ? (totalBill / exchangeRate).toFixed(2)
+                          : totalBill
                       )
                     )}`}
                   </ParagraphLink1>

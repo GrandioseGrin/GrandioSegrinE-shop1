@@ -86,7 +86,7 @@ function HeroSection() {
           </div> */}
         </div>
       </div>
-      <div className=" mt-[50px] ">
+      <div className=" my-[50px] ">
         <ElevatingBrands />
       </div>
     </div>

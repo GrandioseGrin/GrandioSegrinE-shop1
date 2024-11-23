@@ -15,6 +15,8 @@ import useCartStore from "@/stores/cartStore";
 import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info store
 import html2canvas from "html2canvas";
 import { useExchangeRateStore } from "@/stores/exchangeRateStore";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import { HeaderAny } from "@/components/Text";
 
 type Product = {
   id: number;
@@ -100,6 +102,8 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [selectedState, setSelectedState] = useState<State | null>(null);
   const [states, setStates] = useState<State[]>([]);
   const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
+  const [paymentDenied, setPaymentDenied] = useState(false);
+  const [canceledPay, setCanceledPay] = useState(false);
 
   const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
@@ -301,7 +305,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     }
 
     // Clear the cart
-    clearCart();
+    // clearCart();
   };
 
   useEffect(() => {
@@ -310,6 +314,37 @@ const Checkout: React.FC<CheckoutProps> = ({
     onTotalBillChange(totalBill); // Notify the parent about the total bill
   }, [totalShippingFee, total, onShippingFeeChange, onTotalBillChange]);
 
+  const totalBillWave =
+    selectedCurrency === "USD" && exchangeRate > 0
+      ? (totalBill / exchangeRate).toFixed(2)
+      : totalBill;
+
+  const currencyWave = selectedCurrency === "USD" ? "USD" : "NGN";
+
+const publicKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY;
+
+
+  const config = {
+    public_key: publicKey,
+    tx_ref: Date.now(),
+    amount: totalBillWave,
+    currency: currencyWave,
+    payment_options: "card,mobilemoney,ussd,transfer",
+    customer: {
+      email,
+      phone_number: phoneNumber,
+      name: `${firstName} ${lastName}`,
+    },
+    customizations: {
+      title: "GrandioseGrin Pay",
+      description: "Payment for items in cart",
+      logo: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1732334982/favicon_hpd5wv.png",
+    },
+  };
+
+  // @ts-ignore
+  const handleFlutterPayment = useFlutterwave(config);
+
   return (
     <div className="  space-y-6 bg-white sm:p-4 p-0 relative rounded-lg">
       {isloading && (
@@ -317,6 +352,7 @@ const Checkout: React.FC<CheckoutProps> = ({
           <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
         </div>
       )}
+
       <div className="flex justify-around- items-center gap-2 border-b- pb-3">
         <button
           onClick={() => setActiveTab(0)}
@@ -342,7 +378,7 @@ const Checkout: React.FC<CheckoutProps> = ({
         </svg>
 
         <button
-          onClick={() => setActiveTab(1)}
+          // onClick={() => setActiveTab(1)}
           className={`text-sm ${
             activeTab === 1 ? "text-primary font-semibold" : "text-gray-400"
           }`}
@@ -364,7 +400,7 @@ const Checkout: React.FC<CheckoutProps> = ({
           />
         </svg>
         <button
-          onClick={() => setActiveTab(2)}
+          // onClick={() => setActiveTab(2)}
           className={`text-sm  ${
             activeTab === 2 ? "text-primary font-semibold" : "text-gray-400"
           }`}
@@ -571,21 +607,39 @@ const Checkout: React.FC<CheckoutProps> = ({
 
       {/* Payment Tab */}
       {activeTab === 1 && (
-        <div className="space-y-4 ">
-          <div className="border-b pb-3">
-            <h3 className="font-semibold text-gray-700">
+        <div className="space-y-4 m ">
+          <div className="border-b pb-3 space-y-2 min-h-screen">
+            <HeaderAny className="font-semibold text-16px text-gray-700">
               Confirm Contact & Address
-            </h3>
-            <p className="text-gray-600">{shippingInfo.email}</p>
+            </HeaderAny>
             <p className="text-gray-600">
+              {shippingInfo.firstName} <span> {shippingInfo.lastName}</span>
+            </p>
+            <p className="text-gray-600">{shippingInfo.phoneNumber}</p>
+            <p className="text-gray-600">{shippingInfo.email}</p>
+
+            <p className="text-gray-600 pb-6">
               {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
               {shippingInfo.zipCode}
             </p>
+
+            {paymentDenied && (
+              <div className=" flex items-center h-[200px] w-full  justify-center rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+                Your payment was declined. Please try again later.{" "}
+              </div>
+            )}
+
+            {canceledPay && (
+              <div className=" flex items-center justify-center h-[200px] w-full rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+                Your payment was canceled by you. You may try again later.{" "}
+              </div>
+            )}
           </div>
-          <div className="min-h-[500px]">
-            <h3 className="font-semibold text-gray-700">
+
+          <div className="min-h-[500px] hidden">
+            <HeaderAny className="font-semibold text-16px text-gray-700">
               Select Shipping Method
-            </h3>
+            </HeaderAny>
             <div className="flex space-x-4 mt-2">
               <label className="flex items-center space-x-2">
                 <input
@@ -620,12 +674,25 @@ const Checkout: React.FC<CheckoutProps> = ({
             </button>
             <button
               onClick={() => {
-                submitOrderToFirestore(shippingInfo); // Pass the required values
-                setActiveTab(2);
+                handleFlutterPayment({
+                  callback: (response) => {
+                    console.log(response);
+                    if (response.status === "successful") {
+                      submitOrderToFirestore(shippingInfo);
+                      setActiveTab(2);
+                    } else {
+                      setPaymentDenied(true);
+                    }
+                    closePaymentModal();
+                  },
+                  onClose: () => {
+                    setCanceledPay(true);
+                  },
+                });
               }}
-              className="w-full bg-primary text-white py-2 rounded-md hover:bg-black ml-4"
+              className="w-full bg-primary text-white p-2 rounded-md hover:bg-black ml-4"
             >
-              Next
+              Proceed to Payment{" "}
             </button>
           </div>
         </div>
@@ -636,13 +703,19 @@ const Checkout: React.FC<CheckoutProps> = ({
         <div>
           <div
             id="receipt"
-            className="space-y-6  max-w-[793px]  min-h-screen relative"
+            className="space-y-6 p-4  max-w-[793px]  min-h-screen relative"
           >
             <img src={logoUrl} alt="Company Logo" className="mx-auto w- h-16" />
+
+            <p className=" text-center text-gray-500 text-[12px]">
+              Payment Successful
+            </p>
             <div>
-              <h2 className="font-semibold text-gray-700 mb-2">Custmer Details</h2>
-              <div>
-                <div className=" flex items-center w-full gap-2">
+              <h2 className="font-semibold text-gray-700 mb-2">
+                Custmer Details
+              </h2>
+              <div className="">
+                <div className=" flex items-center w-full gap-2 mb-2">
                   <div className="  ">Name:</div>
                   <div className=" px-2 py-1 border-b rounded-lg- w-full">
                     {firstName} {lastName}
@@ -662,7 +735,7 @@ const Checkout: React.FC<CheckoutProps> = ({
               {products.map((product: any) => (
                 <div
                   key={product.id}
-                  className="grid grid-cols-5 items-center border-b "
+                  className="grid grid-cols-3 sm:grid-cols-5 items-center border-b "
                 >
                   <div className=" col-span-2 flex items-center gap-2">
                     <img
@@ -670,9 +743,27 @@ const Checkout: React.FC<CheckoutProps> = ({
                       alt={product.name}
                       className="w-16 h-16 rounded object-cover"
                     />
-                    <p className="text-gray-700">{product.name}</p>
+                    <div>
+                      <p className="text-gray-700">{product.name}</p>
+
+                      <p className="text-gray-700 sm:hidden ">
+                        {" "}
+                        {`${currencySymbol} ${new Intl.NumberFormat(
+                          "en-US"
+                        ).format(
+                          Number(
+                            selectedCurrency === "USD" && exchangeRate > 0
+                              ? (product.currentPrice / exchangeRate).toFixed(2)
+                              : product.currentPrice
+                          )
+                        )}`}
+                      </p>
+                      <p className="text-gray-700 sm:hidden block">
+                        Qt: {product.quantity}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 sm:block hidden">
                     {" "}
                     {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                       Number(
@@ -683,7 +774,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                     )}`}
                   </p>
 
-                  <p className="text-gray-700">Qt: {product.quantity}</p>
+                  <p className="text-gray-700 hidden sm:block">
+                    Qt: {product.quantity}
+                  </p>
                   <p className="text-gray-700 font-semibold text-end">
                     {`${currencySymbol} ${new Intl.NumberFormat("en-US").format(
                       Number(
