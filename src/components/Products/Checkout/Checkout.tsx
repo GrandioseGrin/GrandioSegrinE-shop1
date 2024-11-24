@@ -338,7 +338,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     tx_ref: Date.now(),
     amount: totalBillWave,
     currency: currencyWave,
-    payment_options: "card,mobilemoney,ussd,transfer",
+    payment_options: "card,mobilemoney,ussd",
     customer: {
       email,
       phone_number: phoneNumber,
@@ -625,7 +625,7 @@ const Checkout: React.FC<CheckoutProps> = ({
       {/* Payment Tab */}
       {activeTab === 1 && (
         <div className="space-y-4 m ">
-          <div className="border-b pb-3 space-y-2 min-h-screen">
+          <div className="border-b pb-3 space-y-2 min-h-[500px]">
             <HeaderAny className="font-semibold text-16px text-gray-700">
               Confirm Contact & Address
             </HeaderAny>
@@ -635,7 +635,9 @@ const Checkout: React.FC<CheckoutProps> = ({
             <p className="text-gray-600 outline-none">
               {shippingInfo.phoneNumber}
             </p>
-            <p className="text-gray-600 outline-none text-decoration-none">{shippingInfo.email}</p>
+            <p className="text-gray-600 div-email outline-none text-decoration-none">
+              {shippingInfo.email}
+            </p>
 
             <p className="text-gray-600 pb-6">
               {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
@@ -696,9 +698,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                 handleFlutterPayment({
                   callback: (response) => {
                     // console.log(response);
-                    // @ts-ignore
-                    setPaymentResponse(response);
                     if (response.status === "successful") {
+                      // @ts-ignore
+                      setPaymentResponse(response);
                       submitOrderToFirestore(shippingInfo);
                       setActiveTab(2);
                     } else {
@@ -742,17 +744,19 @@ const Checkout: React.FC<CheckoutProps> = ({
                     {firstName} {lastName}
                   </div>
                 </div>
-                <div className=" flex items-center w-full gap-2">
+                <div className=" pb-4 flex items-center w-full gap-2">
                   <div className="  ">Email:</div>
-                  <div className=" px-2 py-1 border-b text-decoration-none rounded-lg- w-full outline-none">
+                  <div className=" div-email px-2 py-1 border-b text-decoration-none rounded-lg- w-full outline-none">
                     {email}
                   </div>
                 </div>
                 {/* @ts-ignore */}
                 {paymentResponse?.status === "successful" && (
-                  <div className=" pb-8 text-gray-500 text-[12px]  items-center w-full gap-2">
-                    <div className="  ">Transaction Reference:</div>
-                    <div className="  py-1 border-b rounded-lg- w-full outline-none">
+                  <div className=" pb-4 text-gray-500 text-[12px] sm:flex  items-center w-full gap-2">
+                    <div className=" whitespace-nowrap  ">
+                      Transaction Reference:
+                    </div>
+                    <div className="  py-1  rounded-lg- w-full outline-none">
                       {/* @ts-ignore */}
                       {paymentResponse.flw_ref}
                     </div>
