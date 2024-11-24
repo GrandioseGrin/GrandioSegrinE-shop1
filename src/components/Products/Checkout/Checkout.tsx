@@ -106,7 +106,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
   const [paymentDenied, setPaymentDenied] = useState(false);
   const [canceledPay, setCanceledPay] = useState(false);
-  const [paymentResponse, setPaymentResponse] = useState(null); // State to store payment response
+  const [paymentResponse, setPaymentResponse] = useState<string>(""); // State to store payment response
 
   const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
@@ -409,7 +409,7 @@ const Checkout: React.FC<CheckoutProps> = ({
           />
         </svg>
         <div
-          // onClick={() => setActiveTab(2)}
+          onClick={() => setActiveTab(2)}
           className={`text-sm  ${
             activeTab === 2 ? "text-primary font-semibold" : "text-gray-400"
           }`}
@@ -697,10 +697,10 @@ const Checkout: React.FC<CheckoutProps> = ({
               onClick={() => {
                 handleFlutterPayment({
                   callback: (response) => {
-                    // console.log(response);
+                    console.log(response);
                     if (response.status === "successful") {
-                      // @ts-ignore
-                      setPaymentResponse(response);
+                      const PaymentFlw_ref = response.flw_ref;
+                      setPaymentResponse(PaymentFlw_ref);
                       submitOrderToFirestore(shippingInfo);
                       setActiveTab(2);
                     } else {
@@ -737,36 +737,34 @@ const Checkout: React.FC<CheckoutProps> = ({
               <h2 className="font-semibold text-gray-700 mb-2">
                 Custmer Details
               </h2>
-              <div className="">
+              <div className=" border rounded-lg p-4">
                 <div className=" flex items-center w-full gap-2 mb-2">
-                  <div className="  ">Name:</div>
-                  <div className=" px-2 py-1 border-b rounded-lg- w-full">
+                  <div className=" text-gray-500  ">Name:</div>
+                  <div className=" px-2 py-1  rounded-lg- w-full">
                     {firstName} {lastName}
                   </div>
                 </div>
                 <div className=" pb-4 flex items-center w-full gap-2">
-                  <div className="  ">Email:</div>
-                  <div className=" div-email px-2 py-1 border-b text-decoration-none rounded-lg- w-full outline-none">
+                  <div className="  text-gray-500">Email:</div>
+                  <div className=" div-email px-2 py-1  text-decoration-none rounded-lg- w-full outline-none">
                     {email}
                   </div>
                 </div>
-                {/* @ts-ignore */}
-                {paymentResponse?.status === "successful" && (
-                  <div className=" pb-4 text-gray-500 text-[12px] sm:flex  items-center w-full gap-2">
-                    <div className=" whitespace-nowrap  ">
-                      Transaction Reference:
-                    </div>
-                    <div className="  py-1  rounded-lg- w-full outline-none">
-                      {/* @ts-ignore */}
-                      {paymentResponse.flw_ref}
-                    </div>
+
+                <div className=" text-gray-500 text-[12px] sm:flex  items-center w-full gap-2">
+                  <div className=" whitespace-nowrap  ">
+                    Transaction Reference:
                   </div>
-                )}
+                  <div className="  py-1  rounded-lg- w-full outline-none">
+                    {paymentResponse}
+                  </div>
+                </div>
               </div>
             </div>
 
-            <h3 className="font-semibold text-gray-700">Order Summary</h3>
             <div className="space-y-2">
+              <h3 className="font-semibold text-gray-700">Order Summary</h3>
+
               {products.map((product: any) => (
                 <div
                   key={product.id}
