@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useExchangeRateStore } from "@/stores/exchangeRateStore"; // Adjust the path if needed
-import { Paragraph1 } from "@/components/Text";
+import { Paragraph1, ParagraphLink1 } from "@/components/Text";
 
 const CurrencySwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +26,7 @@ const CurrencySwitcher = () => {
         className="flex gap-2 items-center cursor-pointer"
         onClick={toggleDropdown}
       >
-        <Paragraph1>{selectedCurrency}</Paragraph1>
+        <ParagraphLink1>{selectedCurrency}</ParagraphLink1>
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,15 +49,15 @@ const CurrencySwitcher = () => {
       {isOpen && (
         <div className="absolute bg-white p-2 px-4 rounded-lg shadow-md">
           <button onClick={() => handleSelectCurrency("NGN")}>
-            <Paragraph1 className="cursor-pointer hover:text-primary">
+            <ParagraphLink1 className="cursor-pointer hover:text-primary">
               NGN
-            </Paragraph1>
+            </ParagraphLink1>
           </button>
 
           <button onClick={() => handleSelectCurrency("USD")}>
-            <Paragraph1 className="cursor-pointer hover:text-primary">
+            <ParagraphLink1 className="cursor-pointer hover:text-primary">
               USD
-            </Paragraph1>
+            </ParagraphLink1>
           </button>
         </div>
       )}

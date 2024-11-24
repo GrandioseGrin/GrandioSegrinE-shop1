@@ -32,10 +32,10 @@ const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
           data-aos="fade-up"
         >
           <Header3>
-            Fresh Finds for Your <span className="text-primary">Glow-Up</span>
+            Our Newest <span className="text-primary">Beauty</span> Essentials
           </Header3>{" "}
           <Paragraph1 className="max-w-[883px] text-center">
-            Discover our newest beauty essentials! Handpicked just for you,
+            Handpicked just for you,
             these products are here to elevate your routine and keep you at the
             forefront of beauty trends.
           </Paragraph1>

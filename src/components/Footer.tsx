@@ -38,7 +38,7 @@ function Footer() {
             </div>
             <div className=" flex gap-[48px]">
               <Link href="/">
-                <Paragraph1
+                <ParagraphLink1
                   className={
                     pathname === "/"
                       ? "text-[#ECECEC] font-bold "
@@ -46,11 +46,11 @@ function Footer() {
                   }
                 >
                   Home
-                </Paragraph1>
+                </ParagraphLink1>
               </Link>{" "}
               <Link href="/about-us">
                 {" "}
-                <Paragraph1
+                <ParagraphLink1
                   className={
                     pathname === "/about-us"
                       ? "text-[#ECECEC] font-bold "
@@ -58,11 +58,11 @@ function Footer() {
                   }
                 >
                   About
-                </Paragraph1>
+                </ParagraphLink1>
               </Link>
               <Link href="/products">
                 {" "}
-                <Paragraph1
+                <ParagraphLink1
                   className={
                     pathname === "/products"
                       ? "text-[#ECECEC] font-bold "
@@ -70,11 +70,11 @@ function Footer() {
                   }
                 >
                   Shop
-                </Paragraph1>
+                </ParagraphLink1>
               </Link>
               <Link href="/blogs">
                 {" "}
-                <Paragraph1
+                <ParagraphLink1
                   className={
                     pathname === "/blogs"
                       ? "text-[#ECECEC] font-bold "
@@ -82,11 +82,11 @@ function Footer() {
                   }
                 >
                   Blog
-                </Paragraph1>
+                </ParagraphLink1>
               </Link>
               <Link href="/contact-us">
                 {" "}
-                <Paragraph1
+                <ParagraphLink1
                   className={
                     pathname === "/contact-us"
                       ? "text-[#ECECEC] font-bold "
@@ -94,7 +94,7 @@ function Footer() {
                   }
                 >
                   Contact us
-                </Paragraph1>
+                </ParagraphLink1>
               </Link>
             </div>
             <div className=" flex flex-col py-4 gap-4 items-center- justify-center-">

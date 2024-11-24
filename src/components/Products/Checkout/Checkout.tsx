@@ -16,7 +16,7 @@ import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info s
 import html2canvas from "html2canvas";
 import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
-import { HeaderAny } from "@/components/Text";
+import { HeaderAny, ParagraphLink1, ParagraphLink2 } from "@/components/Text";
 
 type Product = {
   id: number;
@@ -434,9 +434,9 @@ const Checkout: React.FC<CheckoutProps> = ({
               <div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                       Email
-                    </label>
+                    </ParagraphLink2>
                     <Field
                       name="email"
                       type="email"
@@ -449,9 +449,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                       Phone number
-                    </label>
+                    </ParagraphLink2>
                     <Field
                       name="phoneNumber"
                       className="mt-1 block w-full p-2 border rounded-md"
@@ -465,9 +465,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                   Country
-                </label>
+                </ParagraphLink2>
                 <Field
                   name="country"
                   as="select"
@@ -495,9 +495,9 @@ const Checkout: React.FC<CheckoutProps> = ({
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                     First Name
-                  </label>
+                  </ParagraphLink2>
                   <Field
                     name="firstName"
                     className="mt-1 block w-full p-2 border rounded-md"
@@ -509,9 +509,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                     Last Name
-                  </label>
+                  </ParagraphLink2>
                   <Field
                     name="lastName"
                     className="mt-1 block w-full p-2 border rounded-md"
@@ -524,9 +524,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                   Address
-                </label>
+                </ParagraphLink2>
                 <Field
                   name="address"
                   className="mt-1 block w-full p-2 border rounded-md"
@@ -538,9 +538,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                   City
-                </label>
+                </ParagraphLink2>
                 <Field
                   name="city"
                   className="mt-1 block w-full p-2 border rounded-md"
@@ -553,9 +553,9 @@ const Checkout: React.FC<CheckoutProps> = ({
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                     State
-                  </label>
+                  </ParagraphLink2>
 
                   <Field
                     name="state"
@@ -583,9 +583,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                     Zip Code
-                  </label>
+                  </ParagraphLink2>
                   <Field
                     name="zipCode"
                     className="mt-1 block w-full p-2 border rounded-md"
@@ -599,13 +599,15 @@ const Checkout: React.FC<CheckoutProps> = ({
               </div>
               <div className="flex items-center text-[12px]">
                 <Field type="checkbox" name="saveInfo" className="mr-2" />
-                <label>Save this information for next time</label>
+                <ParagraphLink2>
+                  Save this information for next time
+                </ParagraphLink2>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <ParagraphLink2 className="block text-sm font-bold text-gray-700">
                   Message/Note
-                </label>
+                </ParagraphLink2>
                 <Field
                   name="note"
                   className="mt-1 block w-full p-2 border rounded-md"
@@ -614,9 +616,9 @@ const Checkout: React.FC<CheckoutProps> = ({
               </div>
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-2 rounded-md hover:bg-black "
+                className="w-full font-bold bg-primary text-white py-2 rounded-md hover:bg-black "
               >
-                Next
+                <ParagraphLink2>Next</ParagraphLink2>
               </button>
             </Form>
           )}
@@ -690,9 +692,9 @@ const Checkout: React.FC<CheckoutProps> = ({
           <div className="flex justify-between">
             <button
               onClick={handleBack}
-              className="w-full bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400"
+              className="w-full  font-bold bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400"
             >
-              Back
+              <ParagraphLink2>Back</ParagraphLink2>
             </button>
             <button
               onClick={() => {
@@ -714,9 +716,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                   },
                 });
               }}
-              className="w-full bg-primary text-white p-2 rounded-md hover:bg-black ml-4"
+              className="w-full font-bold bg-primary text-white p-2 rounded-md hover:bg-black ml-4"
             >
-              Proceed to Payment{" "}
+              <ParagraphLink2>Proceed to Payment</ParagraphLink2>{" "}
             </button>
           </div>
         </div>
@@ -849,9 +851,9 @@ const Checkout: React.FC<CheckoutProps> = ({
           </div>
           <button
             onClick={handleDownloadReceipt}
-            className=" text-center px-6 w-full  bg-primary text-white py-2 rounded-md hover:bg-black "
+            className=" text-center font-bold px-6 w-full  bg-primary text-white py-2 rounded-md hover:bg-black "
           >
-            Download Receipt
+            <ParagraphLink2>Download Receipt</ParagraphLink2>
           </button>
         </div>
       )}

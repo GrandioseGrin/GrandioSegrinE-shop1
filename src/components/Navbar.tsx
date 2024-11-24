@@ -69,52 +69,52 @@ function Navbar() {
           </div> */}
           <div className="  gap-[48px] items-center hidden lg:flex">
             <Link href="/">
-              <Paragraph1
+              <ParagraphLink1
                 className={pathname === "/" ? "text-primary font-bold " : " "}
               >
                 Home
-              </Paragraph1>
+              </ParagraphLink1>
             </Link>
             <Link href="/about-us">
               {" "}
-              <Paragraph1
+              <ParagraphLink1
                 className={
                   pathname === "/about-us" ? "text-primary font-bold " : "  "
                 }
               >
                 About
-              </Paragraph1>
+              </ParagraphLink1>
             </Link>
             <Link href="/products">
               {" "}
-              <Paragraph1
+              <ParagraphLink1
                 className={
                   pathname === "/products" ? "text-primary font-bold " : "  "
                 }
               >
                 Shop
-              </Paragraph1>
+              </ParagraphLink1>
             </Link>
 
             <Link href="/blog">
               {" "}
-              <Paragraph1
+              <ParagraphLink1
                 className={
                   pathname === "/blog" ? "text-primary font-bold " : "  "
                 }
               >
                 Blog
-              </Paragraph1>
+              </ParagraphLink1>
             </Link>
             <Link href="/contact-us">
               {" "}
-              <Paragraph1
+              <ParagraphLink1
                 className={
                   pathname === "/contact-us" ? "text-primary font-bold " : "  "
                 }
               >
                 Contact us
-              </Paragraph1>
+              </ParagraphLink1>
             </Link>
 
             <SearchBar />

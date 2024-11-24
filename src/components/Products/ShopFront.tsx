@@ -157,14 +157,14 @@ function Overview() {
 
   return (
     <div>
-      <div className=" container1 relative py-[24px] xl:py-[100px] pt-[100px] text-p_black">
+      <div className=" container1 min-h-screen relative py-[24px] xl:py-[100px] pt-[100px] text-p_black">
         {loading && (
           <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
             <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
           </div>
         )}
         <div
-          className=" flex flex-col text-center gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
+          className=" hidden -flex flex-col text-center gap-[8px] xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3>
@@ -247,7 +247,7 @@ function Overview() {
         </div>
         {/* data-aos="fade-right" */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+        <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-[24px] xl:gap-[30px] ">
           {displayedProducts.length > 0 ? (
             displayedProducts.map((product) => (
               <ProductCard
@@ -274,7 +274,7 @@ function Overview() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
+                  className="h-[250px] w-full bg-gray-200 rounded-md animate-pulse"
                 ></div>
               ))
           )}

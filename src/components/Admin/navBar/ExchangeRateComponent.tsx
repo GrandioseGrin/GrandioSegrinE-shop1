@@ -42,7 +42,7 @@ const ExchangeRateComponent = () => {
   };
 
   return (
-    <div className="flex gap-2 items-center px-2 border rounded-lg">
+    <div className="flex gap-2 items-center px-2 sm:border rounded-lg">
       <ParagraphLink1>1 USD </ParagraphLink1>
       <div> - </div>
       {!isEditing ? (

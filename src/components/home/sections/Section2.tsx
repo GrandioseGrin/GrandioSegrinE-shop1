@@ -28,18 +28,18 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
 
   return (
     <div>
-      <div className=" container1 pt-[24px] xl:pt-[100px]  text-p_black">
+      <div className=" container1 pt-[24px] xl:pt-[50px]  text-p_black">
         {" "}
         <div
           className=" flex flex-col gap-[8px] xl:gap-[24px] text-center items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3>
-            Where Your <span className="text-primary">Beauty</span> Shines
-            Brightest
+            Our <span className="text-primary">Featured</span> Products
+            
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            Each product is carefully crafted to celebrate your unique beauty,
+            Each product is carefully selected to celebrate your unique beauty,
             empowering you to express yourself with confidence, elegance, and
             radiance.
           </Paragraph1>

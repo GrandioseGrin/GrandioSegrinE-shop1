@@ -17,7 +17,7 @@ function ElevatingBrands() {
   );
 
   return (
-    <div className="py-[20px]  text-p_black">
+    <div className="py-[20  text-p_black">
       <Header4 className=" text-center sm:mb-8 mb-2">
         Available <span className=" text-primary">Brands</span>
       </Header4>

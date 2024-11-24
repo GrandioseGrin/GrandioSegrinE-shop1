@@ -1,5 +1,5 @@
 import React from "react";
-import { Paragraph2 } from "../Text";
+import { Paragraph2, ParagraphLink2 } from "../Text";
 import Button from "../Button";
 import Link from "next/link";
 import useCartStore from "../../stores/cartStore";
@@ -54,34 +54,36 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className="max-w-full bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
       <div className="bg-white relative hover:border-primary overflow-hidden border-2 rounded-lg ">
-        <div className="p-1 pl-2 border flex w-[90%] justify-between items-center  gap-4 rounded-lg z-10 absolute bottom-[4%] left-[4%]  bg-white bg-opacity-65">
-          <Paragraph2 className=" font-bold whitespace-nowrap w-[50%] truncate overflow-hidden">
-            {" "}
-            {title}{" "}
-          </Paragraph2>
-          {product.availableAmount === 0 ? (
-            <div className="py-2 flex px-2 justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
-              Null
-            </div>
-          ) : (
-            <Button
-              text={`${currencySymbol} ${new Intl.NumberFormat(
-                "en-US",
-                {}
-              ).format(Number(formattedPrice))}`}
-              onClick={handleAddToCart}
-              additionalClasses=" border-0 whitespace-nowrap "
-            />
-          )}{" "}
-        </div>
         <Link href={`/products/${productID}`}>
           {" "}
           <img
             src={image.replace("/upload/", "/upload/w_500,f_auto/")}
             alt={title}
-            className="w-full h-[300px] object-contain hover:scale-110 transition-transform duration-300 "
+            className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
           />
         </Link>
+        <div className=" flex flex-col justify-center border-t  items-center  p-2 ga rounded-lg  bg-white bg-opacity-65">
+          <p className=" font-medium text-center  whitespace-nowrap w-[100%] truncate overflow-hidden">
+            {" "}
+            {title}{" "}
+          </p>
+          <Paragraph2>{`${currencySymbol} ${new Intl.NumberFormat(
+            "en-US",
+            {}
+          ).format(Number(formattedPrice))}`}</Paragraph2>
+          {product.availableAmount === 0 ? (
+            <div className="py-2 flex px-2 justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
+              Null
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="whitespace-nowrap flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white "
+            >
+              <ParagraphLink2>Add to chat</ParagraphLink2>
+            </button>
+          )}{" "}
+        </div>
       </div>
     </div>
   );

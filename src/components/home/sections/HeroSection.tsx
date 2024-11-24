@@ -15,7 +15,7 @@ function HeroSection() {
 
   return (
     <div className="  ">
-      <div className="xl:py-[100px] relative py-[50px] xl:pt-[180px] pt-[100px] bg-p_black pb-[100px]">
+      <div className="xl:py-[50px] relative py-[50px] xl:pt-[100px] pt-[100px] bg-p_black pb-[100px]">
         {/* Background image overlay */}
         <div
           className="absolute inset-0 bg-cover  bg-center- z-0"
@@ -26,10 +26,10 @@ function HeroSection() {
         ></div>
         {/* Dark overlay for the background image */}
         <div className="absolute inset-0  bg-p_black opacity-80 z-0"></div>
-        <div className=" container1 grid grid-cols-1 lg:grid-cols-2 gap-2 items-center ">
+        <div className=" container1 flex justify-center w-full items-center ">
           {" "}
           <div
-            className="col-span-2 order-2 lg:order-1 text-center"
+            className="col-span-2 order-2 max-w-[900px] lg:order-1 text-center"
             data-aos="fade-up-right"
           >
             <Header1 className="text-white mt-4 xl:mt-0">
