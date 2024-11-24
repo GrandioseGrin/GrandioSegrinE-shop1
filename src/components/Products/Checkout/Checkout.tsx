@@ -645,13 +645,13 @@ const Checkout: React.FC<CheckoutProps> = ({
             </p>
 
             {paymentDenied && (
-              <div className=" flex items-center h-[200px] w-full  justify-center rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+              <div className=" flex p-4 items-center h-[200px] w-full  justify-center rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
                 Your payment was declined. Please try again later.{" "}
               </div>
             )}
 
             {canceledPay && (
-              <div className=" flex items-center justify-center h-[200px] w-full rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+              <div className=" flex p-4 items-center justify-center h-[200px] w-full rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
                 Your payment was canceled by you. You may try again later.{" "}
               </div>
             )}
