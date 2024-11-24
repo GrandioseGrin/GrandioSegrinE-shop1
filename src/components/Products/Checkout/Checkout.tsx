@@ -57,7 +57,7 @@ const validationSchema = Yup.object({
   address: Yup.string().required("Required"),
   city: Yup.string().required("Required"),
   state: Yup.string().required("Required"),
-  zipCode: Yup.string().required("Required"),
+  // zipCode: Yup.string().required("Required"),
 });
 
 const Checkout: React.FC<CheckoutProps> = ({
@@ -590,11 +590,11 @@ const Checkout: React.FC<CheckoutProps> = ({
                     name="zipCode"
                     className="mt-1 block w-full p-2 border rounded-md"
                   />
-                  <ErrorMessage
+                  {/* <ErrorMessage
                     name="zipCode"
                     component="div"
                     className="text-red-500 text-sm"
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="flex items-center text-[12px]">
