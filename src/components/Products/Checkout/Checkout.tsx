@@ -698,7 +698,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                 handleFlutterPayment({
                   callback: (response) => {
                     console.log(response);
-                    if (response.status === "successful") {
+                    if (response.status === "completed") {
                       const PaymentFlw_ref = response.flw_ref;
                       setPaymentResponse(PaymentFlw_ref);
                       submitOrderToFirestore(shippingInfo);
