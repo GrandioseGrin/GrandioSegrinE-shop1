@@ -115,7 +115,10 @@ const ProductDetail = () => {
           <div className="sm:col-span-3">
             <div className="w-full sm:h-[500px] rounded-lg mb-4 flex items-center justify-center">
               <img
-                src={selectedImage!}
+                src={selectedImage!.replace(
+                  "/upload/",
+                  "/upload/w_1000,f_auto/"
+                )}
                 alt="Selected Product"
                 className="max-h-full w-full rounded-lg object-contain"
               />
@@ -124,7 +127,7 @@ const ProductDetail = () => {
               {product.productImages?.map((image: any, index: any) => (
                 <img
                   key={index}
-                  src={image}
+                  src={image.replace("/upload/", "/upload/w_500,f_auto/")}
                   alt={`Product thumbnail ${index + 1}`}
                   className={`h-20 w-20 object-cover rounded-lg cursor-pointer ${
                     selectedImage === image ? "ring-2 ring-blue-500" : ""
@@ -181,7 +184,7 @@ const ProductDetail = () => {
               <Button
                 text="Add to Cart"
                 onClick={handleAddToCart}
-                additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
+                additionalClasses="border-white bg-black w-full flex justify-center "
               />
             )}
           </div>

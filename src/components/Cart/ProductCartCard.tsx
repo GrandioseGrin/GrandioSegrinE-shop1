@@ -32,7 +32,10 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
     <div className="flex relative justify-between items-start bg-white p-2 px-3 rounded-lg">
       <div className="flex gap-2 items-center">
         <img
-          src={product.productImageURL1}
+          src={product.productImageURL1.replace(
+            "/upload/",
+            "/upload/w_100,f_auto/"
+          )}
           alt={product.name}
           className="w-16 h-16 object-cover rounded"
         />

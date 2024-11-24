@@ -77,7 +77,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Link href={`/products/${productID}`}>
           {" "}
           <img
-            src={image}
+            src={image.replace("/upload/", "/upload/w_500,f_auto/")}
             alt={title}
             className="w-full h-[300px] object-contain hover:scale-110 transition-transform duration-300 "
           />

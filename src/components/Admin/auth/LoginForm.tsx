@@ -46,8 +46,7 @@ function LoginForm() {
             {" "}
             <Header3 className=" mb-2">Hello Admin!</Header3>
             <Paragraph1 className=" font-bold- mb-6">
-              Login to your dashboard to see new form submissions from your
-              potential clients.
+              Login to your dashboard to see new orders and form submissions.
             </Paragraph1>
             <div className=" flex flex-col gap-[18px] ">
               <div>

@@ -178,7 +178,7 @@ function Overview() {
           </Paragraph1>
         </div>
         <div className=" flex justify-between items-center- mb-4">
-          <div className=" flex w-full gap-4 md:w-[60%] overflow-hidden overflow-x-auto scrollbar-hide   ">
+          <div className=" flex w-full gap-4 md:w-[90%] overflow-hidden overflow-x-auto scrollbar-hide   ">
             <button
               className={`flex gap-4  w-fit justify-center items-center rounded-lg px-4 border ${
                 !selectedCategory

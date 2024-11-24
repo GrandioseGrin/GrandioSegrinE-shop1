@@ -238,6 +238,7 @@ const Checkout: React.FC<CheckoutProps> = ({
         timestamp: new Date(),
         viewed: false,
         shipped: false,
+        returned: false,
         shippingFee: totalShippingFee,
         totalPaid: totalBill,
         products: sanitizedProducts, // Use sanitized products
@@ -745,7 +746,9 @@ const Checkout: React.FC<CheckoutProps> = ({
                   </div>
                 </div>
                 <div className=" pb-4 flex items-center w-full gap-2">
-                  <div className="  text-gray-500 whitespace-nowrap">Email:</div>
+                  <div className="  text-gray-500 whitespace-nowrap">
+                    Email:
+                  </div>
                   <div className=" div-email px-2 py-1  text-decoration-none rounded-lg- w-full outline-none">
                     {email}
                   </div>

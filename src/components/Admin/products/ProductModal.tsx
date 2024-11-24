@@ -10,6 +10,7 @@ import {
   getDocs,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore"; // Firebase methods
 
 interface Product {
@@ -70,12 +71,12 @@ interface Category {
   properties: Record<string, any>; // Store additional properties of the category
 }
 
-
 const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
   const [isloading, setIsLoading] = useState(false);
   const [categoryName, setCategoryName] = useState(""); // State for input
   const [categories, setCategories] = useState<Category[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const initialValues: ProductValues = {
     name: product.name,
@@ -121,16 +122,16 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     fetchCategories();
   }, []);
 
-   const validationSchema = Yup.object({
-     name: Yup.string().required("Product name is required"),
-     currentPrice: Yup.number().required("Current price is required"),
-     oldPrice: Yup.number().required("Old price is required"),
-     availableAmount: Yup.number().required("Avaliable quantity is required"),
-     productWeight: Yup.number().required("Avaliable quantity is required"),
-     category: Yup.string().required("Category is required"),
-     description: Yup.string().required("Description is required"),
-   });
-  
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Product name is required"),
+    currentPrice: Yup.number().required("Current price is required"),
+    oldPrice: Yup.number().required("Old price is required"),
+    availableAmount: Yup.number().required("Avaliable quantity is required"),
+    productWeight: Yup.number().required("Avaliable quantity is required"),
+    category: Yup.string().required("Category is required"),
+    description: Yup.string().required("Description is required"),
+  });
+
   const handleImageUpload = async (
     file: File,
     setFieldValue: any,
@@ -189,31 +190,43 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     }
   };
 
-   const handleSubmit = async (values: ProductValues) => {
-     setIsLoading(true);
+  const handleSubmit = async (values: ProductValues) => {
+    setIsLoading(true);
 
-     try {
-       const productRef = doc(db, "products", product.id); // Firestore document reference
-       await updateDoc(productRef, {
-         ...values,
-         updatedAt: new Date(), // Optional timestamp for tracking updates
-       });
-       setIsLoading(false);
-       onClose(); // Close the modal on success
-       window.location.reload(); // Refresh the page
-     } catch (error) {
-       console.error("Error updating product: ", error);
-       setIsLoading(false);
-     }
-   };
+    try {
+      const productRef = doc(db, "products", product.id); // Firestore document reference
+      await updateDoc(productRef, {
+        ...values,
+        updatedAt: new Date(), // Optional timestamp for tracking updates
+      });
+      setIsLoading(false);
+      onClose(); // Close the modal on success
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error("Error updating product: ", error);
+      setIsLoading(false);
+    }
+  };
 
+  const handleDelete = async () => {
+    setIsLoading(true);
 
+    try {
+      const productRef = doc(db, "products", product.id); // Firestore document reference
+      await deleteDoc(productRef); // Firestore method to delete the document
+      setIsLoading(false);
+      onClose(); // Close the modal on success
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+      setIsLoading(false);
+    }
+  };
   const formatCurrency = (value: any) => {
     if (!value) return "";
     const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
     return `₦ ${Number(numericValue).toLocaleString()}`; // Format as currency
   };
-  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
@@ -223,8 +236,50 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
             <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
           </div>
         )}
-        <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+        <div>
+          <div className=" flex justify-between">
+            <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+
+            <button onClick={() => setIsDeleteOpen(true)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
         <div className=" h-[500px] overflow-hidden overflow-y-auto scrollbar-hide">
+          {isDeleteOpen && (
+            <div className="  flex flex-col items-center justify-center bg-white border p-4">
+              <p>Are you sure you want to delete this product??</p>
+              <div className=" pt-4 flex gap-4 items-center">
+                {" "}
+                <button
+                  className=" py-2 px-4 bg-gray-300 rounded-lg"
+                  onClick={() => setIsDeleteOpen(false)}
+                >
+                  Cancel
+                </button>{" "}
+                <button
+                  className=" py-2 px-4 bg-black text-white rounded-lg"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )}
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

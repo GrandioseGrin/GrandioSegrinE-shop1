@@ -37,6 +37,21 @@ export default function RootLayout({
           type="text/javascript"
           async
         ></script>
+        {/* Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-F2YRYGXF65"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-F2YRYGXF65');
+            `,
+          }}
+        />
       </Head>
       <body className=" bg-[#f1efe8]-">
         <NetworkStatusChecker />

@@ -265,213 +265,226 @@ function Locations() {
         </div>
 
         <div className="grid xl:grid-cols-3 grid-cols-1 mt-4 gap-4">
-          {filteredCountries.map((country) => (
-            <div
-              className="bg-white rounded-lg relative p-2"
-              key={country.code}
-            >
-              <div className="flex justify-between items-center">
+          
+
+          {filteredCountries && filteredCountries.length > 0
+            ? filteredCountries.map((country: any) => (
                 <div
-                  onClick={() => toggleStateOpen(country.name)}
-                  className="flex gap-2 cursor-pointer items-center"
+                  className="bg-white rounded-lg relative p-2"
+                  key={country.code}
                 >
-                  <div className="h-[50px] w-[50px] bg-bg_gray rounded-lg">
-                    <img
-                      src={country.flag}
-                      className="h-[50px] w-[50px] rounded-lg border object-cover"
-                      alt={`${country.name} flag`}
-                    />
-                  </div>
-                  <HeaderAny className="text-[16px]">{country.name}</HeaderAny>
-                </div>
-                {editCountryFee === country.name ? (
-                  // Edit Mode
-                  <div>
-                    <div className="border px-4 py-2 rounded-lg w-fit flex gap-2">
-                      ₦
-                      <input
-                        type="text"
-                        className="outline-none rounded-lg w-[50px]"
-                        placeholder="0.00"
-                        value={country.shippingFee}
-                        onChange={(e) =>
-                          setCountriesData((prev) =>
-                            prev.map((c) =>
-                              c.code === country.code
-                                ? {
-                                    ...c,
-                                    shippingFee: parseFloat(e.target.value),
-                                  }
-                                : c
-                            )
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="flex justify-between mt-2 text-[12px] text-p_black">
-                      <button
-                        onClick={() => {
-                          handleDeleteCountry(country.code);
-                          handleEditClick(null);
-                        }}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (editingCountry === country.code) {
-                            setEditingCountry(country.code);
-                          } else {
-                            handleSaveClick(country);
-                          }
-
-                          handleEditClick(null);
-                        }}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  // Normal View
-                  <div
-                    className="borde px-2 py-1 rounded-lg cursor-pointer"
-                    onClick={() => handleEditClick(country.name)}
-                  >
-                    ₦{" "}
-                    {new Intl.NumberFormat("en-US", {}).format(
-                      Number(country.shippingFee)
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {openCountry === country.name && (
-                <div className="absolute py-2 right-0 top-[70px] z-20 mt-2 w-full max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide px-4 rounded-lg shadow-lg bg-white">
-                  <div className="   py-2">
-                    {country.states.map((state) => (
-                      <div
-                        key={state.id}
-                        className="flex justify-between w-full items-center border-b py-2"
-                      >
-                        <ParagraphLink1>{state.name}</ParagraphLink1>
-
-                        {editStateFee === state.id ? (
-                          // Edit Mode
-                          <div>
-                            <div className="border px-4 py-1 rounded-lg w-fit flex gap-2">
-                              ₦
-                              <input
-                                type="text"
-                                className="outline-none rounded-lg w-[50px]"
-                                placeholder="0.00"
-                                value={state.shippingFee}
-                                onChange={(e) =>
-                                  setCountriesData((prev) =>
-                                    prev.map((c) =>
-                                      c.code === country.code
-                                        ? {
-                                            ...c,
-                                            states: c.states.map((s) =>
-                                              s.id === state.id
-                                                ? {
-                                                    ...s,
-                                                    shippingFee: parseFloat(
-                                                      e.target.value
-                                                    ),
-                                                  }
-                                                : s
-                                            ),
-                                          }
-                                        : c
-                                    )
-                                  )
-                                }
-                              />
-                            </div>
-                            <div className="flex justify-between mt-2 text-[12px] text-p_black">
-                              <button
-                                onClick={() => {
-                                  handleDeleteState(country, state.id);
-                                  handleEditStateClick(null);
-                                }}
-                              >
-                                Delete
-                              </button>
-                              <button
-                                onClick={() => {
-                                  if (editingCountry === country.code) {
-                                    setEditingState(state.id);
-                                  } else {
-                                    handleSaveClick(country);
-                                  }
-
-                                  handleEditStateClick(null);
-                                }}
-                              >
-                                Save
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          // Normal View
-                          <div
-                            className="borde px-2 py-1 rounded-lg cursor-pointer"
-                            onClick={() => handleEditStateClick(state.id)}
-                          >
-                            ₦{" "}
-                            {new Intl.NumberFormat("en-US", {}).format(
-                              Number(state.shippingFee)
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  {openAddNewState === country.code ? (
-                    <div className=" mt-2 w-full max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide px-4 rounded-lg  bg-white">
-                      <div className="flex justify-between items-center borde py-2">
-                        <input
-                          type="text"
-                          className="border p-2 outline-none rounded-lg w-[60%]"
-                          placeholder="Enter state name"
-                          value={newStateName}
-                          onChange={(e) => setNewStateName(e.target.value)}
+                  <div className="flex justify-between items-center">
+                    <div
+                      onClick={() => toggleStateOpen(country.name)}
+                      className="flex gap-2 cursor-pointer items-center"
+                    >
+                      <div className="h-[50px] w-[50px] bg-bg_gray rounded-lg">
+                        <img
+                          src={country.flag}
+                          className="h-[50px] w-[50px] rounded-lg border object-cover"
+                          alt={`${country.name} flag`}
                         />
+                      </div>
+                      <HeaderAny className="text-[16px]">
+                        {country.name}
+                      </HeaderAny>
+                    </div>
+                    {editCountryFee === country.name ? (
+                      // Edit Mode
+                      <div>
                         <div className="border px-4 py-2 rounded-lg w-fit flex gap-2">
-                          ₦{" "}
+                          ₦
                           <input
                             type="text"
                             className="outline-none rounded-lg w-[50px]"
                             placeholder="0.00"
-                            value={newStateFee}
-                            onChange={(e) => setNewStateFee(e.target.value)}
+                            value={country.shippingFee}
+                            onChange={(e) =>
+                              setCountriesData((prev) =>
+                                prev.map((c) =>
+                                  c.code === country.code
+                                    ? {
+                                        ...c,
+                                        shippingFee: parseFloat(e.target.value),
+                                      }
+                                    : c
+                                )
+                              )
+                            }
                           />
                         </div>
+                        <div className="flex justify-between mt-2 text-[12px] text-p_black">
+                          <button
+                            onClick={() => {
+                              handleDeleteCountry(country.code);
+                              handleEditClick(null);
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (editingCountry === country.code) {
+                                setEditingCountry(country.code);
+                              } else {
+                                handleSaveClick(country);
+                              }
+
+                              handleEditClick(null);
+                            }}
+                          >
+                            Save
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        onClick={() => {
-                          handleAddState(country.code);
-                          toggleAddNewState(country.code);
-                        }}
-                        className="text-center w-full cursor-pointer text-primary py-2"
+                    ) : (
+                      // Normal View
+                      <div
+                        className="borde px-2 py-1 rounded-lg cursor-pointer"
+                        onClick={() => handleEditClick(country.name)}
                       >
-                        Save
-                      </button>
+                        ₦{" "}
+                        {new Intl.NumberFormat("en-US", {}).format(
+                          Number(country.shippingFee)
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {openCountry === country.name && (
+                    <div className="absolute py-2 right-0 top-[70px] z-20 mt-2 w-full max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide px-4 rounded-lg shadow-lg bg-white">
+                      <div className="   py-2">
+                        {country.states.map((state: any) => (
+                          <div
+                            key={state.id}
+                            className="flex justify-between w-full items-center border-b py-2"
+                          >
+                            <ParagraphLink1>{state.name}</ParagraphLink1>
+
+                            {editStateFee === state.id ? (
+                              // Edit Mode
+                              <div>
+                                <div className="border px-4 py-1 rounded-lg w-fit flex gap-2">
+                                  ₦
+                                  <input
+                                    type="text"
+                                    className="outline-none rounded-lg w-[50px]"
+                                    placeholder="0.00"
+                                    value={state.shippingFee}
+                                    onChange={(e) =>
+                                      setCountriesData((prev) =>
+                                        prev.map((c) =>
+                                          c.code === country.code
+                                            ? {
+                                                ...c,
+                                                states: c.states.map((s) =>
+                                                  s.id === state.id
+                                                    ? {
+                                                        ...s,
+                                                        shippingFee: parseFloat(
+                                                          e.target.value
+                                                        ),
+                                                      }
+                                                    : s
+                                                ),
+                                              }
+                                            : c
+                                        )
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="flex justify-between mt-2 text-[12px] text-p_black">
+                                  <button
+                                    onClick={() => {
+                                      handleDeleteState(country, state.id);
+                                      handleEditStateClick(null);
+                                    }}
+                                  >
+                                    Delete
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      if (editingCountry === country.code) {
+                                        setEditingState(state.id);
+                                      } else {
+                                        handleSaveClick(country);
+                                      }
+
+                                      handleEditStateClick(null);
+                                    }}
+                                  >
+                                    Save
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              // Normal View
+                              <div
+                                className="borde px-2 py-1 rounded-lg cursor-pointer"
+                                onClick={() => handleEditStateClick(state.id)}
+                              >
+                                ₦{" "}
+                                {new Intl.NumberFormat("en-US", {}).format(
+                                  Number(state.shippingFee)
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      {openAddNewState === country.code ? (
+                        <div className=" mt-2 w-full max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide px-4 rounded-lg  bg-white">
+                          <div className="flex justify-between items-center borde py-2">
+                            <input
+                              type="text"
+                              className="border p-2 outline-none rounded-lg w-[60%]"
+                              placeholder="Enter state name"
+                              value={newStateName}
+                              onChange={(e) => setNewStateName(e.target.value)}
+                            />
+                            <div className="border px-4 py-2 rounded-lg w-fit flex gap-2">
+                              ₦{" "}
+                              <input
+                                type="text"
+                                className="outline-none rounded-lg w-[50px]"
+                                placeholder="0.00"
+                                value={newStateFee}
+                                onChange={(e) => setNewStateFee(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              handleAddState(country.code);
+                              toggleAddNewState(country.code);
+                            }}
+                            className="text-center w-full cursor-pointer text-primary py-2"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => toggleAddNewState(country.code)}
+                          className="text-center w-full cursor-pointer text-primary py-2 mt-8"
+                        >
+                          Add new state
+                        </button>
+                      )}
                     </div>
-                  ) : (
-                    <button
-                      onClick={() => toggleAddNewState(country.code)}
-                      className="text-center w-full cursor-pointer text-primary py-2 mt-8"
-                    >
-                      Add new state
-                    </button>
                   )}
                 </div>
-              )}
-            </div>
-          ))}
+              ))
+            : Array(20)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[100px] w-full bg-white rounded-lg animate-pulse"
+                  ></div>
+                ))}
         </div>
       </div>
     </div>

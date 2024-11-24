@@ -52,6 +52,7 @@ type Order = {
   paymentMethod: string;
   viewed: boolean;
   shipped: boolean;
+  returned: boolean;
   timestamp: string;
 };
 
@@ -99,6 +100,7 @@ function NewOrders() {
             paymentMethod: data.paymentMethod,
             viewed: data.viewed || false,
             shipped: data.shipped || false,
+            returned: data.returned || false,
             timestamp: data.timestamp ? data.timestamp.toDate() : null,
           };
         });
@@ -127,6 +129,21 @@ function NewOrders() {
   const showUnreadOrders = () => {
     const unread = orders.filter((order) => !order.viewed);
     setFilteredOrders(unread);
+  };
+
+  const showUnshippedOrders = () => {
+    const unshipped = orders.filter((order) => !order.shipped);
+    setFilteredOrders(unshipped);
+  };
+
+  const showShippedOrders = () => {
+    const shipped = orders.filter((order) => order.shipped);
+    setFilteredOrders(shipped);
+  };
+
+  const showReturedOrders = () => {
+    const returned = orders.filter((order) => order.returned);
+    setFilteredOrders(returned);
   };
 
   const showAllOrders = () => {
@@ -173,6 +190,16 @@ function NewOrders() {
     try {
       const orderRef = doc(db, "Orders", orderId); // Reference to the specific document
       await updateDoc(orderRef, { shipped: true }); // Update the shipped field to true
+      setRefresh((prev) => !prev);
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
+  };
+
+  const markAsRetured = async (orderId: any) => {
+    try {
+      const orderRef = doc(db, "Orders", orderId); // Reference to the specific document
+      await updateDoc(orderRef, { returned: true }); // Update the shipped field to true
       setRefresh((prev) => !prev);
     } catch (error) {
       console.error("Error updating order:", error);
@@ -287,7 +314,10 @@ function NewOrders() {
                         className="flex- grid grid-cols-6 relative justify-between items-center bg-white p-2 px-3  rounded-lg"
                       >
                         <img
-                          src={product.productImageURL1}
+                          src={product.productImageURL1.replace(
+                            "/upload/",
+                            "/upload/w_1000,f_auto/"
+                          )}
                           alt={product.name}
                           className="w-16 h-16 object-cover rounded"
                         />
@@ -443,9 +473,15 @@ function NewOrders() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center gap-6">
                     <button
-                      className="px-4 py-1 font-bold rounded-lg text-white bg-primary text-[14px] hover:bg-black"
+                      className="px-4 py-1  rounded-lg text-black bg-bg_gray text-[14px] hover:b"
+                      onClick={() => markAsRetured(selectedOrder.id)} // Pass the order ID
+                    >
+                      Returned
+                    </button>
+                    <button
+                      className="px-4 py-1  rounded-lg text-white bg-primary text-[14px] hover:bg-black"
                       onClick={() => markAsShipped(selectedOrder.id)} // Pass the order ID
                     >
                       Done
@@ -485,16 +521,32 @@ function NewOrders() {
                     </button>
 
                     {isFilterOpen && (
-                      <div className="absolute space-y- z-10 -bottom-[120px] right-0 bg-white px-4 py-2 rounded-lg shadow-md">
+                      <div className="absolute space-y- z-10 top-[30px] right-0 bg-white px-4 py-2 rounded-lg shadow-md">
                         <button onClick={() => showAllOrders()}>
                           <Paragraph2 className="text-sm whitespace-nowrap">
-                            All submissions
+                            All Order
                           </Paragraph2>
                         </button>
 
                         <button onClick={() => showUnreadOrders()}>
                           <Paragraph2 className="text-sm whitespace-nowrap">
-                            All unread orders
+                            Unread orders
+                          </Paragraph2>
+                        </button>
+                        <button onClick={() => showUnshippedOrders()}>
+                          <Paragraph2 className="text-sm whitespace-nowrap">
+                            Unshipped Orders
+                          </Paragraph2>
+                        </button>
+
+                        <button onClick={() => showUnshippedOrders()}>
+                          <Paragraph2 className="text-sm whitespace-nowrap">
+                            Unshipped Orders
+                          </Paragraph2>
+                        </button>
+                        <button onClick={() => showReturedOrders()}>
+                          <Paragraph2 className="text-sm whitespace-nowrap">
+                            Returned Orders
                           </Paragraph2>
                         </button>
                       </div>
@@ -556,10 +608,14 @@ function NewOrders() {
                       </Paragraph1>
                       <Paragraph1
                         className={`sm:w-[2%] w-[12%] text-primary- whitespace-nowrap truncate overflow-hidden ${
-                          order.shipped ? "text-primary" : "text-[#e6c533]"
+                          order.returned
+                            ? "text-red-500"
+                            : order.shipped
+                            ? "text-primary"
+                            : "text-[#e6c533]"
                         }`}
                       >
-                        {order.shipped ? "✔" : "o"}
+                        {order.returned ? "x" : order.shipped ? "✔" : "o"}{" "}
                       </Paragraph1>
                     </div>
                   ))}

@@ -39,7 +39,7 @@ const BlogCard: React.FC<BlogValues> = ({
       >
         <img
           className="w-full h-48 object-cover"
-          src={blogImageURL1}
+          src={blogImageURL1.replace("/upload/", "/upload/w_1000,f_auto/")}
           alt={title}
         />
         <div className="p-4">
@@ -47,7 +47,6 @@ const BlogCard: React.FC<BlogValues> = ({
           <p className="text-gray-600 mb-4">
             {description.split(" ").slice(0, 11).join(" ")}...
           </p>{" "}
-
         </div>
       </div>
     </div>

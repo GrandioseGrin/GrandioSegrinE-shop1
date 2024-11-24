@@ -19,6 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   title,
   price,
   product,
+
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -36,15 +37,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div className="max-w-full bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       {isModalOpen && (
-        <ProductModal
-          product={product}
-          onClose={handleModalClose}
-        />
+        <ProductModal product={product} onClose={handleModalClose} />
       )}
       <div
         onClick={handleEditClick}
         className="bg-white relative hover:border-primary cursor-pointer border-2 rounded-lg"
       >
+        <div className=" absolute top-2 left-2 bg-black px-2 rounded-lg">
+          <Paragraph2 className=" text-white">
+            Qt: {product.availableAmount}{" "}
+          </Paragraph2>
+        </div>
         <div className="p-1 pl-2 border flex w-[90%] justify-between  gap-4 rounded-lg z-10 absolute bottom-[4%] left-[4%]  bg-white bg-opacity-65">
           <Paragraph2 className=" font-bold whitespace-nowrap w-[40%] truncate overflow-hidden">
             {title}{" "}
@@ -59,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div>
           {" "}
           <img
-            src={image}
+            src={image.replace("/upload/", "/upload/w_1000,f_auto/")}
             alt={title}
             className="w-full h-[300px] object-contain hover:scale-110 transition-transform duration-300 "
           />

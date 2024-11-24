@@ -150,16 +150,28 @@ function ProductSections() {
             <Header4>Featured Products</Header4>
           </div>
           <div className=" grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-            {featuredProducts.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product.id}
-                image={product.productImageURL1}
-                title={product.name}
-                description="A brief description of the product."
-                price={product.currentPrice}
-                product={product}
-              />
-            ))}
+
+            {featuredProducts && featuredProducts.length > 0
+              ? featuredProducts
+                  .slice(0, 4)
+                  .map((product: any) => (
+                    <ProductCard
+                      key={product.id}
+                      image={product.productImageURL1}
+                      title={product.name}
+                      description="A brief description of the product."
+                      price={product.currentPrice}
+                      product={product}
+                    />
+                  ))
+              : Array(4)
+                  .fill(null)
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="h-[300px] w-full bg-white rounded-md animate-pulse"
+                    ></div>
+                  ))}
           </div>
         </div>
         <div className=" py-[24px]">
@@ -168,7 +180,7 @@ function ProductSections() {
           </div>
           <div className=" flex justify-between items-center- my-4">
             {/* categorey filter buttons */}
-            <div className=" flex w-full gap-4 md:w-[60%] overflow-hidden overflow-x-auto scrollbar-hide   ">
+            <div className=" flex w-full gap-4 md:w-[90%] overflow-hidden overflow-x-auto scrollbar-hide   ">
               <button
                 className={`flex gap-4  w-fit justify-center items-center rounded-lg px-4 border ${
                   !selectedCategory
