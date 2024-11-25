@@ -8,7 +8,7 @@ import {
   Header5,
   Paragraph1,
   Paragraph2,
-  ParagraphLink1,
+  ParagraphLink2,
 } from "@/components/Text";
 import React, { useState, useEffect } from "react";
 import { db } from "@/lib/firebase"; // Firestore setup
@@ -216,7 +216,7 @@ function NewSubmission() {
           <div className="grid- hidden grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div className=" col-span-1">
               {" "}
-              <div className=" w-full bg-white rounded-lg p-6">
+              <div className=" w-full bg-white rounded-lg p-4">
                 {" "}
                 <Header5 className=" ">Total Form Submission </Header5>{" "}
                 <Header4 className="text-black ">{totalSubmissions}</Header4>
@@ -224,7 +224,7 @@ function NewSubmission() {
             </div>
             <div className=" col-span-1">
               {" "}
-              <div className=" w-full bg-white rounded-lg p-6">
+              <div className=" w-full bg-white rounded-lg p-4">
                 {" "}
                 <Header5 className=" ">Unread Submissions </Header5>{" "}
                 <Header4 className="text-black ">{unreadCount}</Header4>
@@ -274,7 +274,7 @@ function NewSubmission() {
                                 <Header5 className="text-[23px] ">
                                   {selectedSubmission.name}
                                 </Header5>
-                                <Paragraph2 className="text-sm sm:-mt-2 font-semibold-">
+                                <Paragraph2 className="text-[14px] sm:-mt-2 font-semibold-">
                                   {selectedSubmission.email}
                                 </Paragraph2>
                               </div>
@@ -282,10 +282,10 @@ function NewSubmission() {
                           </div>
                         </div>
 
-                        <div className=" mt-[40px] space-y-[40px]">
+                        <div className=" text-[14px] mt-[40px] space-y-[20px]">
                           {" "}
-                          <div className=" px-4 sm:px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
-                            <Paragraph2 className="text-sm text-gray-500 text-center underline-">
+                          <div className=" px-4 sm:px-[20px] py-[20px] bg-bg_gray rounded-[15px] space-y-[10px]">
+                            <Paragraph2 className="text-[14px] text-gray-500 text-center underline-">
                               {formatTimestamp(
                                 typeof selectedSubmission.timestamp === "string"
                                   ? new Date(selectedSubmission.timestamp) // Convert string to Date
@@ -293,51 +293,51 @@ function NewSubmission() {
                               )}{" "}
                               {/* Use the custom formatting function */}
                             </Paragraph2>
-                            <div className=" grid grid-cols-1 xl:grid-cols-1 items-center gap-4 sm:gap-[40px] ">
+                            <div className=" grid grid-cols-1 xl:grid-cols-1 items-center gap-4 sm:gap-[20px] ">
                               <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
+                                <ParagraphLink2 className="  text-cente font-bold ">
                                   First Name
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
+                                </ParagraphLink2>
+                                <div className=" p-4 bg-white rounded-[12px]">
                                   <p className=" ">
                                     {selectedSubmission.firstName}
                                   </p>
                                 </div>
                               </div>
                               <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
+                                <ParagraphLink2 className="  text-cente font-bold ">
                                   Last Name
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
+                                </ParagraphLink2>
+                                <div className=" p-4 bg-white rounded-[12px]">
                                   <p className=" ">
                                     {selectedSubmission.secondName}
                                   </p>
                                 </div>
                               </div>
                               <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
+                                <ParagraphLink2 className="  text-cente font-bold ">
                                   E-mail address{" "}
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
+                                </ParagraphLink2>
+                                <div className=" p-4 bg-white rounded-[12px]">
                                   <p className=" ">
                                     {selectedSubmission.email}
                                   </p>
                                 </div>
                               </div>
                               <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
+                                <ParagraphLink2 className="  text-cente font-bold ">
                                   Phone Number{" "}
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
+                                </ParagraphLink2>
+                                <div className=" p-4 bg-white rounded-[12px]">
                                   <p className=" ">
                                     {selectedSubmission.phoneNumber}
                                   </p>
                                 </div>
                               </div>
                               <div>
-                                <ParagraphLink1 className=" font-bold">
+                                <ParagraphLink2 className=" font-bold">
                                   Preferred Method of Contact
-                                </ParagraphLink1>
+                                </ParagraphLink2>
                                 <div className="flex w-full flex-col">
                                   <div className="mt-[12px] flex flex-col gap-[16px]">
                                     {Array.isArray(
@@ -381,9 +381,9 @@ function NewSubmission() {
                                                   d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                                 />
                                               </svg>
-                                              <ParagraphLink1 className="text-center font-bold">
+                                              <ParagraphLink2 className="text-center font-bold">
                                                 {displayText}
-                                              </ParagraphLink1>
+                                              </ParagraphLink2>
                                             </div>
                                           );
                                         }
@@ -392,9 +392,9 @@ function NewSubmission() {
                                 </div>
                               </div>
                               <div>
-                                <ParagraphLink1 className=" font-bold">
+                                <ParagraphLink2 className=" font-bold">
                                   Product Category
-                                </ParagraphLink1>
+                                </ParagraphLink2>
                                 <div className="flex w-full flex-col">
                                   <div className="mt-[12px] flex flex-col gap-[16px]">
                                     {Array.isArray(
@@ -447,9 +447,9 @@ function NewSubmission() {
                                                   d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                                 />
                                               </svg>
-                                              <ParagraphLink1 className="text-center font-bold">
+                                              <ParagraphLink2 className="text-center font-bold">
                                                 {displayText}
-                                              </ParagraphLink1>
+                                              </ParagraphLink2>
                                             </div>
                                           );
                                         }
@@ -459,10 +459,10 @@ function NewSubmission() {
                               </div>
 
                               <div>
-                                <ParagraphLink1 className="  text-cente font-bold ">
+                                <ParagraphLink2 className="  text-cente font-bold ">
                                   Location{" "}
-                                </ParagraphLink1>
-                                <div className=" p-6 bg-white rounded-[12px]">
+                                </ParagraphLink2>
+                                <div className=" p-4 bg-white rounded-[12px]">
                                   <p className=" ">
                                     {selectedSubmission.location}
                                   </p>
@@ -472,10 +472,10 @@ function NewSubmission() {
                           </div>{" "}
                           <div className=" px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
                             <div>
-                              <ParagraphLink1 className="  text-cente font-bold ">
+                              <ParagraphLink2 className="  text-cente font-bold ">
                                 Details/Message
-                              </ParagraphLink1>
-                              <div className=" p-6 bg-white rounded-[12px]">
+                              </ParagraphLink2>
+                              <div className=" p-4 bg-white rounded-[12px]">
                                 <p className=" ">
                                   {selectedSubmission.productDetail}
                                 </p>
@@ -483,10 +483,10 @@ function NewSubmission() {
                             </div>
 
                             <div>
-                              <ParagraphLink1 className="  text-cente font-bold ">
+                              <ParagraphLink2 className="  text-cente font-bold ">
                                 How Did You Hear About Us?
-                              </ParagraphLink1>
-                              <div className=" p-6 bg-white rounded-[12px]">
+                              </ParagraphLink2>
+                              <div className=" p-4 bg-white rounded-[12px]">
                                 <p className=" ">
                                   {selectedSubmission.aboutushow}
                                 </p>
@@ -529,13 +529,13 @@ function NewSubmission() {
                             {isFilterOpen && (
                               <div className="absolute space-y- z-10 -bottom-[120px] right-0 bg-white px-4 py-2 rounded-lg shadow-md">
                                 <button onClick={() => showAllSubmissions()}>
-                                  <Paragraph2 className="text-sm whitespace-nowrap">
+                                  <Paragraph2 className="text-[14px] whitespace-nowrap">
                                     All submissions
                                   </Paragraph2>
                                 </button>
 
                                 <button onClick={() => showUnreadSubmissions()}>
-                                  <Paragraph2 className="text-sm whitespace-nowrap">
+                                  <Paragraph2 className="text-[14px] whitespace-nowrap">
                                     All unread
                                   </Paragraph2>
                                 </button>
@@ -543,22 +543,22 @@ function NewSubmission() {
                             )}
                           </div>
                         </div>
-                        <div className=" h-screen space-y-4 overflow-y-auto scrollable-div px-2 ">
+                        <div className=" h-screen space-y- overflow-y-auto scrollable-div px-2 ">
                           {" "}
                           <Header5 className="pt-3">New Submissions</Header5>
                           <div className=" flex items-center gap-4">
                             <div className=" flex- border hidden rounded-lg px-2 gap-2">
                               {" "}
-                              <ParagraphLink1>
+                              <ParagraphLink2>
                                 {totalSubmissions}
-                              </ParagraphLink1>{" "}
+                              </ParagraphLink2>{" "}
                               <Paragraph1>Form</Paragraph1>
                             </div>
                             <div className=" flex- hidden border-b rounded-lg px-2 gap-2">
                               {" "}
-                              <ParagraphLink1>
+                              <ParagraphLink2>
                                 {unreadCount}
-                              </ParagraphLink1>{" "}
+                              </ParagraphLink2>{" "}
                               <Paragraph1>Unread</Paragraph1>
                             </div>
                           </div>
@@ -579,12 +579,12 @@ function NewSubmission() {
                                   {submission.initials}
                                 </span>
                               </div>
-                              <div className="flex-1 w-full overflow-hidden border-b pb-4">
-                                <Paragraph1 className="text-lg font-semibold">
+                              <div className="flex-1 w-full overflow-hidden border-b pb-2">
+                                <Paragraph1 className="text-[14px] font-semibold">
                                   {submission.name}
                                 </Paragraph1>
 
-                                <Paragraph2 className=" text-sm xl:-mt-2 truncate overflow-hidden whitespace-nowrap lg: max-w-[90%] -max-w-[300px]">
+                                <Paragraph2 className=" text-[14px] xl:-mt-2 truncate overflow-hidden whitespace-nowrap lg: max-w-[90%] -max-w-[300px]">
                                   {submission.productDetail}
                                 </Paragraph2>
                               </div>

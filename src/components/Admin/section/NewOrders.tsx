@@ -8,7 +8,6 @@ import {
   Header5,
   Paragraph1,
   Paragraph2,
-  ParagraphLink1,
   ParagraphLink2,
 } from "@/components/Text";
 import React, { useState, useEffect } from "react";
@@ -257,7 +256,7 @@ function NewOrders() {
             {selectedOrder ? (
               // Render the detailed view if a submission is selected
               <div data-aos="zoom-in" className="">
-                <div className=" flex  border-b pb-2 w-full  gap-4 items-center">
+                <div className=" flex  border-b pb-2 w-full text-[14px]  gap-4 items-center">
                   <button
                     onClick={handleBack}
                     className="hover:scale-110 transition-transform duration-300"
@@ -292,8 +291,8 @@ function NewOrders() {
                   </div>
                 </div>
 
-                <div className=" mt-[40px] space-y-[40px]">
-                  <div className=" px-4 sm:px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
+                <div className=" mt-[40px] space-y-[20px]">
+                  <div className=" px-4 sm:px-[20px] py-[20px] bg-bg_gray rounded-[15px] space-y-[20px]">
                     <div className=" flex justify-between items-center">
                       <Paragraph2 className="text-sm text-gray-500  underline-">
                         {formatTimestamp(
@@ -311,7 +310,7 @@ function NewOrders() {
                     {selectedOrder.products.map((product, index) => (
                       <div
                         key={index}
-                        className="flex- grid grid-cols-6 relative justify-between items-center bg-white p-2 px-3  rounded-lg"
+                        className="flex- grid grid-cols-6 relative justify-between items-center bg-white p-2   rounded-lg"
                       >
                         <img
                           src={product.productImageURL1.replace(
@@ -321,7 +320,7 @@ function NewOrders() {
                           alt={product.name}
                           className="w-16 h-16 object-cover rounded"
                         />
-                        <ParagraphLink2 className="font-bold col-span-2 ">
+                        <ParagraphLink2 className="font-bold text-[14px] col-span-2 ">
                           {product.name}
                         </ParagraphLink2>
                         <Paragraph1 className="text-gray-500 ">
@@ -343,13 +342,13 @@ function NewOrders() {
                         </div>
                       </div>
                     ))}
-                    <div className=" grid grid-cols-1 xl:grid-cols-2 items-center gap-4 sm:gap-[40px] ">
+                    <div className=" grid grid-cols-1 xl:grid-cols-2 items-center gap-4 sm:gap-[20px] ">
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Shipping Fee
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">
                             ₦{" "}
                             {new Intl.NumberFormat("en-US", {}).format(
                               Number(selectedOrder.shippingFee)
@@ -358,57 +357,57 @@ function NewOrders() {
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Total Paid
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px] border-b-4 border-secondary">
-                          <ParagraphLink1 className=" font-extrabold ">
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px] border-b border-secondary">
+                          <p className=" text-[14px] ">
                             ₦{" "}
                             {new Intl.NumberFormat("en-US", {}).format(
                               Number(selectedOrder.totalPaid)
                             )}
-                          </ParagraphLink1>
+                          </p>
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           First Name
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.firstName}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.firstName}</p>
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Last Name
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.lastName}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.lastName}</p>
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           E-mail address{" "}
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.email}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.email}</p>
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Phone Number{" "}
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.phoneNumber}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.phoneNumber}</p>
                         </div>
                       </div>
 
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Country{" "}
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">
                             {selectedOrder.country}
 
                             {countries.find(
@@ -419,61 +418,61 @@ function NewOrders() {
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           State{" "}
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.state}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.state}</p>
                         </div>
                       </div>
                     </div>
                   </div>{" "}
                   <div className=" px-[30px] py-[39px] bg-bg_gray rounded-[15px] space-y-[40px]">
                     <div>
-                      <ParagraphLink1 className="  text-cente font-bold ">
+                      <ParagraphLink2 className="  text-[14px] font-bold ">
                         Payment Method{" "}
-                      </ParagraphLink1>
-                      <div className=" p-6 bg-white rounded-[12px]">
-                        <p className=" ">{selectedOrder.paymentMethod}</p>
+                      </ParagraphLink2>
+                      <div className=" p-4 bg-white rounded-[12px]">
+                        <p className=" text-[14px] ">{selectedOrder.paymentMethod}</p>
                       </div>
                     </div>
                     <div>
-                      <ParagraphLink1 className="  text-cente font-bold ">
+                      <ParagraphLink2 className="  text-[14px] font-bold ">
                         Address{" "}
-                      </ParagraphLink1>
-                      <div className=" p-6 bg-white rounded-[12px]">
-                        <p className=" ">{selectedOrder.address}</p>
+                      </ParagraphLink2>
+                      <div className=" p-4 bg-white rounded-[12px]">
+                        <p className=" text-[14px] ">{selectedOrder.address}</p>
                       </div>
                     </div>
                     <div className=" grid grid-cols-2  gap-4 sm:gap-[40px] ">
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           City
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.city}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.city}</p>
                         </div>
                       </div>
                       <div>
-                        <ParagraphLink1 className="  text-cente font-bold ">
+                        <ParagraphLink2 className="  text-[14px] font-bold ">
                           Zip Code
-                        </ParagraphLink1>
-                        <div className=" p-6 bg-white rounded-[12px]">
-                          <p className=" ">{selectedOrder.zipCode}</p>
+                        </ParagraphLink2>
+                        <div className=" p-4 bg-white rounded-[12px]">
+                          <p className=" text-[14px] ">{selectedOrder.zipCode}</p>
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <ParagraphLink1 className="  text-cente font-bold ">
+                      <ParagraphLink2 className="  text-[14px] font-bold ">
                         Message/Note{" "}
-                      </ParagraphLink1>
-                      <div className=" p-6 bg-white rounded-[12px]">
-                        <p className=" ">{selectedOrder.message}</p>
+                      </ParagraphLink2>
+                      <div className=" p-4 bg-white rounded-[12px]">
+                        <p className=" text-[14px] ">{selectedOrder.message}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-center gap-6">
+                  <div className="flex justify-center gap-4">
                     <button
                       className="px-4 py-1  rounded-lg text-black bg-bg_gray text-[14px] hover:b"
                       onClick={() => markAsRetured(selectedOrder.id)} // Pass the order ID
