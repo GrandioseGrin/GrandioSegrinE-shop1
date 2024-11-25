@@ -51,9 +51,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       data-aos="fade-up"
-      className="max-w-full bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+      className="max-w-full bg-white rounded-lg shadow-l overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="bg-white relative hover:border-primary overflow-hidden border-2 rounded-lg ">
+      <div className="bg-white relative hover:border-primary overflow-hidden border rounded-lg ">
         <Link href={`/products/${productID}`}>
           {" "}
           <img
