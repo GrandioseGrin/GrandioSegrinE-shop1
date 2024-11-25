@@ -43,10 +43,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         onClick={handleEditClick}
         className="bg-white relative hover:border-primary cursor-pointer border-2 rounded-lg"
       >
-        <div className=" absolute top-2 left-2 bg-black px-2 rounded-lg">
-          <Paragraph2 className=" text-white">
+        <div className=" absolute top-2 left-2 bg-black px-2 py-1 rounded-lg">
+          <p className=" text-white text-[12px]">
             Qt: {product.availableAmount}{" "}
-          </Paragraph2>
+          </p>
         </div>
         <div className="p-1 pl-2 border flex w-[90%] justify-between  gap-4 rounded-lg z-10 absolute bottom-[4%] left-[4%]  bg-white bg-opacity-65">
           <Paragraph2 className=" font-bold whitespace-nowrap w-[40%] truncate overflow-hidden">

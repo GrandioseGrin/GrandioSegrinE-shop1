@@ -31,10 +31,10 @@ function NavBar() {
           <img src="/images/logo.png" alt="" className="h-[40px]" />
           <div className="xl:flex gap-[24px] hidden"></div>
           <div className="xl:flex gap-[24px] hidden items-center">
-            <ExchangeRateComponent />
-
             <Profile />
           </div>
+          <ExchangeRateComponent />
+
           <div className="xl:hidden z-[999] flex">
             <button onClick={toggleMenu} className="focus:outline-none">
               <Image

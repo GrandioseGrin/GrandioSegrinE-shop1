@@ -55,7 +55,7 @@ const ExchangeRateComponent = () => {
         <div className="flex items-center gap-2">
           <input
             type="text"
-            className="border p-1 rounded"
+            className="border p-1 rounded w-[100px]"
             value={newRate}
             onChange={(e) => setNewRate(e.target.value)}
           />
