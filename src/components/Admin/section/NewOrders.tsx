@@ -261,11 +261,20 @@ function NewOrders() {
                     onClick={handleBack}
                     className="hover:scale-110 transition-transform duration-300"
                   >
-                    <img
-                      src="/icons/back1.svg"
-                      alt=""
-                      className=" w-[50px]- h-[25px] sm:h-[50px]"
-                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                      />
+                    </svg>
                   </button>
 
                   <div className=" flex w-full-">
@@ -291,7 +300,7 @@ function NewOrders() {
                   </div>
                 </div>
 
-                <div className=" mt-[40px] space-y-[20px]">
+                <div className=" mt-[20px] space-y-[20px]">
                   <div className=" px-4 sm:px-[20px] py-[20px] bg-bg_gray rounded-[15px] space-y-[20px]">
                     <div className=" flex justify-between items-center">
                       <Paragraph2 className="text-sm text-gray-500  underline-">
@@ -374,7 +383,9 @@ function NewOrders() {
                           First Name
                         </ParagraphLink2>
                         <div className=" p-4 bg-white rounded-[12px]">
-                          <p className=" text-[14px] ">{selectedOrder.firstName}</p>
+                          <p className=" text-[14px] ">
+                            {selectedOrder.firstName}
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -382,7 +393,9 @@ function NewOrders() {
                           Last Name
                         </ParagraphLink2>
                         <div className=" p-4 bg-white rounded-[12px]">
-                          <p className=" text-[14px] ">{selectedOrder.lastName}</p>
+                          <p className=" text-[14px] ">
+                            {selectedOrder.lastName}
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -398,7 +411,9 @@ function NewOrders() {
                           Phone Number{" "}
                         </ParagraphLink2>
                         <div className=" p-4 bg-white rounded-[12px]">
-                          <p className=" text-[14px] ">{selectedOrder.phoneNumber}</p>
+                          <p className=" text-[14px] ">
+                            {selectedOrder.phoneNumber}
+                          </p>
                         </div>
                       </div>
 
@@ -433,7 +448,9 @@ function NewOrders() {
                         Payment Method{" "}
                       </ParagraphLink2>
                       <div className=" p-4 bg-white rounded-[12px]">
-                        <p className=" text-[14px] ">{selectedOrder.paymentMethod}</p>
+                        <p className=" text-[14px] ">
+                          {selectedOrder.paymentMethod}
+                        </p>
                       </div>
                     </div>
                     <div>
@@ -458,7 +475,9 @@ function NewOrders() {
                           Zip Code
                         </ParagraphLink2>
                         <div className=" p-4 bg-white rounded-[12px]">
-                          <p className=" text-[14px] ">{selectedOrder.zipCode}</p>
+                          <p className=" text-[14px] ">
+                            {selectedOrder.zipCode}
+                          </p>
                         </div>
                       </div>
                     </div>
