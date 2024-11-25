@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
           />
         </Link>
-        <div className=" flex flex-col justify-center border-t  items-center  p-2 ga rounded-lg  bg-white bg-opacity-65">
+        <div className=" flex flex-col justify-center border-t  items-center  p-2 ga -rounded-lg  bg-white bg-opacity-65">
           <p className=" font-medium text-center  whitespace-nowrap w-[100%] truncate overflow-hidden">
             {" "}
             {title}{" "}

@@ -64,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={image.replace("/upload/", "/upload/w_1000,f_auto/")}
             alt={title}
-            className="w-full h-[300px] object-contain hover:scale-110 transition-transform duration-300 "
+            className="w-full h-[250px] object-contain hover:scale-110 transition-transform duration-300 "
           />
         </div>
       </div>

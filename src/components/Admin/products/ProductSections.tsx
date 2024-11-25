@@ -149,7 +149,7 @@ function ProductSections() {
           <div>
             <Header4>Featured Products</Header4>
           </div>
-          <div className=" grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+          <div className=" grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
 
             {featuredProducts && featuredProducts.length > 0
               ? featuredProducts
@@ -248,7 +248,7 @@ function ProductSections() {
             </div>
           </div>
 
-          <div className=" grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+          <div className=" grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
             {/* all products */}
             {displayedProducts.map((product) => (
               <ProductCard
