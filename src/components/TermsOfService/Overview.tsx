@@ -19,17 +19,16 @@ function Overview() {
           <div className="flex flex-col bg-primary sm:gap-[20px] px-4 sm:p-[65px] py-12 sm:py- rounded-t-[24px] w-full sm:text-center text-white">
             <Header1Plus>Terms and Conditions</Header1Plus>
             <Paragraph3>
-              At Salford Studio, we value your trust and are committed to
-              protecting your privacy. This policy outlines how we collect, use,
-              and protect your personal information when you visit our website
-              or engage with our services.
+              Welcome to GrandioseGrin! By using our website and services, you
+              agree to the following terms and conditions. Please read them
+              carefully to ensure a smooth and enjoyable shopping experience.
             </Paragraph3>
           </div>
           <div className="absolute sm:-bottom-[200px] -bottom-[60px] overflow-hidden flex w-full">
             <img
               className="min-w-full"
               src="/images/white_bgR.svg"
-              alt="privacy"
+              alt="terms and conditions"
             />
           </div>
         </div>
@@ -37,97 +36,107 @@ function Overview() {
         <div className="py-4 sm:py-[50px] rounded-b-[24px] text-p_black z-[10] bg-white px-4 sm:px-[65px] space-y-[18px] sm:space-y-[32px]">
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Information We Collect
+              Use of Website
             </ParagraphLink1>
             <Paragraph1>
-              We may gather personal information to provide better services,
-              including:
-              <br />
-              - Personal Details: Name, email, phone number, and relevant
-              details shared through forms or bookings.
-              <br />
-              - Usage Data: Information such as IP address, browser type, and
-              pages visited to enhance user experience.
-              <br />- Cookies: We use cookies to improve website functionality
-              and track performance. You can manage cookie preferences through
-              your browser.
+              By accessing GrandioseGrin, you agree to use our platform for
+              lawful purposes only. Any misuse, such as attempting to harm the
+              website or its users, is strictly prohibited.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              How We Use Your Information
+              Account Responsibility
             </ParagraphLink1>
             <Paragraph1>
-              The personal information collected helps us:
-              <br />
-              - Deliver Services: Manage inquiries, bookings, and consultations.
-              <br />
-              - Enhance Customer Experience: Improve our services based on your
-              feedback and preferences.
-              <br />- Communicate Updates: With your consent, send you updates
-              about promotions or new services.
+              Users are responsible for maintaining the confidentiality of their
+              account details, including passwords. Please notify us immediately
+              if you suspect unauthorized access or a security breach.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Safeguarding Your Data
+              Orders and Payments
             </ParagraphLink1>
             <Paragraph1>
-              We take reasonable measures to protect your data from unauthorized
-              access. While no system is entirely secure, we strive to use
-              industry-standard practices to keep your information safe.
+              - Order Confirmation: Orders placed on GrandioseGrin are
+              subject to availability. We reserve the right to cancel orders for
+              any reason, including errors in pricing or stock levels.
+              <br />- Payment: All payments must be completed at checkout.
+              Accepted payment methods include credit/debit cards and other
+              secure options as listed on our website.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Sharing Your Information
+              Shipping and Delivery
             </ParagraphLink1>
             <Paragraph1>
-              We do not sell or share your personal information, except:
+              We aim to deliver your orders promptly. However, delivery times
+              may vary due to unforeseen circumstances. Shipping costs and
+              timelines are displayed during checkout.
+            </Paragraph1>
+          </div>
+
+          <div>
+            <ParagraphLink1 className="font-bold text-primary">
+              Returns and Refunds
+            </ParagraphLink1>
+            <Paragraph1>
+              - Eligibility: Returns are accepted for unopened and unused
+              products within 30 days of delivery.
               <br />
-              - With Trusted Partners: We may work with third-party vendors to
-              support website operations and services.
-              <br />- For Legal Compliance: We may disclose data if required by
-              law or to protect our legal rights.
+              - Refunds: Approved returns will be refunded to the original
+              payment method. Shipping fees are non-refundable.
+              <br />- Exclusions: Customized or perishable products are not
+              eligible for returns.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Your Rights
+              Intellectual Property
             </ParagraphLink1>
             <Paragraph1>
-              You have the right to:
-              <br />
-              - Access, correct, or delete your personal information.
-              <br />
-              - Opt-out of marketing communications at any time.
-              <br />- Manage cookies through your browser settings.
+              All content on GrandioseGrin, including images, text, and
+              branding, is owned by us or our licensors. Any unauthorized use of
+              our intellectual property is prohibited.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Links to External Websites
+              Limitation of Liability
             </ParagraphLink1>
             <Paragraph1>
-              Our website may contain links to third-party sites. We are not
-              responsible for their privacy practices and encourage you to
-              review their policies.
+              GrandioseGrin is not liable for any indirect, incidental, or
+              consequential damages arising from the use of our website or
+              products, to the maximum extent permitted by law.
             </Paragraph1>
           </div>
 
           <div>
             <ParagraphLink1 className="font-bold text-primary">
-              Changes to Our Privacy Policy
+              Changes to Terms
             </ParagraphLink1>
             <Paragraph1>
-              We may update this policy from time to time. Any changes will be
-              posted here, with the updated effective date. Please review it
-              periodically to stay informed.
+              We may update these terms periodically. Continued use of our
+              website implies acceptance of any changes. Please review these
+              terms regularly for updates.
+            </Paragraph1>
+          </div>
+
+          <div>
+            <ParagraphLink1 className="font-bold text-primary">
+              Contact Us
+            </ParagraphLink1>
+            <Paragraph1>
+              If you have any questions about our terms and conditions, feel
+              free to reach out to our support team via email or the contact
+              form on our website.
             </Paragraph1>
           </div>
         </div>

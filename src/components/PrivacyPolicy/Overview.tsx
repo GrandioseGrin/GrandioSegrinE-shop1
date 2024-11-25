@@ -14,16 +14,15 @@ function Overview() {
   });
   
   return (
-    <div className="pt-[10px] bg-bg_gray">
+    <div className="pt-[20px] bg-bg_gray">
       <div data-aos="flip-right" className="container1">
         <div className="relative overflow-hidden">
           <div className="flex flex-col bg-primary sm:gap-[20px] px-4 sm:p-[65px] py-12 sm:py- rounded-t-[24px] w-full sm:text-center text-white">
             <Header1Plus>Privacy Policy</Header1Plus>
             <Paragraph3>
-              At Salford Studio, we value your trust and are committed to
-              protecting your privacy. This policy outlines how we collect, use,
-              and protect your personal information when you visit our website
-              or engage with our services.
+              At GrandioseGrin, your privacy is our priority. This policy
+              explains how we collect, use, and safeguard your personal
+              information when you shop with us or interact with our website.
             </Paragraph3>
           </div>
           <div className="absolute sm:-bottom-[200px] -bottom-[60px] overflow-hidden flex w-full">
@@ -41,17 +40,16 @@ function Overview() {
               Information We Collect
             </ParagraphLink1>
             <Paragraph1>
-              We may gather personal information to provide better services,
-              including:
+              To provide the best experience at GrandioseGrin, we may collect:
               <br />
-              - Personal Details: Name, email, phone number, and relevant
-              details shared through forms or bookings.
+              - Personal Details: Name, email, phone number, and address
+              provided during account creation or checkout.
               <br />
-              - Usage Data: Information such as IP address, browser type,
-              and pages visited to enhance user experience.
-              <br />- Cookies: We use cookies to improve website
-              functionality and track performance. You can manage cookie
-              preferences through your browser.
+              - Purchase Data: Products bought and preferences to recommend
+              tailored solutions.
+              <br />- Cookies: Used to personalize your shopping experience and
+              enhance website performance. Manage these via your browser
+              settings.
             </Paragraph1>
           </div>
 
@@ -60,15 +58,14 @@ function Overview() {
               How We Use Your Information
             </ParagraphLink1>
             <Paragraph1>
-              The personal information collected helps us:
+              Your information allows us to:
               <br />
-              - Deliver Services: Manage inquiries, bookings, and
-              consultations.
+              - Process Orders: Ensure smooth order fulfillment and shipping.
               <br />
-              - Enhance Customer Experience: Improve our services based on
-              your feedback and preferences.
-              <br />- Communicate Updates: With your consent, send you
-              updates about promotions or new services.
+              - Improve Services: Personalize product recommendations and
+              enhance user experience based on preferences.
+              <br />- Stay Connected: With your consent, share updates on new
+              arrivals, promotions, or exclusive deals.
             </Paragraph1>
           </div>
 
@@ -77,9 +74,9 @@ function Overview() {
               Safeguarding Your Data
             </ParagraphLink1>
             <Paragraph1>
-              We take reasonable measures to protect your data from unauthorized
-              access. While no system is entirely secure, we strive to use
-              industry-standard practices to keep your information safe.
+              We implement industry-standard security measures to protect your
+              personal data. While no system is completely secure, we are
+              committed to keeping your information safe.
             </Paragraph1>
           </div>
 
@@ -88,12 +85,12 @@ function Overview() {
               Sharing Your Information
             </ParagraphLink1>
             <Paragraph1>
-              We do not sell or share your personal information, except:
+              Your information is not sold or shared except:
               <br />
-              - With Trusted Partners: We may work with third-party vendors
-              to support website operations and services.
-              <br />- For Legal Compliance: We may disclose data if required
-              by law or to protect our legal rights.
+              - With Trusted Vendors: To facilitate payment processing,
+              shipping, and other essential services.
+              <br />- For Legal Compliance: When required by law or to protect
+              our rights.
             </Paragraph1>
           </div>
 
@@ -104,9 +101,9 @@ function Overview() {
             <Paragraph1>
               You have the right to:
               <br />
-              - Access, correct, or delete your personal information.
+              - Access, correct, or delete your personal details.
               <br />
-              - Opt-out of marketing communications at any time.
+              - Unsubscribe from marketing emails at any time.
               <br />- Manage cookies through your browser settings.
             </Paragraph1>
           </div>
@@ -116,9 +113,9 @@ function Overview() {
               Links to External Websites
             </ParagraphLink1>
             <Paragraph1>
-              Our website may contain links to third-party sites. We are not
-              responsible for their privacy practices and encourage you to
-              review their policies.
+              Our website may include links to third-party platforms. We
+              encourage you to review their privacy policies, as we are not
+              responsible for their practices.
             </Paragraph1>
           </div>
 
@@ -127,9 +124,9 @@ function Overview() {
               Changes to Our Privacy Policy
             </ParagraphLink1>
             <Paragraph1>
-              We may update this policy from time to time. Any changes will be
-              posted here, with the updated effective date. Please review it
-              periodically to stay informed.
+              Updates to this policy may occur periodically. All changes will be
+              published here with an effective date. We recommend reviewing this
+              policy regularly.
             </Paragraph1>
           </div>
         </div>
