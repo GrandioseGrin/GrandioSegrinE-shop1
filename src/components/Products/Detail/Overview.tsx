@@ -16,14 +16,15 @@ import {
   getDocs,
 } from "firebase/firestore";
 import useCartStore from "@/stores/cartStore";
+import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 
 interface Product {
   id: string;
   name: string;
   description: string;
   category: string;
-  currentPrice: string;
-  oldPrice?: string;
+  currentPrice: number;
+  oldPrice?: number;
   availableAmount: any;
   productImageURL1?: string;
   productImageURL2?: string;
@@ -41,6 +42,7 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const addToCart = useCartStore((state) => state.addToCart);
   const toggleCart = useCartStore((state) => state.toggleCart);
+  const { selectedCurrency, exchangeRate } = useExchangeRateStore();
 
   useEffect(() => {
     if (!productID) return;
@@ -98,6 +100,34 @@ const ProductDetail = () => {
     toggleCart(true); // Ensure the cart is open
   };
 
+  
+
+  const displayPrice2 =
+    selectedCurrency === "USD" &&
+    exchangeRate > 0 &&
+    product?.oldPrice !== undefined
+      ? product?.oldPrice / exchangeRate // Convert to USD
+      : product?.oldPrice; // Default to NGN
+
+  const displayPrice =
+    selectedCurrency === "USD" &&
+    exchangeRate > 0 &&
+    product?.currentPrice !== undefined
+      ? product?.currentPrice / exchangeRate // Convert to USD
+      : product?.currentPrice; // Default to NGN
+
+  const currencySymbol = selectedCurrency === "USD" ? "$" : "₦";
+
+  const formattedPrice =
+    selectedCurrency === "USD" && displayPrice !== undefined
+      ? displayPrice.toFixed(2) // Format for USD with 2 decimal places
+      : displayPrice; // Format for NGN (comma-separated)
+
+  const formattedPrice2 =
+    selectedCurrency === "USD" && displayPrice2 !== undefined
+      ? displayPrice2.toFixed(2) // Format for USD with 2 decimal places
+      : displayPrice2; // Format for NGN (comma-separated)
+
   if (loading)
     return (
       <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50 ">
@@ -143,15 +173,16 @@ const ProductDetail = () => {
             <Header4>{product.name}</Header4>
             <div className="flex items-center  gap-4 py-2">
               <Header5>
-                {`₦ ${new Intl.NumberFormat("en-US").format(
-                  Number(product.currentPrice)
+                {`${currencySymbol} ${new Intl.NumberFormat("en-US", {}).format(
+                  Number(formattedPrice)
                 )}`}
               </Header5>
               {product.oldPrice && (
                 <p className="text-[12px] text-gray-700  sm:mb-0 line-through">
-                  {`₦ ${new Intl.NumberFormat("en-US").format(
-                    Number(product.oldPrice)
-                  )}`}
+                  {`${currencySymbol} ${new Intl.NumberFormat(
+                    "en-US",
+                    {}
+                  ).format(Number(formattedPrice2))}`}
                 </p>
               )}
             </div>
