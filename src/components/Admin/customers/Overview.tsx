@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, getDocs } from "firebase/firestore";
 import { Header4, ParagraphLink1 } from "@/components/Text";
+import EmailList from "./EmailList";
 
 interface Order {
   id: string;
@@ -19,6 +20,7 @@ const Overview: React.FC = () => {
   const [filteredOrders, setFilteredOrders] = useState<Record<string, any>>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showEmails, setShowEmails] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -92,7 +94,27 @@ const Overview: React.FC = () => {
 
   return (
     <div className="pt-[100px] container1">
-      <Header4 className="text-xl font-bold mb-4">Customers Summary</Header4>
+      <div className=" flex flex-wrap gap-4 sm:justify-between mb-4">
+        <Header4 className="text-xl font-bold ">Customers Summary</Header4>
+        <div className=" relative">
+          {" "}
+          <button
+            onClick={() => setShowEmails(!showEmails)}
+            className="rounded-lg px-4 border bg-white "
+          >
+            <ParagraphLink1 className=" text-center">
+              Newsletter List{" "}
+            </ParagraphLink1>
+          </button>{" "}
+          <div>
+            {showEmails && (
+              <div className=" absolute top-[50px] sm:right-0 border overflow-hidden bg-white rounded-lg shadow">
+                <EmailList />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
       <div className="flex gap-4 bg-white items-center rounded-lg border w-full px-4 py-2 overflow-hidden mb-4">
         <img src="/icons/search.svg" alt="search-icon" className="w-5 h-5" />

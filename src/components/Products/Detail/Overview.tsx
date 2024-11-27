@@ -17,6 +17,8 @@ import {
 } from "firebase/firestore";
 import useCartStore from "@/stores/cartStore";
 import { useExchangeRateStore } from "@/stores/exchangeRateStore";
+import Link from "next/link";
+import CopyUrlButton from "./CopyUrlButton";
 
 interface Product {
   id: string;
@@ -100,8 +102,6 @@ const ProductDetail = () => {
     toggleCart(true); // Ensure the cart is open
   };
 
-  
-
   const displayPrice2 =
     selectedCurrency === "USD" &&
     exchangeRate > 0 &&
@@ -139,7 +139,7 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <div className="container mx-auto px-4 py-[100px]">
+      <div className="container  px-4 py-[100px]">
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-8 bg-white p-2 py-4 sm:p-8 rounded-lg">
           {/* Right section - Product Images */}
           <div className="sm:col-span-3">
@@ -186,17 +186,21 @@ const ProductDetail = () => {
                 </p>
               )}
             </div>
-            {product.availableAmount === 0 ? (
-              <div className="py-2 flex w-full justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
-                Out of Stock
-              </div>
-            ) : (
-              <Button
-                text="Add to Cart"
-                onClick={handleAddToCart}
-                additionalClasses="border-white bg-black w-full flex justify-center sm:hidden"
-              />
-            )}
+            <div className=" flex justify-between sm:hidden my-2 gap-2 items-center">
+              {product.availableAmount === 0 ? (
+                <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
+                  Out of Stock
+                </div>
+              ) : (
+                <Button
+                  text="Add to Cart"
+                  onClick={handleAddToCart}
+                  additionalClasses="border-white bg-black w-full flex justify-center "
+                />
+              )}
+
+              <CopyUrlButton />
+            </div>
             <hr className="mb-6" />
 
             <div className=" flex gap-2 mb-4 text-gray-600 text-[12px]">
@@ -207,17 +211,33 @@ const ProductDetail = () => {
             <p className="text-gray-600 mb-6 text-justify">
               {product.description}
             </p>
-            {product.availableAmount === 0 ? (
-              <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
-                Out of Stock
-              </div>
-            ) : (
-              <Button
-                text="Add to Cart"
-                onClick={handleAddToCart}
-                additionalClasses="border-white bg-black w-full flex justify-center "
-              />
-            )}
+            <div className=" flex justify-between gap-2 items-center">
+              {product.availableAmount === 0 ? (
+                <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
+                  Out of Stock
+                </div>
+              ) : (
+                <Button
+                  text="Add to Cart"
+                  onClick={handleAddToCart}
+                  additionalClasses="border-white bg-black w-full flex justify-center "
+                />
+              )}
+
+              <CopyUrlButton />
+            </div>
+
+            <div className="mt-6 text-gray-600  flex flex-co items-center justify-center">
+              <p>
+                We'd love to also hear your thoughts on this product.{" "}
+                <span>
+                  <Link href="/contact-us" className="text-primary underline">
+                    Contact us today
+                  </Link>
+                </span>{" "}
+                to get started.
+              </p>
+            </div>
           </div>
         </div>
 

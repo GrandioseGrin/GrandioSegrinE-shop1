@@ -33,7 +33,10 @@ function NavBar() {
           <div className="xl:flex gap-[24px] hidden items-center">
             <Profile />
           </div>
-          <ExchangeRateComponent />
+
+          <div className=" hidden sm:flex">
+            <ExchangeRateComponent />
+          </div>
 
           <div className="xl:hidden z-[999] flex">
             <button onClick={toggleMenu} className="focus:outline-none">

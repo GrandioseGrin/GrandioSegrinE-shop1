@@ -25,7 +25,7 @@ const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
   return (
     <div>
       {" "}
-      <div className=" container1 py-[54px] xl:py-[100px]  text-p_black">
+      <div className=" container1 py-[54px] xl:py-[50px]  text-p_black">
         {" "}
         <div
           className=" flex xl:gap-[24px] flex-col text-center items-center w-full mb-[24px] xl:mb-[64px]"

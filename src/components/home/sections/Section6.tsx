@@ -18,7 +18,7 @@ function section6() {
   return (
     <div>
       <div
-        className=" container1 pt-[24px] xl:pt-[10px] text-p_black"
+        className=" container1 pt-[24px] xl:pt-[50px] text-p_black"
         data-aos="fade-up"
       >
         {" "}

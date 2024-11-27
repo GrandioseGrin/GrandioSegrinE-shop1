@@ -43,9 +43,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         onClick={handleEditClick}
         className="bg-white relative hover:border-primary cursor-pointer border-2 rounded-lg"
       >
-        <div className=" absolute top-2 left-2 bg-black px-2 py-1 rounded-lg">
-          <p className=" text-white text-[12px]">
-            Qt: {product.availableAmount}{" "}
+        <div
+          className={`absolute top-2 left-2 px-2 py-1 rounded-lg ${
+            product.availableAmount === "0" ? "bg-red-500" : "bg-black"
+          }`}
+        >
+          <p className="text-white text-[12px]">
+            {product.availableAmount === "0"
+              ? "Out of Stock"
+              : `Qt: ${product.availableAmount}`}
           </p>
         </div>
         <div className="p-1 pl-2 border flex w-[90%] justify-between  gap-4 rounded-lg z-10 absolute bottom-[4%] left-[4%]  bg-white bg-opacity-65">
@@ -64,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={image.replace("/upload/", "/upload/w_1000,f_auto/")}
             alt={title}
-            className="w-full h-[250px] object-contain hover:scale-110 transition-transform duration-300 "
+            className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
           />
         </div>
       </div>

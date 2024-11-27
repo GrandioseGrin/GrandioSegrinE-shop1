@@ -15,7 +15,7 @@ function HeroSection() {
 
   return (
     <div className="  ">
-      <div className="xl:py-[50px] relative py-[50px] xl:pt-[100px] pt-[100px] bg-p_black pb-[100px]">
+      <div className="xl:py-[150px] relative py-[50px] xl:pt-[150px] pt-[100px] bg-p_black pb-[100px]">
         {/* Background image overlay */}
         <div
           className="absolute inset-0 bg-cover  bg-center- z-0"
@@ -86,9 +86,7 @@ function HeroSection() {
           </div> */}
         </div>
       </div>
-      <div className=" my-[50px] ">
-        <ElevatingBrands />
-      </div>
+      
     </div>
   );
 }

@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       data-aos="fade-up"
       className="max-w-full bg-white rounded-lg shadow-l overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="bg-white relative hover:border-primary overflow-hidden border rounded-lg ">
+      <div className="bg-white relative p-2 hover:border-primary overflow-hidden border rounded-lg ">
         <Link href={`/products/${productID}`}>
           {" "}
           <img
@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
           />
         </Link>
-        <div className=" flex flex-col justify-center border-t  items-center  p-2 ga -rounded-lg  bg-white bg-opacity-65">
+        <div className=" flex flex-col justify-center border-t pt-2 items-center   ga -rounded-lg  bg-white bg-opacity-65">
           <p className=" font-medium text-center  whitespace-nowrap w-[100%] truncate overflow-hidden">
             {" "}
             {title}{" "}

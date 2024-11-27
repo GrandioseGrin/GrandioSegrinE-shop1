@@ -316,7 +316,9 @@ const Checkout: React.FC<CheckoutProps> = ({
     }
 
     // Clear the cart
-    // clearCart();
+    clearCart();
+
+    window.location.href = "/"; 
   };
 
   useEffect(() => {
@@ -701,7 +703,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                 handleFlutterPayment({
                   callback: (response) => {
                     console.log(response);
-                    if (response.status === "completed") {
+                    if (response.status === "successful") {
                       const PaymentFlw_ref = response.flw_ref;
                       setPaymentResponse(PaymentFlw_ref);
                       submitOrderToFirestore(shippingInfo);

@@ -6,6 +6,7 @@ import ProductCard from "./ProductCard";
 import AddMore from "./AddMore";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, getDocs } from "firebase/firestore"; // Firestore methods
+import CategoryEditor from "./CategoryEditor";
 
 interface Product {
   id: string;
@@ -150,7 +151,6 @@ function ProductSections() {
             <Header4>Featured Products</Header4>
           </div>
           <div className=" grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-
             {featuredProducts && featuredProducts.length > 0
               ? featuredProducts
                   .slice(0, 4)
@@ -164,12 +164,12 @@ function ProductSections() {
                       product={product}
                     />
                   ))
-              : Array(4)
+              : Array(10)
                   .fill(null)
                   .map((_, index) => (
                     <div
                       key={index}
-                      className="h-[300px] w-full bg-white rounded-md animate-pulse"
+                      className="h-[150px] w-full bg-white rounded-md animate-pulse"
                     ></div>
                   ))}
           </div>
@@ -209,6 +209,7 @@ function ProductSections() {
                   </ParagraphLink1>
                 </button>
               ))}
+            <CategoryEditor />
             </div>
             <div className="relative inline-">
               <div

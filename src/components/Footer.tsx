@@ -21,19 +21,15 @@ function Footer() {
         ["/contact-us", "/privacy-policy", "/terms-of-service"].includes(
           pathname
         )
-          ? "bg-bg_gray sm:py-[100px]"
-          : " bg-white sm:py-[100px]"
+          ? "bg-bg_gray sm:py-[100px]-"
+          : " bg-white sm:py-[100px]-"
       }
     >
-      <div className="container1  bg-p_black sm:rounded-lg ">
-        <div className=" px-[24px] sm:px-[70px] py-[32px] sm:py-[80px] ">
+      <div className="  bg-[#4A4A4A]  ">
+        <div className=" container1 py-[32px] sm:py-[80px] ">
           {/* desktop */}
-          <div className="sm:flex hidden justify-between mb-[110px]">
+          <div className="sm:flex hidden items-center justify-between mb-[60px]">
             <div className="w-[200px] relative">
-              {/* <div className=" border-2 border-primary rounded-full w-2 h-2 p- absolute top-1 -left-1 "></div>{" "}
-              <HeaderAny className=" text-[24px] text-white">
-                GrandioseGrin
-              </HeaderAny>{" "} */}
               <img src="/images/logo2.png" alt="photographer" />
             </div>
             <div className=" flex gap-[48px]">
@@ -123,6 +119,28 @@ function Footer() {
               </div>
             </div>
           </div>
+          <div className=" sm:flex justify-center items-center hidden py-4">
+            <div className=" py-2 px-4 rounded-lg bg-white flex justify-center items-center gap-2 flex-col">
+              <p className=" text-[12px] pb-2 ">
+                {" "}
+                Payments secuered by{" "}
+                <span className=" font-bold">Flutterwave</span>{" "}
+              </p>
+              <div className=" flex gap-4 flex-col- items-center">
+                {" "}
+                <img
+                  src="https://res.cloudinary.com/dtipo8fg3/image/upload/v1732661439/image-removebg-preview_6_sygmis.png"
+                  alt=""
+                  className=" w-[30px] h-[30px]"
+                />{" "}
+                <img
+                  src="https://res.cloudinary.com/dtipo8fg3/image/upload/v1732660748/image-removebg-preview_5_doqrew.png"
+                  alt=""
+                  className=" w-[200px]"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* mobile  */}
           <div className=" mb-[24px] sm:hidden sm:mb-[110px]">
@@ -196,19 +214,41 @@ function Footer() {
           </div>
 
           <div className=" border-t pt-[24px] sm:pt-[32px] flex flex-wrap justify-between">
-            <ParagraphLink2 className=" text-[#ECECEC] ">
+            <div className=" flex justify-center items-center sm:hidden py-4">
+              <div className=" py-2 px-4 rounded-lg bg-white flex justify-center items-center gap-2 flex-col">
+                <p className=" text-[12px] pb-2 ">
+                  {" "}
+                  Payments secuered by{" "}
+                  <span className=" font-bold">Flutterwave</span>{" "}
+                </p>
+                <div className=" flex gap-4 flex-col- items-center">
+                  {" "}
+                  <img
+                    src="https://res.cloudinary.com/dtipo8fg3/image/upload/v1732661439/image-removebg-preview_6_sygmis.png"
+                    alt=""
+                    className=" w-[20px] h-[20px]"
+                  />{" "}
+                  <img
+                    src="https://res.cloudinary.com/dtipo8fg3/image/upload/v1732660748/image-removebg-preview_5_doqrew.png"
+                    alt=""
+                    className=" w-[150px]"
+                  />
+                </div>
+              </div>
+            </div>
+            <ParagraphLink2 className=" text-[14px] text-[#ECECEC] ">
               © 2024 GrandioseGrin Ltd. All rights reserved.
             </ParagraphLink2>
             <div className="flex flex-wrap gap-[24px] items-center">
               <Link href="/privacy-policy" className="">
                 {" "}
-                <ParagraphLink2 className=" text-[#ECECEC] underline ">
+                <ParagraphLink2 className=" text-[14px] text-[#ECECEC] underline ">
                   Privacy Policy
                 </ParagraphLink2>
               </Link>
 
               <Link href="/terms-of-service">
-                <ParagraphLink2 className=" text-[#ECECEC] underline">
+                <ParagraphLink2 className=" text-[14px] text-[#ECECEC] underline">
                   Terms of Service{" "}
                 </ParagraphLink2>
               </Link>
