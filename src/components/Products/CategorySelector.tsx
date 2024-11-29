@@ -61,7 +61,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
             ? "bg-gray-100 text-black"
             : "bg-white text-black  hover:bg-gray-100"
         }`}
-        onClick={() => setSelectedCategory(null)}
+        onClick={() => {
+          setSelectedCategory(null);
+          closeMenu();
+        }}
       >
         {" "}
         <ParagraphLink1 className=" text-center">All </ParagraphLink1>

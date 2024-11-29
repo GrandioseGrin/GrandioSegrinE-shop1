@@ -653,18 +653,6 @@ const Checkout: React.FC<CheckoutProps> = ({
               {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state},{" "}
               {shippingInfo.zipCode}
             </p>
-
-            {paymentDenied && (
-              <div className=" flex p-4 items-center h-[200px] w-full  justify-center rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
-                Your payment was declined. Please try again later.{" "}
-              </div>
-            )}
-
-            {canceledPay && (
-              <div className=" flex p-4 items-center justify-center h-[200px] w-full rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
-                Your payment was canceled by you. You may try again later.{" "}
-              </div>
-            )}
           </div>
 
           <div className="min-h-[200px] ">
@@ -763,6 +751,34 @@ const Checkout: React.FC<CheckoutProps> = ({
                 </div>
               )}
             </div>
+
+            {paymentDenied && (
+              <div className=" flex p-4 items-center h-[200px] w-full  justify-center rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+                <p>
+                  Your payment was declined. Please{" "}
+                  <span
+                    onClick={() => window.location.reload()}
+                    className=" text-primary underline cursor-pointer"
+                  >
+                    try again later.{" "}
+                  </span>
+                </p>
+              </div>
+            )}
+
+            {canceledPay && (
+              <div className=" flex p-4 items-center justify-center h-[200px] w-full rounded-lg border mt-4 bg-white bg-opacity-50 z-50">
+                <p>
+                  Your payment was canceled by you. Please{" "}
+                  <span
+                    onClick={() => window.location.reload()}
+                    className=" text-primary underline cursor-pointer"
+                  >
+                    try again later.{" "}
+                  </span>
+                </p>
+              </div>
+            )}
           </div>
           <div className="flex justify-between pt-8">
             <button
@@ -791,7 +807,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                   },
                 });
               }}
-              className="w-full font-bold bg-primary text-white p-2 rounded-md hover:bg-black ml-4"
+              className={`w-full font-bold bg-primary text-white p-2 rounded-md hover:bg-black ml-4 ${
+                paymentDenied || canceledPay
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={paymentDenied || canceledPay} // Disable the button conditionally
             >
               <ParagraphLink2>Proceed to Payment</ParagraphLink2>{" "}
             </button>
@@ -831,7 +852,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                   </div>
                 </div>
 
-                <div className="pb-4 flex items-center w-full gap-2">
+                <div className="pb-4 flex items-start w-full gap-2">
                   <div className="text-gray-500 whitespace-nowrap">
                     Location:
                   </div>
