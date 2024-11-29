@@ -73,10 +73,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         <div key={category.id} className="">
           {/* Main Category Button */}
           <button
-            className={`flex w-full rounded-lg px-4 py-2 xl:py-0  ${
+            className={`flex justify-between items-center w-full rounded-lg px-4 py-2 xl:py-0  ${
               selectedCategory === category.id
                 ? "bg-gray-100 text-black"
-                : "bg-white text-black hover:bg-gray-100 "
+                : "bg-white text-black  "
             }`}
             onClick={() =>
               setSubCategoryOpen((prev) =>
@@ -87,11 +87,28 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
             <ParagraphLink1 className="whitespace-nowrap text-center">
               {category.name}
             </ParagraphLink1>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className={`size-4 transition-transform ${
+                isSubCategoryOpen === category.id ? "rotate-180" : ""
+              }`}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
           </button>
 
           {/* Subcategory Dropdown */}
           {isSubCategoryOpen === category.id && (
-            <div className=" mt-2 flex flex-col gap-2  bg-white  rounded-lg w-full">
+            <div className=" mt-2 flex flex-col gap-2  bg-white border  rounded-lg w-full">
               <button
                 className={`text-left flex gap-2 px-4  items-center rounded-lg ${
                   selectedCategory === category.id
