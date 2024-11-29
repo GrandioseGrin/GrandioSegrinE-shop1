@@ -167,6 +167,7 @@ function NewOrders() {
     setOrders(updatedOrders); // Update the orders state
     setFilteredOrders(updatedOrders); // Ensure filtered list reflects changes
     setSelectedOrder(order);
+    setRefresh((prev) => !prev);
 
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -312,7 +313,7 @@ function NewOrders() {
                         {/* Use the custom formatting function */}
                       </Paragraph2>
                       <Paragraph2 className="text-sm text-gray-500  underline-">
-                        {selectedOrder.shipped ? "shipped" : "pending"}
+                        {selectedOrder.shipped ? "shipped" : " "}
                       </Paragraph2>
                     </div>
 
@@ -494,13 +495,24 @@ function NewOrders() {
                   <div className="flex justify-center gap-4">
                     <button
                       className="px-4 py-1  rounded-lg text-black bg-bg_gray text-[14px] hover:b"
-                      onClick={() => markAsRetured(selectedOrder.id)} // Pass the order ID
+                      onClick={() => {
+                        markAsRetured(selectedOrder.id);
+                        handleClick(selectedOrder);
+                      }}
                     >
                       Returned
                     </button>
                     <button
-                      className="px-4 py-1  rounded-lg text-white bg-primary text-[14px] hover:bg-black"
-                      onClick={() => markAsShipped(selectedOrder.id)} // Pass the order ID
+                      className={`px-4 py-1 rounded-lg text-white text-[14px] ${
+                        selectedOrder.shipped
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-black"
+                      }`}
+                      onClick={() => {
+                        markAsShipped(selectedOrder.id);
+                        handleClick(selectedOrder);
+                      }}
+                      disabled={selectedOrder.shipped}
                     >
                       Done
                     </button>
@@ -551,9 +563,9 @@ function NewOrders() {
                             Unread orders
                           </Paragraph2>
                         </button>
-                        <button onClick={() => showUnshippedOrders()}>
+                        <button onClick={() => showShippedOrders()}>
                           <Paragraph2 className="text-sm whitespace-nowrap">
-                            Unshipped Orders
+                            Shipped Orders
                           </Paragraph2>
                         </button>
 
