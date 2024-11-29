@@ -85,7 +85,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [shippingInfo, setShippingInfo] = useState({
     email: email || "",
     phoneNumber: phoneNumber || "",
-    country: "",
+    country:  "",
     firstName: firstName || "",
     lastName: lastName || "",
     address: address || "",
@@ -96,7 +96,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     note: "",
   });
 
-  const [shippingMethod, setShippingMethod] = useState("");
+  const [shippingMethod, setShippingMethod] = useState("Standard");
   const clearCart = useCartStore((state) => state.clearCart);
   const [isloading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState<Country[]>([]);
@@ -599,8 +599,13 @@ const Checkout: React.FC<CheckoutProps> = ({
                   /> */}
                 </div>
               </div>
-              <div className="flex items-center text-[12px]">
-                <Field type="checkbox" name="saveInfo" className="mr-2" />
+              <div className="flex items-center gap-2 text-[12px] ">
+                <Field
+                  type="checkbox"
+                  name="saveInfo"
+                  // className="mr-2"
+                  className="form-checkbox min-h-4 min-w-4 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
+                />
                 <ParagraphLink2>
                   Save this information for next time
                 </ParagraphLink2>
@@ -630,7 +635,7 @@ const Checkout: React.FC<CheckoutProps> = ({
       {/* Payment Tab */}
       {activeTab === 1 && (
         <div className="space-y-4 m ">
-          <div className="border-b pb-3 space-y-2 min-h-[500px]">
+          <div className="border-b pb-3 space-y-2 ">
             <HeaderAny className="font-semibold text-16px text-gray-700">
               Confirm Contact & Address
             </HeaderAny>
@@ -662,11 +667,11 @@ const Checkout: React.FC<CheckoutProps> = ({
             )}
           </div>
 
-          <div className="min-h-[500px] hidden">
+          <div className="min-h-[200px] ">
             <HeaderAny className="font-semibold text-16px text-gray-700">
               Select Shipping Method
             </HeaderAny>
-            <div className="flex space-x-4 mt-2">
+            <div className="flex flex-col space-y-4 mt-2">
               <label className="flex items-center space-x-2">
                 <input
                   type="radio"
@@ -674,10 +679,46 @@ const Checkout: React.FC<CheckoutProps> = ({
                   value="Pickup"
                   checked={shippingMethod === "Pickup"}
                   onChange={() => setShippingMethod("Pickup")}
-                  className="text-primary focus:ring-blue-500"
+                  className="form-checkbox min-h-5 min-w-5  appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary- rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
+                  disabled
                 />
-                <span>Pickup</span>
+                <span className=" text-gray-400">
+                  Pickup (not available in your location)
+                </span>
               </label>
+              {/* store location */}
+              {shippingMethod === "Pickup" && (
+                <div>
+                  <div className="flex text-gray-600 gap-2 items-start w-full p-2 rounded-lg bg-gray-100">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                        />
+                      </svg>
+                    </div>
+                    <p>
+                      17 Raphael Street Abule-Oshun, <br /> Ojo, <br /> Lagos
+                      State, <br /> Nigeria
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <label className="flex items-center space-x-2">
                 <input
                   type="radio"
@@ -685,13 +726,45 @@ const Checkout: React.FC<CheckoutProps> = ({
                   value="Standard"
                   checked={shippingMethod === "Standard"}
                   onChange={() => setShippingMethod("Standard")}
-                  className="text-primary focus:ring-blue-500"
+                  className="form-checkbox min-h-5 min-w-5 text-orange-500 appearance-none checked:bg-primary checked:border-transparent focus:outline-none border border-primary rounded checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:flex checked:after:justify-center"
                 />
                 <span>Standard Shipping</span>
               </label>
+              {/* user location */}
+              {shippingMethod === "Standard" && (
+                <div>
+                  <div className="flex gap-2 text-gray-600 items-start w-full p-2 rounded-lg bg-gray-100">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                        />
+                      </svg>
+                    </div>
+                    <p>
+                      {shippingInfo.address}, {shippingInfo.city},{" "}
+                      {shippingInfo.state}, {shippingInfo.zipCode}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between pt-8">
             <button
               onClick={handleBack}
               className="w-full  font-bold bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400"
@@ -755,6 +828,17 @@ const Checkout: React.FC<CheckoutProps> = ({
                   </div>
                   <div className=" div-email px-2 py-1  text-decoration-none rounded-lg- w-full outline-none">
                     {email}
+                  </div>
+                </div>
+
+                <div className="pb-4 flex items-center w-full gap-2">
+                  <div className="text-gray-500 whitespace-nowrap">
+                    Location:
+                  </div>
+                  <div className="div-email px-2 py-1 text-decoration-none rounded-lg w-full outline-none">
+                    {shippingMethod === "Pickup"
+                      ? "17 Raphael Street Abule-Oshun, Ojo, Lagos State, Nigeria"
+                      : `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zipCode}`}
                   </div>
                 </div>
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Paragraph2 } from "@/components/Text";
+import { Paragraph2, ParagraphLink2 } from "@/components/Text";
 import Button from "@/components/Button";
 import ProductModal from "./ProductModal";
 
@@ -19,7 +19,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   title,
   price,
   product,
-
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -32,17 +31,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
     setIsModalOpen(false);
   };
 
-  
-
   return (
-    <div className="max-w-full bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="max-w-full bg-white rounded-lg shadow-l overflow-hidden hover:shadow-xl transition-shadow duration-300">
       {isModalOpen && (
         <ProductModal product={product} onClose={handleModalClose} />
       )}
       <div
         onClick={handleEditClick}
-        className="bg-white relative hover:border-primary cursor-pointer border-2 rounded-lg"
+        className="bg-white relative p-2 hover:border-primary cursor-pointer border-2 rounded-lg"
       >
+        <img
+          src={image.replace("/upload/", "/upload/w_500,f_auto/")}
+          alt={title}
+          className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
+        />
         <div
           className={`absolute top-2 left-2 px-2 py-1 rounded-lg ${
             product.availableAmount === "0" ? "bg-red-500" : "bg-black"
@@ -54,25 +56,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
               : `Qt: ${product.availableAmount}`}
           </p>
         </div>
-        <div className="p-1 pl-2 border flex w-[90%] justify-between  gap-4 rounded-lg z-10 absolute bottom-[4%] left-[4%]  bg-white bg-opacity-65">
-          <Paragraph2 className=" font-bold whitespace-nowrap w-[40%] truncate overflow-hidden">
+
+        <div className=" flex flex-col justify-center border-t pt-2 items-center   ga -rounded-lg  bg-white bg-opacity-65">
+          <p className=" font-medium text-center pb-2  whitespace-nowrap w-[100%] truncate overflow-hidden">
+            {" "}
             {title}{" "}
-          </Paragraph2>
-          <Button
-            text={`₦ ${new Intl.NumberFormat("en-US", {}).format(
+          </p>
+
+          <button className="whitespace-nowrap text-[13px] flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white ">
+            <p>{`₦ ${new Intl.NumberFormat("en-US", {}).format(
               Number(price)
-            )}`}
-            additionalClasses=" border-0 whitespace-nowrap  "
-          />{" "}
+            )}`}</p>
+          </button>
         </div>
-        <div>
-          {" "}
-          <img
-            src={image.replace("/upload/", "/upload/w_1000,f_auto/")}
-            alt={title}
-            className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
-          />
-        </div>
+        
       </div>
     </div>
   );

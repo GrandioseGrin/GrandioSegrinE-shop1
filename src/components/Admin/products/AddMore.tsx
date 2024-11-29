@@ -13,6 +13,7 @@ import {
   Header5,
   ParagraphLink1,
 } from "@/components/Text";
+import ManageCategories from "./ManageCategories";
 
 type ProductValues = {
   name: string;
@@ -32,6 +33,8 @@ type ProductValues = {
   productWeight: number;
   category: string;
   selectedCategory: any;
+  sub_category: string;
+  selectedSubCategory: any;
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
@@ -55,6 +58,8 @@ const initialValues: ProductValues = {
   productWeight: 0,
   category: "",
   selectedCategory: {},
+  sub_category: "",
+  selectedSubCategory: {},
   description: "",
   isFeatured: false,
   isTrending: false,
@@ -63,18 +68,31 @@ const initialValues: ProductValues = {
 interface Category {
   id: string;
   name: string;
+  parentId: string;
   properties: Record<string, any>; // Store additional properties of the category
 }
 
-function AddMore() {
+interface SubCategory {
+  id: string;
+  name: string;
+  parentId: string;
+  properties: Record<string, any>; // Store additional properties of the category
+}
+
+interface AddMoreProps {
+  onRefetch: () => void; // Define the type of the prop
+}
+
+const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
+
   const [isAddMoreOpen, setIsAddMoreOpen] = useState(false);
-  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [formData, setFormData] = useState(initialValues);
   const [isloading, setIsLoading] = useState(false);
   const [categoryName, setCategoryName] = useState(""); // State for input
   const [categories, setCategories] = useState<Category[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -179,35 +197,14 @@ function AddMore() {
       });
       setIsLoading(false);
       setIsAddProductOpen(false);
+      onRefetch();
     } catch (error) {
       console.error("Error adding product: ", error);
       toast.error("Failed to add product.");
     }
   };
 
-  const handleCreateCategory = async () => {
-    if (!categoryName.trim()) {
-      toast.error("Category name cannot be empty!");
-      return;
-    }
 
-    setIsLoading(true);
-
-    try {
-      await addDoc(collection(db, "category"), {
-        name: categoryName,
-        createdAt: new Date(),
-      });
-      setIsLoading(false);
-      setIsAddCategoryOpen(false);
-      setCategoryName(""); // Reset input
-      toast.success("Category created successfully!");
-    } catch (error) {
-      console.error("Error adding category: ", error);
-      toast.error("Failed to create category!");
-      setIsLoading(false);
-    }
-  };
 
   const formatCurrency = (value: any) => {
     if (!value) return "";
@@ -553,12 +550,60 @@ function AddMore() {
                               "selectedCategory",
                               selectedCategory || {}
                             ); // Set the full category object
+
+                            // Set subcategories based on selected category
+                            if (selectedCategory) {
+                              const relatedSubCategories = categories.filter(
+                                (cat) => cat.parentId === selectedCategory.id
+                              );
+                              setSubCategories(relatedSubCategories);
+                            } else {
+                              setSubCategories([]);
+                            }
                           }}
                         >
                           <option value="" label="Select category" />
-                          {categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {category.name}
+                          {categories
+                            .filter((category) => !category.parentId) // Top-level categories
+                            .map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                        </Field>
+                      )}
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className="text-red-500 text-[12px]"
+                      />
+                    </div>
+                    <div>
+                      <label>Sub Category</label>
+                      {loadingCategories ? (
+                        <p>Loading sub categories...</p>
+                      ) : (
+                        <Field
+                          as="select"
+                          name="sub_category"
+                          className="w-full border border-primary p-2 rounded-lg my-2"
+                          onChange={(
+                            e: React.ChangeEvent<HTMLSelectElement>
+                          ) => {
+                            const selectedSubCategory = subCategories.find(
+                              (subCat) => subCat.id === e.target.value
+                            );
+                            setFieldValue("sub_category", e.target.value); // Optional: Store ID for convenience
+                            setFieldValue(
+                              "selectedSubCategory",
+                              selectedSubCategory || {}
+                            ); // Store the full object
+                          }}
+                        >
+                          <option value="" label="Select sub category" />
+                          {subCategories.map((subCategory) => (
+                            <option key={subCategory.id} value={subCategory.id}>
+                              {subCategory.name}
                             </option>
                           ))}
                         </Field>
@@ -613,40 +658,6 @@ function AddMore() {
           </div>
         </div>
       )}
-      {isAddCategoryOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-96 px-6 py-4 relative rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            {isloading && (
-              <div className=" absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
-                <div className="animate-spin rounded-full h-[100px] w-[100px] border-t-2 border-b-2 border-primary"></div>
-              </div>
-            )}
-            <h2 className="text-lg font-semibold">Create Category </h2>
-            <input
-              type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)} // Update state
-              placeholder="Enter Category name"
-              className=" w-full outline-none border-primary border p-2 rounded-lg my-2 "
-            />
-            <div className=" flex justify-between">
-              <button
-                onClick={() => setIsAddCategoryOpen(false)}
-                className="mt-4 w-fit py-1 px-4 bg-bg_gray text-white rounded-md"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleCreateCategory}
-                className="mt-4 w-fit py-1 px-4 bg-primary text-white rounded-md"
-                disabled={isloading} // Prevent multiple submissions
-              >
-                Create Category
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className=" flex fixed bottom-[24px] z-20 right-[24px] ">
         <div className=" relative">
@@ -658,11 +669,8 @@ function AddMore() {
               >
                 <ParagraphLink1>Create New Product </ParagraphLink1>
               </div>
-              <div
-                onClick={() => setIsAddCategoryOpen(!isAddCategoryOpen)}
-                className="py-1"
-              >
-                <ParagraphLink1>Create New Category </ParagraphLink1>
+              <div className="py-1">
+                <ManageCategories onRefetch={onRefetch} />
               </div>
             </div>
           )}{" "}

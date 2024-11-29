@@ -24,11 +24,9 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
     });
   });
 
-
-
   return (
     <div>
-      <div className=" container1 py-[54px] xl:py-[50px]  text-p_black">
+      <div className=" container1 py-[24px] xl:py-[50px]  text-p_black">
         {" "}
         <div
           className=" flex flex-col gap-[8px] xl:gap-[24px] text-center items-center w-full mb-[24px] xl:mb-[64px]"
@@ -44,11 +42,10 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
+        <div className="flex items-center overflow-y-auto scrollbar-hide   gap-[24px] xl:gap-[30px]">
           {featuredProducts && featuredProducts.length > 0
-            ? featuredProducts
-                .slice(0, 4)
-                .map((product: any) => (
+            ? featuredProducts.slice(0, 8).map((product: any) => (
+                <div className=" min-w-[250px]">
                   <ProductCard
                     key={product.id}
                     image={product.productImageURL1}
@@ -56,13 +53,14 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
                     price={product.currentPrice}
                     product={product}
                   />
-                ))
-            : Array(4)
+                </div>
+              ))
+            : Array(8)
                 .fill(null)
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="h-[300px] w-full bg-gray-200 rounded-md animate-pulse"
+                    className="h-[250px] min-w-[250px] bg-gray-200 rounded-md animate-pulse"
                   ></div>
                 ))}
         </div>

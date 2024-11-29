@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import { HeaderAny, Paragraph1, ParagraphLink1, ParagraphLink2 } from "./Text";
+import { HeaderAny, Paragraph1, Paragraph2, ParagraphLink1, ParagraphLink2 } from "./Text";
 import Button from "./Button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,9 +26,9 @@ function Footer() {
       }
     >
       <div className="  bg-[#4A4A4A]  ">
-        <div className=" container1 py-[32px] sm:py-[80px] ">
+        <div className=" container1 py-[32px] sm:py-[40px] ">
           {/* desktop */}
-          <div className="sm:flex hidden items-center justify-between mb-[60px]">
+          <div className="sm:flex hidden items-start justify-between mb-[30px]">
             <div className="w-[200px] relative">
               <img src="/images/logo2.png" alt="photographer" />
             </div>
@@ -93,23 +93,35 @@ function Footer() {
                 </ParagraphLink1>
               </Link>
             </div>
-            <div className=" flex flex-col py-4 gap-4 items-center- justify-center-">
-              <div className=" flex gap-4 items-center">
-                <Link href="/">
+            <div className=" flex flex-col py-4 gap-2 items-center- justify-center-">
+              <div className=" flex gap-4 items-center mb-2">
+                <Link
+                  href="https://www.instagram.com/grandiosegrin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729676533/utilities/templates/instagram_2_ujmgac.png"
                     alt=""
                     className="w-[20px] h-[20px]"
                   />
                 </Link>
-                <Link href="/">
+                <Link
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729676725/utilities/templates/facebook-app-symbol_x2whit.png"
                     alt=""
                     className="w-[20px] h-[20px]"
                   />
                 </Link>
-                <Link href="/">
+                <Link
+                  href="https://www.x.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729675779/utilities/templates/twitter_3_sihd1i.png"
                     alt=""
@@ -117,11 +129,48 @@ function Footer() {
                   />
                 </Link>
               </div>
+
+              <div className=" flex items-center gap-2 text-[#ECECEC] ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                  />
+                </svg>
+
+                <Paragraph2> grandiosegrin@gmail.com</Paragraph2>
+              </div>
+              <div className=" flex items-center gap-2 text-[#ECECEC] ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                  />
+                </svg>
+
+                <Paragraph2> +234 707 832 8640</Paragraph2>
+              </div>
             </div>
           </div>
           <div className=" sm:flex justify-center items-center hidden py-4">
             <div className=" py-2 px-4 rounded-lg bg-white flex justify-center items-center gap-2 flex-col">
-              <p className=" text-[12px] pb-2 ">
+              <p className=" text-[12px]  ">
                 {" "}
                 Payments secuered by{" "}
                 <span className=" font-bold">Flutterwave</span>{" "}
@@ -164,7 +213,7 @@ function Footer() {
                   Shop
                 </ParagraphLink2>
               </Link>
-              <Link href="/blogs">
+              <Link href="/blog">
                 {" "}
                 <ParagraphLink2 className=" text-[#ECECEC] ">
                   Blog
@@ -176,9 +225,9 @@ function Footer() {
                   Contact us
                 </ParagraphLink2>
               </Link>
-              <div className=" flex flex-col p-4- gap-4 items-center- justify-center-">
-                <div className=" flex gap-4 items-center">
-                  <Link href="/">
+              <div className=" flex flex-col p-4- gap-2 items-center- justify-center-">
+                <div className=" flex gap-4 items-center mb-4">
+                  <Link href="www.instagram.com/grandiosegrin">
                     <img
                       src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729676533/utilities/templates/instagram_2_ujmgac.png"
                       alt="instagram"
@@ -200,6 +249,42 @@ function Footer() {
                     />
                   </Link>
                 </div>
+                <div className=" flex items-center gap-2 text-[#ECECEC] ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                    />
+                  </svg>
+
+                  <Paragraph2> grandiosegrin@gmail.com</Paragraph2>
+                </div>
+                <div className=" flex items-center gap-2 text-[#ECECEC] ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                    />
+                  </svg>
+
+                  <Paragraph2> +234 707 832 8640</Paragraph2>
+                </div>
               </div>
             </div>
 
@@ -216,7 +301,7 @@ function Footer() {
           <div className=" border-t pt-[24px] sm:pt-[32px] flex flex-wrap justify-between">
             <div className=" flex justify-center items-center sm:hidden py-4">
               <div className=" py-2 px-4 rounded-lg bg-white flex justify-center items-center gap-2 flex-col">
-                <p className=" text-[12px] pb-2 ">
+                <p className=" text-[12px]  ">
                   {" "}
                   Payments secuered by{" "}
                   <span className=" font-bold">Flutterwave</span>{" "}

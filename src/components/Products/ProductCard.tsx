@@ -80,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               onClick={handleAddToCart}
               className="whitespace-nowrap text-[13px] flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white "
             >
-              <ParagraphLink2>Add to chat</ParagraphLink2>
+              <ParagraphLink2>Add to Cart</ParagraphLink2>
             </button>
           )}{" "}
         </div>

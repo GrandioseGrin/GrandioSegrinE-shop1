@@ -31,7 +31,9 @@ interface Product {
   availableAmount: number;
   productWeight: number;
   category: string;
+  sub_category: string;
   selectedCategory: any;
+  selectedSubCategory: any;
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
@@ -59,7 +61,9 @@ type ProductValues = {
   availableAmount: number;
   productWeight: number;
   category: string;
+  sub_category: string;
   selectedCategory: any;
+  selectedSubCategory: any;
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
@@ -68,13 +72,21 @@ type ProductValues = {
 interface Category {
   id: string;
   name: string;
+  parentId: string;
+  properties: Record<string, any>; // Store additional properties of the category
+}
+
+interface SubCategory {
+  id: string;
+  name: string;
+  parentId: string;
   properties: Record<string, any>; // Store additional properties of the category
 }
 
 const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
   const [isloading, setIsLoading] = useState(false);
-  const [categoryName, setCategoryName] = useState(""); // State for input
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -95,7 +107,9 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     availableAmount: product.availableAmount,
     productWeight: product.productWeight,
     category: product.category,
+    sub_category: product.sub_category,
     selectedCategory: product.selectedCategory,
+    selectedSubCategory: product.selectedSubCategory,
     description: product.name,
     isFeatured: product.isFeatured,
     isTrending: product.isTrending,
@@ -113,6 +127,19 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
         })) as Category[];
         setCategories(categoriesData);
         setLoadingCategories(false);
+
+        // Preload subcategories if editing a product
+        if (product?.category) {
+          const selectedCategory = categoriesData.find(
+            (cat) => cat.id === product.category
+          );
+          if (selectedCategory) {
+            const relatedSubCategories = categoriesData.filter(
+              (cat) => cat.parentId === selectedCategory.id
+            );
+            setSubCategories(relatedSubCategories);
+          }
+        }
       } catch (error) {
         console.error("Error fetching categories: ", error);
         setLoadingCategories(false);
@@ -120,7 +147,8 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     };
 
     fetchCategories();
-  }, []);
+  }, [product]);
+
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Product name is required"),
@@ -596,12 +624,58 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                           "selectedCategory",
                           selectedCategory || {}
                         ); // Set the full category object
+
+                        // Set subcategories based on selected category
+                        if (selectedCategory) {
+                          const relatedSubCategories = categories.filter(
+                            (cat) => cat.parentId === selectedCategory.id
+                          );
+                          setSubCategories(relatedSubCategories);
+                        } else {
+                          setSubCategories([]);
+                        }
                       }}
                     >
                       <option value="" label="Select category" />
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
+                      {categories
+                        .filter((category) => !category.parentId) // Top-level categories
+                        .map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))}
+                    </Field>
+                  )}
+                  <ErrorMessage
+                    name="category"
+                    component="div"
+                    className="text-red-500 text-[12px]"
+                  />
+                </div>
+                <div>
+                  <label>Sub Category</label>
+                  {loadingCategories ? (
+                    <p>Loading sub categories...</p>
+                  ) : (
+                    <Field
+                      as="select"
+                      name="sub_category"
+                      className="w-full border border-primary p-2 rounded-lg my-2"
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        const selectedSubCategory = subCategories.find(
+                          (subCat) => subCat.id === e.target.value
+                        );
+                        setFieldValue("sub_category", e.target.value); // Optional: Store ID for convenience
+                        setFieldValue(
+                          "selectedSubCategory",
+                          selectedSubCategory || {}
+                        ); // Store the full object
+                      }}
+                    >
+                      <option value="" label="Select sub category" />
+                      {subCategories.map((subCategory) => (
+                        <option key={subCategory.id} value={subCategory.id}>
+                          {subCategory.name}
                         </option>
                       ))}
                     </Field>

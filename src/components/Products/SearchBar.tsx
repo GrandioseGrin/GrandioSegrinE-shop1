@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // For navigation
 
 interface SearchBarProps {
-  toggleMenu: () => void;
+  // toggleMenu: () => void;
 }
 
-function SearchBar({ toggleMenu }: SearchBarProps) {
+function SearchBar({ }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
@@ -13,13 +13,12 @@ function SearchBar({ toggleMenu }: SearchBarProps) {
     if (event.key === "Enter" && searchQuery.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       // Call toggleMenu after navigating
-      toggleMenu();
     }
   };
 
   return (
     <div>
-      <div className="flex justify-between items-center p-2 px-3 bg-bg_gray rounded-lg w-[250px] cursor-pointer">
+      <div className="flex justify-between items-center p-2 px-3 bg-bg_gray rounded-lg w-full [250px] cursor-pointer">
         <input
           type="text"
           placeholder="Search for a product..."

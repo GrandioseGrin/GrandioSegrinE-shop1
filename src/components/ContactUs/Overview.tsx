@@ -15,11 +15,11 @@ function Overview() {
   return (
     <div className=" bg-bg_gray py-[70px] xl:py-[100px]">
       <div
-        className=" container1 py-[32px]  bg-white text-p_black"
+        className=" container1   bg-white text-p_black"
         data-aos="flip-right"
       >
         {" "}
-        <div className="  xl:p-[100px] flex flex-col  xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]">
+        <div className="  xl:px-[100px] xl:py-[50px] flex flex-col  xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]-">
           <Header1Plus className="text-center">
             Let’s <span className="text-primary">Enhance</span> Your Beauty
             Routine

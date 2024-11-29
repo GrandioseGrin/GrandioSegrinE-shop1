@@ -61,7 +61,9 @@ function Navbar() {
               />
             </button>
           </div>
-          <img src="/images/logo.png" alt="" className="h-[30px]" />
+          <Link href="/">
+            <img src="/images/logo.png" alt="" className="h-[50px]" />
+          </Link>
           {/* <div className=" relative">
             {" "}
             <div className=" border-2 border-primary rounded-full w-2 h-2 p- absolute top-1 -left-1 "></div>
@@ -117,7 +119,7 @@ function Navbar() {
               </ParagraphLink1>
             </Link>
 
-            <SearchBar />
+            <SearchBar toggleMenu={toggleMenu} />
             <CurrencySwitcher />
           </div>
 
@@ -202,7 +204,7 @@ function Navbar() {
                 </ParagraphLink1>
               </Link>
               <CurrencySwitcher />
-              <SearchBar />
+              <SearchBar toggleMenu={toggleMenu} />
             </div>{" "}
           </div>
         )}

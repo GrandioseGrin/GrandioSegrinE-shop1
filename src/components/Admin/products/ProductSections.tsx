@@ -7,6 +7,11 @@ import AddMore from "./AddMore";
 import { db } from "@/lib/firebase"; // Firestore setup
 import { collection, getDocs } from "firebase/firestore"; // Firestore methods
 import CategoryEditor from "./CategoryEditor";
+import ManageCategories from "./ManageCategories";
+import CategorySelector from "./CategorySelector";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import SearchBar from "./SearchBar";
 
 interface Product {
   id: string;
@@ -16,8 +21,10 @@ interface Product {
   createdAt: Date;
   productImageURL1: string;
   category: string;
+  sub_category: string;
   selectedCategory: any;
   isTrending: any;
+  availableAmount: any;
 }
 
 interface Category {
@@ -36,6 +43,10 @@ function ProductSections() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("");
+  const [refetch, setRefetch] = useState(false);
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search");
+  const [isCOpen, setIsCOpen] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -78,7 +89,7 @@ function ProductSections() {
     };
     fetchCategories();
     fetchProducts();
-  }, []);
+  }, [refetch]);
 
   useEffect(() => {
     let filteredProducts = products;
@@ -88,52 +99,92 @@ function ProductSections() {
       setLoading(true);
 
       filteredProducts = filteredProducts.filter(
-        (product) => product.category === selectedCategory
+        (product) =>
+          product.category === selectedCategory ||
+          product.sub_category === selectedCategory
       );
     }
 
     // Apply additional filters
-    if (activeFilter === "Trending") {
-      setLoading(true);
+    switch (activeFilter) {
+      case "Trending":
+        setLoading(true);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.isTrending
+        );
+        break;
 
-      filteredProducts = filteredProducts.filter(
-        (product) => product.isTrending
-      );
-    } else if (activeFilter === "Latest") {
-      setLoading(true);
+      case "Latest":
+        setLoading(true);
+        filteredProducts = filteredProducts.sort(
+          (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+        );
+        break;
 
-      filteredProducts = filteredProducts.sort(
-        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-      );
-    } else if (activeFilter === "Price: Low to High") {
-      setLoading(true);
+      case "Price: Low to High":
+        setLoading(true);
+        filteredProducts = filteredProducts.sort(
+          (a, b) => a.currentPrice - b.currentPrice
+        );
+        break;
 
-      filteredProducts = filteredProducts.sort(
-        (a, b) => a.currentPrice - b.currentPrice
-      );
-    } else if (activeFilter === "Price: High to Low") {
-      setLoading(true);
+      case "Price: High to Low":
+        setLoading(true);
+        filteredProducts = filteredProducts.sort(
+          (a, b) => b.currentPrice - a.currentPrice
+        );
+        break;
 
-      filteredProducts = filteredProducts.sort(
-        (a, b) => b.currentPrice - a.currentPrice
-      );
-    } else if (activeFilter === "All") {
-      setLoading(true);
+      case "Out of Stock":
+        setLoading(true);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.availableAmount === 0
+        );
+        break;
 
-      filteredProducts = filteredProducts;
+      case "Low Stock":
+        setLoading(true);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.availableAmount < 20
+        );
+        break;
+
+      default:
+        setLoading(true);
+        break;
     }
 
     setDisplayedProducts(filteredProducts);
     setLoading(false);
   }, [selectedCategory, activeFilter, products]);
 
+
+   useEffect(() => {
+     if (searchQuery) {
+       const filteredProducts = products.filter((product) =>
+         product.name.toLowerCase().includes(searchQuery.toLowerCase())
+       );
+       setDisplayedProducts(filteredProducts);
+     } else {
+       setDisplayedProducts(products);
+     }
+   }, [searchQuery, products]);
+  
+
   const filters = [
     "All",
     "Trending",
     "Latest",
-    "Price: Low to High",
-    "Price: High to Low",
+    // "Price: Low to High",
+    // "Price: High to Low",
+    "Out of Stock",
+    "Low Stock",
   ];
+
+   const handleRefetch = () => {
+     setLoading(true); // Optionally show loading indicator
+     setRefetch((prev) => !prev); // Toggle refetch state to trigger useEffect
+   };
 
   if (loading)
     return (
@@ -144,17 +195,97 @@ function ProductSections() {
 
   return (
     <div>
-      <div className="container1  pt-[100px]  xl:pt-[104px] pb-[24px] ">
-        <AddMore />
-        <div className=" pb-[24px]">
+      <div className="container1  pt-[100px]  xl:pt-[84px] pb-[24px] ">
+        <AddMore onRefetch={handleRefetch} />
+
+        <div className=" py-[24px]-">
           <div>
-            <Header4>Featured Products</Header4>
+            <Header4>All Products</Header4>
           </div>
-          <div className=" grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-            {featuredProducts && featuredProducts.length > 0
-              ? featuredProducts
-                  .slice(0, 4)
-                  .map((product: any) => (
+          <div className=" grid grid-cols-1 xl:grid-cols-6 gap-4">
+            <div className=" xl:flex hidden border-r">
+              <CategorySelector
+                categories={categories}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                closeMenu={() => setIsCOpen(false)} // Pass the close function
+              />
+            </div>
+
+            <div className=" xl:col-span-5">
+              <div className=" mb-4  pt-2">
+                <SearchBar />
+              </div>
+
+              <div className=" flex w-full justify-between items-center mb-4">
+                <div className=" relative xl:hidden">
+                  <button
+                    onClick={() => setIsCOpen(!isCOpen)}
+                    className="  w-fit px-2 py-1 border rounded-lg "
+                  >
+                    <ParagraphLink1 className="  ">Categories</ParagraphLink1>
+                  </button>
+
+                  <div
+                    className={`fixed top-0 left-0 h-full z-20 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+                      isCOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
+                    style={{ width: "300px" }}
+                  >
+                    <CategorySelector
+                      categories={categories}
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
+                      closeMenu={() => setIsCOpen(false)} // Pass the close function
+                    />
+                  </div>
+                </div>
+
+                <div className=" flex gap-1 items-center">
+                  <CategoryEditor onRefetch={refetch} />
+                  <div className="relative inline-">
+                    <div
+                      onClick={() => setIsOpen(!isOpen)}
+                      className=" flex gap-4 bg-white w-fit cursor-pointe rounded-lg p-2"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                        />
+                      </svg>
+                    </div>
+                    {isOpen && (
+                      <div className="absolute left-0 z-20 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                        <div className="py-1">
+                          {filters.map((filter) => (
+                            <div
+                              key={filter}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                              onClick={() => setActiveFilter(filter)}
+                            >
+                              {filter}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/* data-aos="fade-right" */}
+
+              <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-[24px] xl:gap-[30px] ">
+                {displayedProducts.length > 0 ? (
+                  displayedProducts.map((product) => (
                     <ProductCard
                       key={product.id}
                       image={product.productImageURL1}
@@ -164,104 +295,36 @@ function ProductSections() {
                       product={product}
                     />
                   ))
-              : Array(10)
-                  .fill(null)
-                  .map((_, index) => (
-                    <div
-                      key={index}
-                      className="h-[150px] w-full bg-white rounded-md animate-pulse"
-                    ></div>
-                  ))}
-          </div>
-        </div>
-        <div className=" py-[24px]">
-          <div>
-            <Header4>All Products</Header4>
-          </div>
-          <div className=" flex justify-between items-center- my-4">
-            {/* categorey filter buttons */}
-            <div className=" flex w-full gap-4 md:w-[90%] overflow-hidden overflow-x-auto scrollbar-hide   ">
-              <button
-                className={`flex gap-4  w-fit justify-center items-center rounded-lg px-4 border ${
-                  !selectedCategory
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }`}
-                onClick={() => setSelectedCategory(null)}
-              >
-                {" "}
-                <ParagraphLink1 className="max-w-[883px] text-center">
-                  All{" "}
-                </ParagraphLink1>
-              </button>
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  className={`flex gap-4 w-fit justify-center items-center rounded-lg px-4 border ${
-                    selectedCategory === category.id
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
-                  }`}
-                  onClick={() => setSelectedCategory(category.id)}
-                >
-                  <ParagraphLink1 className="max-w-[883px] text-center">
-                    {category.name}
-                  </ParagraphLink1>
-                </button>
-              ))}
-            <CategoryEditor />
-            </div>
-            <div className="relative inline-">
-              <div
-                onClick={() => setIsOpen(!isOpen)}
-                className=" flex gap-4 bg-white w-fit cursor-pointe rounded-lg p-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                  />
-                </svg>
-              </div>
-              {isOpen && (
-                <div className="absolute right-0 z-20 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                  <div className="py-1">
-                    {filters.map((filter) => (
-                      <div
-                        key={filter}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => setActiveFilter(filter)}
-                      >
-                        {filter}
-                      </div>
-                    ))}
+                ) : searchQuery ? (
+                  // Display this if no products match the search query
+                  <div className="col-span-full mt-6 text-center p-4">
+                    <p className="text-gray-500 text-lg pb-4">
+                      No products found for "
+                      <span className="font-semibold">{searchQuery}</span>"
+                    </p>
+                    <Link
+                      href="/admin/products"
+                      className=" text-primary font underline"
+                    >
+                      {" "}
+                      Browse other products{" "}
+                    </Link>
                   </div>
-                </div>
-              )}
+                ) : (
+                  // Placeholder loading skeleton when no query is provided
+                  Array(8)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={index}
+                        className="h-[250px] w-full bg-gray-200 rounded-md animate-pulse"
+                      ></div>
+                    ))
+                )}
+              </div>
             </div>
           </div>
 
-          <div className=" grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-1 gap-[24px] xl:gap-[30px]">
-            {/* all products */}
-            {displayedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                image={product.productImageURL1}
-                title={product.name}
-                description="A brief description of the product."
-                price={product.currentPrice}
-                product={product}
-              />
-            ))}
-          </div>
           <div className=" pb-[400px]"></div>
         </div>
       </div>
