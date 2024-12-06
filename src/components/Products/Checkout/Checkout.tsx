@@ -16,7 +16,12 @@ import useUserInfoStore from "@/stores/userInfoStore"; // Import the user info s
 import html2canvas from "html2canvas";
 import { useExchangeRateStore } from "@/stores/exchangeRateStore";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
-import { HeaderAny, ParagraphLink1, ParagraphLink2 } from "@/components/Text";
+import {
+  HeaderAny,
+  Paragraph2,
+  ParagraphLink1,
+  ParagraphLink2,
+} from "@/components/Text";
 
 type Product = {
   id: number;
@@ -85,7 +90,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [shippingInfo, setShippingInfo] = useState({
     email: email || "",
     phoneNumber: phoneNumber || "",
-    country:  "",
+    country: "",
     firstName: firstName || "",
     lastName: lastName || "",
     address: address || "",
@@ -333,7 +338,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     // Clear the cart
     clearCart();
 
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -427,7 +432,7 @@ const Checkout: React.FC<CheckoutProps> = ({
           />
         </svg>
         <div
-          // onClick={() => setActiveTab(2)}
+          onClick={() => setActiveTab(2)}
           className={`text-sm  ${
             activeTab === 2 ? "text-primary font-semibold" : "text-gray-400"
           }`}
@@ -759,8 +764,11 @@ const Checkout: React.FC<CheckoutProps> = ({
                       </svg>
                     </div>
                     <p>
-                      {shippingInfo.address}, {shippingInfo.city},{" "}
+                      {shippingInfo.address}, <br /> {shippingInfo.city}, <br />
                       {shippingInfo.state}, {shippingInfo.zipCode}
+                      <br />
+                      <br />
+                      Estimated Arrival Date: 2 to 10 working days.
                     </p>
                   </div>
                 </div>
@@ -842,7 +850,11 @@ const Checkout: React.FC<CheckoutProps> = ({
             id="receipt"
             className="space-y-6 p-4  max-w-[793px]  min-h-screen relative"
           >
-            <img src={logoUrl} alt="Company Logo" className="mx-auto w- h-16" />
+            <img
+              src={logoUrl}
+              alt="Company Logo"
+              className="mx-auto w- h-[25px]"
+            />
 
             <p className=" text-center text-gray-500 text-[12px]">
               Payment Successful
@@ -855,7 +867,10 @@ const Checkout: React.FC<CheckoutProps> = ({
                 <div className=" flex items-center w-full gap-2 mb-2">
                   <div className=" text-gray-500  ">Name:</div>
                   <div className=" px-2 py-1  rounded-lg- w-full">
-                    {firstName} {lastName}
+                    <Paragraph2>
+                      {" "}
+                      {firstName} {lastName}
+                    </Paragraph2>
                   </div>
                 </div>
                 <div className=" pb-4 flex items-center w-full gap-2">
@@ -863,7 +878,7 @@ const Checkout: React.FC<CheckoutProps> = ({
                     Email:
                   </div>
                   <div className=" div-email px-2 py-1  text-decoration-none rounded-lg- w-full outline-none">
-                    {email}
+                    <Paragraph2> {email}</Paragraph2>
                   </div>
                 </div>
 
@@ -872,9 +887,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                     Location:
                   </div>
                   <div className="div-email px-2 py-1 text-decoration-none rounded-lg w-full outline-none">
-                    {shippingMethod === "Pickup"
-                      ? "17 Raphael Street Abule-Oshun, Ojo, Lagos State, Nigeria"
-                      : `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zipCode}`}
+                    <Paragraph2>
+                      {" "}
+                      {shippingMethod === "Pickup"
+                        ? "17 Raphael Street Abule-Oshun, Ojo, Lagos State, Nigeria"
+                        : `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zipCode}`}
+                    </Paragraph2>{" "}
                   </div>
                 </div>
 
@@ -895,7 +913,7 @@ const Checkout: React.FC<CheckoutProps> = ({
               {products.map((product: any) => (
                 <div
                   key={product.id}
-                  className="grid grid-cols-3 sm:grid-cols-5 items-center border-b "
+                  className="grid grid-cols-3 sm:grid-cols-5 items-center pb-3 border-b "
                 >
                   <div className=" col-span-2 flex items-center gap-2">
                     <img

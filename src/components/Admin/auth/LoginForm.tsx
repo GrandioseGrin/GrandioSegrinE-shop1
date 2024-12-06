@@ -35,7 +35,7 @@ function LoginForm() {
             <div className=" flex relative items-center justify-center h-full ">
               {" "}
               <img
-                src="/images/logo.png"
+                src="/images/logo2.png"
                 alt="branding"
                 className="w-full "
               />{" "}

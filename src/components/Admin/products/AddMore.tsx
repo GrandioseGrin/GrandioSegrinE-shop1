@@ -38,6 +38,9 @@ type ProductValues = {
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
+  isElite: boolean;
+  isSpecial: boolean;
+  isBudget: boolean;
 };
 
 const initialValues: ProductValues = {
@@ -63,6 +66,9 @@ const initialValues: ProductValues = {
   description: "",
   isFeatured: false,
   isTrending: false,
+  isElite: false,
+  isSpecial: false,
+  isBudget: false,
 };
 
 interface Category {
@@ -647,6 +653,18 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                     <div className="flex items-center gap-2 my-2">
                       <Field type="checkbox" name="isTrending" />
                       <label>Trending Product</label>
+                    </div>
+                    <div className="flex items-center gap-2 my-2">
+                      <Field type="checkbox" name="isElite" />
+                      <label>Elite Product</label>
+                    </div>
+                    <div className="flex items-center gap-2 my-2">
+                      <Field type="checkbox" name="isSpecial" />
+                      <label>Special Product</label>
+                    </div>
+                    <div className="flex items-center gap-2 my-2">
+                      <Field type="checkbox" name="isBudget" />
+                      <label>Budget Product</label>
                     </div>
                     <div className="flex justify-between">
                       <button

@@ -37,6 +37,9 @@ interface Product {
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
+  isElite: boolean;
+  isSpecial: boolean;
+  isBudget: boolean;
 }
 
 interface ModalProps {
@@ -67,6 +70,9 @@ type ProductValues = {
   description: string;
   isFeatured: boolean;
   isTrending: boolean;
+  isElite: boolean;
+  isSpecial: boolean;
+  isBudget: boolean;
 };
 
 interface Category {
@@ -113,6 +119,9 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     description: product.description,
     isFeatured: product.isFeatured,
     isTrending: product.isTrending,
+    isElite: product.isElite,
+    isSpecial: product.isSpecial,
+    isBudget: product.isBudget,
   };
 
   const [formData, setFormData] = useState(initialValues);
@@ -614,7 +623,6 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                     />
                   </div>
                 </div>
-
                 <div>
                   <label>Category</label>
                   {loadingCategories ? (
@@ -716,6 +724,18 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                 <div className="flex items-center gap-2 my-2">
                   <Field type="checkbox" name="isTrending" />
                   <label>Trending Product</label>
+                </div>
+                <div className="flex items-center gap-2 my-2">
+                  <Field type="checkbox" name="isElite" />
+                  <label>Elite Product</label>
+                </div>
+                <div className="flex items-center gap-2 my-2">
+                  <Field type="checkbox" name="isSpecial" />
+                  <label>Special Product</label>
+                </div>
+                <div className="flex items-center gap-2 my-2">
+                  <Field type="checkbox" name="isBudget" />
+                  <label>Budget Product</label>
                 </div>
                 <div className="flex justify-between">
                   <button

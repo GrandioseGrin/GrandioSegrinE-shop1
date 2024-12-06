@@ -62,7 +62,16 @@ function Navbar() {
             </button>
           </div>
           <Link href="/">
-            <img src="/images/logo.png" alt="" className="h-[50px]" />
+            <img
+              src="/images/logo.png"
+              alt=""
+              className="h-[25px] xl:flex hidden"
+            />
+            <img
+              src="/images/logo3.png"
+              alt=""
+              className="h-[30px] xl:hidden"
+            />
           </Link>
           {/* <div className=" relative">
             {" "}
