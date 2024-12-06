@@ -101,7 +101,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const [isloading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>("");
-  const [selectedState, setSelectedState] = useState<State | null>(null);
+  const [selectedState, setSelectedState] = useState<string>("");
   const [states, setStates] = useState<State[]>([]);
   const [totalShippingFee, setTotalShippingFee] = useState<number>(0);
   const [paymentDenied, setPaymentDenied] = useState(false);
@@ -162,6 +162,8 @@ const Checkout: React.FC<CheckoutProps> = ({
     setFieldValue: (field: string, value: any) => void,
     totalProductWeight: number = 0 // Default to 0 if not provided
   ) => {
+    setSelectedState(value);
+
     const state = states.find((s) => s.name === value);
     const country = countries.find((c) => c.code === selectedCountryCode);
 
@@ -185,6 +187,19 @@ const Checkout: React.FC<CheckoutProps> = ({
   ) => {
     setTotalShippingFee(countryFee + (stateFee || 0) + totalProductWeight);
   };
+
+  useEffect(() => {
+    const country = countries.find((c) => c.code === selectedCountryCode);
+    const state = states.find((s) => s.name === selectedState); // Replace "" with the selected state if tracking
+
+    if (country) {
+      calculateTotalShippingFee(
+        country.shippingFee,
+        state?.shippingFee || null,
+        totalProductWeight
+      );
+    }
+  }, [selectedCountryCode, states, totalProductWeight]);
 
   const handleNext = (values: typeof shippingInfo) => {
     setShippingInfo(values);

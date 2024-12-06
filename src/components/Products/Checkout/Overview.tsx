@@ -114,7 +114,7 @@ const CheckOutOverview = () => {
 
   // Calculate total product weight
   const totalProductWeight = products.reduce(
-    (total, product) => total + (product.productWeight || 0) * product.quantity,
+    (total, product) => total + product.productWeight  * product.quantity,
     0
   );
 

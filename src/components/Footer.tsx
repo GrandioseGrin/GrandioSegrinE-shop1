@@ -227,7 +227,7 @@ function Footer() {
               </Link>
               <div className=" flex flex-col p-4- gap-2 items-center- justify-center-">
                 <div className=" flex gap-4 items-center mb-4">
-                  <Link href="www.instagram.com/grandiosegrin">
+                  <Link target="_blank" href="www.instagram.com/grandiosegrin">
                     <img
                       src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729676533/utilities/templates/instagram_2_ujmgac.png"
                       alt="instagram"

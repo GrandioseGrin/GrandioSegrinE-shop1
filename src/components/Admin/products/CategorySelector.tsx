@@ -1,4 +1,4 @@
-import { ParagraphLink1, ParagraphLink2 } from "@/components/Text";
+import { ParagraphLink2 } from "@/components/Text";
 import React, { useState } from "react";
 
 interface Category {
@@ -36,9 +36,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         <hr />
       </div>
 
-      <button
+      <div
         onClick={closeMenu} // Trigger the close function
-        className="mb-4 p-2 text-gray-600  xl:hidden block hover:text-gray-800 w-fit border rounded-lg"
+        className="mb-4 p-2 cursor-pointer text-gray-600  xl:hidden block hover:text-gray-800 w-fit border rounded-lg"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,9 +54,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
             d="M6 18 18 6M6 6l12 12"
           />
         </svg>
-      </button>
+      </div>
       <button
-        className={`flex gap-4  w-full mt-4  rounded-lg px-4 py- ${
+        className={`flex gap-4  w-full mt-4 py-2  rounded-lg px-4 py- ${
           !selectedCategory
             ? "bg-black text-white"
             : "bg-white xl:bg-bg_gray text-black  hover:bg-gray-100"
@@ -67,13 +67,13 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         }}
       >
         {" "}
-        <ParagraphLink1 className=" text-center">All </ParagraphLink1>
+        <ParagraphLink2 className=" ">All </ParagraphLink2>
       </button>
       {mainCategories.map((category) => (
         <div key={category.id} className="">
           {/* Main Category Button */}
           <button
-            className={`flex w-full rounded-lg px-4 py-  ${
+            className={`flex w-full rounded-lg px-4 py-2  ${
               selectedCategory === category.id
                 ? "bg-black text-white"
                 : "bg-white xl:bg-bg_gray text-black hover:bg-gray-100 "
@@ -84,9 +84,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               )
             }
           >
-            <ParagraphLink1 className="whitespace-nowrap text-center">
+            <ParagraphLink2 className="whitespace-nowrap ">
               {category.name}
-            </ParagraphLink1>
+            </ParagraphLink2>
           </button>
 
           {/* Subcategory Dropdown */}
@@ -105,9 +105,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                 }}
               >
                 <p>-</p>
-                <ParagraphLink1 className="whitespace-nowrap">
+                <ParagraphLink2 className="whitespace-nowrap">
                   {category.name}
-                </ParagraphLink1>
+                </ParagraphLink2>
               </button>
               {subCategories(category.id).map((subCategory) => (
                 <button
@@ -124,9 +124,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                   }}
                 >
                   <p>-</p>
-                  <ParagraphLink1 className="whitespace-nowrap">
+                  <ParagraphLink2 className="whitespace-nowrap">
                     {subCategory.name}
-                  </ParagraphLink1>
+                  </ParagraphLink2>
                 </button>
               ))}
             </div>

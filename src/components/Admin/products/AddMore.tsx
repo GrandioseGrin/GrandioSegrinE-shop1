@@ -516,13 +516,25 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                         />
                       </div>{" "}
                       <div>
-                        <label>Product Weight</label>
-                        <Field
-                          name="productWeight"
-                          type="text"
-                          placeholder="Enter Product Available Quantity"
-                          className="w-full outline-none border-primary border p-2 rounded-lg my-2"
-                        />
+                        <label>Product Weight/Packaging Cost</label>
+                        <Field name="productWeight">
+                          {({ field, form }: FieldProps<string>) => (
+                            <input
+                              {...field}
+                              type="text"
+                              placeholder="Enter Packaging Price"
+                              value={formatCurrency(field.value || "")}
+                              onChange={(e) => {
+                                const rawValue = e.target.value.replace(
+                                  /\D/g,
+                                  ""
+                                ); // Extract raw numeric value
+                                form.setFieldValue("productWeight", rawValue);
+                              }}
+                              className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                            />
+                          )}
+                        </Field>
                         <ErrorMessage
                           name="productWeight"
                           component="div"
@@ -620,7 +632,7 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                         as="textarea"
                         name="description"
                         placeholder="Enter Product Description"
-                        className="w-full outline-none border-primary border p-2 rounded-lg my-2"
+                        className="w-full outline-none border-primary h-[200px] border p-2 rounded-lg my-2"
                       />
                       <ErrorMessage
                         name="description"

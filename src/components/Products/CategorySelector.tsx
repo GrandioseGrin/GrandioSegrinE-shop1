@@ -28,7 +28,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
     categories.filter((category) => category.parentId === parentId);
 
   return (
-    <div className="flex flex-col w-full min-h-screen min-w-fit overflow-y-auto scrollbar-hide  pr-4 xl:pl-0 p-4">
+    <div className="flex flex-col w-full  min-h-screen min-w-fit overflow-y-auto scrollbar-hide  pr-4 xl:pl-0 p-4">
       <div className=" xl:block hidden">
         <ParagraphLink2 className=" text-[16px] font-semibold pb-2">
           Categories
@@ -67,13 +67,13 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         }}
       >
         {" "}
-        <ParagraphLink1 className=" text-center">All </ParagraphLink1>
+        <ParagraphLink2 className=" py-2 ">All </ParagraphLink2>
       </button>
       {mainCategories.map((category) => (
         <div key={category.id} className="">
           {/* Main Category Button */}
-          <button
-            className={`flex justify-between items-center w-full rounded-lg px-4 py-2 xl:py-0  ${
+          <div
+            className={`flex justify-between cursor-pointer items-center w-full - rounded-lg px-4 py-2 xl:py-0  ${
               selectedCategory === category.id
                 ? "bg-gray-100 text-black"
                 : "bg-white text-black  "
@@ -84,9 +84,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               )
             }
           >
-            <ParagraphLink1 className="whitespace-nowrap text-center">
+            <ParagraphLink2 className="whitespace-nowrap text-[14px]  - xl:w-[100px] py-2 truncate ">
               {category.name}
-            </ParagraphLink1>
+            </ParagraphLink2>
 
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +104,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                 d="m19.5 8.25-7.5 7.5-7.5-7.5"
               />
             </svg>
-          </button>
+          </div>
 
           {/* Subcategory Dropdown */}
           {isSubCategoryOpen === category.id && (
@@ -122,9 +122,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                 }}
               >
                 <p>-</p>
-                <ParagraphLink1 className="whitespace-nowrap">
+                <ParagraphLink2 className="whitespace-nowrap text-[14px] capitalize - xl:w-[100px] py-2 truncate ">
                   {category.name}
-                </ParagraphLink1>
+                </ParagraphLink2>
               </button>
               {subCategories(category.id).map((subCategory) => (
                 <button
@@ -141,9 +141,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                   }}
                 >
                   <p>-</p>
-                  <ParagraphLink1 className="whitespace-nowrap">
+                  <ParagraphLink2 className="whitespace-nowrap ">
                     {subCategory.name}
-                  </ParagraphLink1>
+                  </ParagraphLink2>
                 </button>
               ))}
             </div>

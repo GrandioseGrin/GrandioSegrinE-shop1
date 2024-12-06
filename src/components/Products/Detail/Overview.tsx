@@ -208,9 +208,28 @@ const ProductDetail = () => {
             </div>
             <ParagraphLink1 className="font-medium">Description</ParagraphLink1>
 
-            <p className="text-gray-600 mb-6 text-justify">
-              {product.description}
+            <p className="text-gray-600 mb-6 text-justify hidden">
+              Glow HalfCast Extra Fairness Lotion is a premium skincare product
+              designed to enhance skin radiance, even out complexion, and
+              provide intense hydration. This lotion typically includes
+              ingredients known for their skin-brightening properties, such as
+              natural extracts, vitamins, and antioxidants, to promote a glowing
+              and youthful appearance. <br /> <br /> Its benefits may include:
+              Skin Brightening: Helps lighten dark spots and even out uneven
+              skin tone. Hydration: Moisturizes the skin, leaving it soft,
+              smooth, and supple. <br /> <br /> Glow Boosting: Enhances natural
+              skin radiance for a luminous look. This product is often
+              recommended for people seeking extra fairness or a lighter
+              complexion, but it's important to check if it aligns with your
+              skin type and preferences. Regular use, along with sunscreen, can
+              maximize its effects while protecting your skin.
             </p>
+            <p
+              className="text-gray-600 mb-6 text-justify"
+              dangerouslySetInnerHTML={{
+                __html: product.description.replace(/\n/g, "<br />"),
+              }}
+            ></p>
             <div className=" flex justify-between gap-2 items-center">
               {product.availableAmount === 0 ? (
                 <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
