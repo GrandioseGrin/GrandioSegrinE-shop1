@@ -20,7 +20,7 @@ const NetworkStatusChecker = () => {
       try {
         const start = Date.now();
         // Ping a reliable server (e.g., Google)
-        await fetch("https://www.google.com", {
+        await fetch("https://jsonplaceholder.typicode.com/posts/1", {
           method: "HEAD",
           cache: "no-store",
         });

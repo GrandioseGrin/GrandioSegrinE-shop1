@@ -161,7 +161,7 @@ function Navbar() {
 
         {/* mobile dropdown */}
         {menuOpen && (
-          <div className="p-[24px] flex flex-col justify-center items-center">
+          <div className="p-[24px] flex flex-col justify-center font-semibold items-center">
             <div className=" container1 flex flex-col w-full space-y-[24px] justify-between items-center">
               <Link href="/" onClick={toggleMenu}>
                 <ParagraphLink1

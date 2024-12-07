@@ -28,7 +28,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
     categories.filter((category) => category.parentId === parentId);
 
   return (
-    <div className="flex flex-col w-full  min-h-screen min-w-fit overflow-y-auto scrollbar-hide  pr-4 xl:pl-0 p-4">
+    <div className="flex flex-col w-full  min-h-screen min-w-fit font-semibold overflow-y-auto scrollbar-hide  pr-4 xl:pl-0 p-4">
       <div className=" xl:block hidden">
         <ParagraphLink2 className=" text-[16px] font-semibold pb-2">
           Categories

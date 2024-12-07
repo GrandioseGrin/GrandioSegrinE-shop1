@@ -913,7 +913,7 @@ const Checkout: React.FC<CheckoutProps> = ({
               {products.map((product: any) => (
                 <div
                   key={product.id}
-                  className="grid grid-cols-3 sm:grid-cols-5 items-center pb-3 border-b "
+                  className="grid grid-cols-3 sm:grid-cols-5 items-center py-4 border-b "
                 >
                   <div className=" col-span-2 flex items-center gap-2">
                     <img

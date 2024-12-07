@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Header3, Paragraph1, ParagraphLink1 } from "../Text";
+import { Header3, Paragraph1, ParagraphLink1, ParagraphLink2 } from "../Text";
 import ProductCard from "./ProductCard";
 import AOS from "aos";
 import { db } from "@/lib/firebase"; // Firestore setup
@@ -22,6 +22,9 @@ interface Product {
   sub_category: string;
   selectedCategory: any;
   isTrending: any;
+  isElite: boolean;
+  isSpecial: boolean;
+  isBudget: boolean;
 }
 
 interface Category {
@@ -120,6 +123,20 @@ function Overview() {
       filteredProducts = filteredProducts.filter(
         (product) => product.isTrending
       );
+    } else if (activeFilter === "Elite Products") {
+      setLoading(true);
+
+      filteredProducts = filteredProducts.filter((product) => product.isElite);
+    } else if (activeFilter === "Special Products") {
+      setLoading(true);
+
+      filteredProducts = filteredProducts.filter(
+        (product) => product.isSpecial
+      );
+    } else if (activeFilter === "Shop on Budget") {
+      setLoading(true);
+
+      filteredProducts = filteredProducts.filter((product) => product.isBudget);
     } else if (activeFilter === "Latest") {
       setLoading(true);
 
@@ -154,6 +171,33 @@ function Overview() {
     "Latest",
     "Price: Low to High",
     "Price: High to Low",
+  ];
+
+  const section = [
+    "Elite Products",
+    "Special Products",
+    "Shop on Budget",
+  ];
+
+  const sections = [
+    {
+      name: "Elite Products",
+      BackgroundURL:
+        "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733537996/kitera-dent-brwX1UMmeEc-unsplash_didfn4.jpg",
+      bgColor: "bg-secondary",
+    },
+    {
+      name: "Special Products",
+      BackgroundURL:
+        "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733538005/hanna-postova-oha7AANDiL8-unsplash_g4ykyj.jpg",
+      bgColor: "bg-primary",
+    },
+    {
+      name: "Shop on Budget",
+      BackgroundURL:
+        "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733538011/enecta-cannabis-extracts-80wCkpt-IKE-unsplash_o77f6s.jpg",
+      bgColor: "bg-black",
+    },
   ];
 
   React.useEffect(() => {
@@ -198,6 +242,32 @@ function Overview() {
             <div className=" mb-4 xl:hidden pt-2">
               <SearchBar />
             </div>
+            <div className=" flex gap-2 w-full mb-2 whitespace-nowrap  overflow-x-auto scrollbar-hide  ">
+              {sections.map((section, index) => (
+                <div
+                  key={index}
+                  onClick={() => setActiveFilter(section.name)}
+                  className={` relative flex cursor-pointer  justify-center min:w-[400px]- items-center h-[80px] px-[40px] xl: w-full  ${section.bgColor}- bg-black rounded-lg border`}
+                >
+                  <div
+                    className="absolute inset-0 rounded-lg "
+                    style={{
+                      backgroundImage: `url(${section.BackgroundURL})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      opacity: 0.7, // Adjust this value as needed
+                      zIndex: 0,
+                    }}
+                  ></div>
+                  <div className="bg-black  bg-opacity-55 rounded-lg py-2 px-4 text-white relative z-10">
+                    <ParagraphLink2 className=" font-bold">
+                      {" "}
+                      {section.name}
+                    </ParagraphLink2>
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <div className=" flex w-full justify-between items-center mb-4">
               <div className=" relative xl:hidden">
@@ -223,7 +293,7 @@ function Overview() {
                 </div>
               </div>
 
-              <div className="relative inline-">
+              <div className="relative inline- ">
                 <div
                   onClick={() => setIsOpen(!isOpen)}
                   className=" flex gap-4 bg-white w-fit cursor-pointe rounded-lg p-2"
@@ -262,7 +332,7 @@ function Overview() {
             </div>
             {/* data-aos="fade-right" */}
 
-            <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-[24px] xl:gap-[30px] ">
+            <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-2 xl:gap-[30px] ">
               {displayedProducts.length > 0 ? (
                 displayedProducts.map((product) => (
                   <ProductCard
