@@ -432,7 +432,7 @@ const Checkout: React.FC<CheckoutProps> = ({
           />
         </svg>
         <div
-          onClick={() => setActiveTab(2)}
+          // onClick={() => setActiveTab(2)}
           className={`text-sm  ${
             activeTab === 2 ? "text-primary font-semibold" : "text-gray-400"
           }`}
