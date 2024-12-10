@@ -157,7 +157,11 @@ const ProductDetail = () => {
               {product.productImages?.map((image: any, index: any) => (
                 <img
                   key={index}
-                  src={image.replace("/upload/", "/upload/w_500,f_auto/")}
+                  src={
+                    image
+                      ? image.replace("/upload/", "/upload/w_500,f_auto/")
+                      : "/images/default-product.png"
+                  }
                   alt={`Product thumbnail ${index + 1}`}
                   className={`h-20 w-20 object-cover rounded-lg cursor-pointer ${
                     selectedImage === image ? "ring-2 ring-blue-500" : ""
