@@ -130,6 +130,7 @@ const CategoryEditor: React.FC<CategoryEditorProps> = ({ onRefetch }) => {
                   d="M6 18 18 6M6 6l12 12"
                 />
               </svg>
+              
             </button>
             <ParagraphLink2 className="font-bold mb-4">
               Category List

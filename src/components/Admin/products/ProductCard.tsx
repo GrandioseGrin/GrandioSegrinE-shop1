@@ -41,7 +41,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         className="bg-white relative p-2 hover:border-primary cursor-pointer border-2 rounded-lg"
       >
         <img
-          src={image.replace("/upload/", "/upload/w_500,f_auto/")}
+          src={
+            image
+              ? image.replace("/upload/", "/upload/w_500,f_auto/")
+              : "/images/default-product.png"
+          }
           alt={title}
           className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
         />
@@ -69,7 +73,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             )}`}</p>
           </button>
         </div>
-        
       </div>
     </div>
   );

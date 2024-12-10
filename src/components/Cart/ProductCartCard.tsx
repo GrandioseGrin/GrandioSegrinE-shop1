@@ -40,7 +40,7 @@ const ProductCartCard: React.FC<ProductCartCardProps> = ({
           className="w-16 h-16 object-cover rounded"
         />
         <div className=" space-y-2">
-          <ParagraphLink2 className="font-bold truncate overflow-hidden whitespace-nowrap w-[80%]">
+          <ParagraphLink2 className="font-bold truncate overflow-hidden whitespace-nowrap w-[150px]">
             {product.name}
           </ParagraphLink2>
           <div className="flex gap-4 items-center ">

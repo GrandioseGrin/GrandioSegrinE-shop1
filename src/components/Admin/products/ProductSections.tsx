@@ -216,7 +216,14 @@ function ProductSections() {
               <div className=" mb-4  pt-2">
                 <SearchBar />
               </div>
-
+              <div className="xl:hidden  px-2 mb-4">
+                <ParagraphLink1 className=" ">
+                  Number of unique products:{" "}
+                  <span className=" font-bold p-2 border rounded-lg">
+                    {displayedProducts.length}
+                  </span>
+                </ParagraphLink1>
+              </div>
               <div className=" flex w-full justify-between items-center mb-4">
                 <div className=" relative xl:hidden">
                   <button
@@ -240,7 +247,14 @@ function ProductSections() {
                     />
                   </div>
                 </div>
-
+                <div className="xl:flex hidden  ">
+                  <ParagraphLink1 className=" ">
+                    Number of unique products:{" "}
+                    <span className=" font-bold p-2 border rounded-lg">
+                      {displayedProducts.length}
+                    </span>
+                  </ParagraphLink1>
+                </div>
                 <div className=" flex gap-1 items-center">
                   <CategoryEditor onRefetch={refetch} />
                   <div className="relative inline-">

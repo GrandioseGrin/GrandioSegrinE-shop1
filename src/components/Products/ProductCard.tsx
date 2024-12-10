@@ -57,9 +57,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Link href={`/products/${productID}`}>
           {" "}
           <img
-            src={image.replace("/upload/", "/upload/w_500,f_auto/")}
+            src={
+              image
+                ? image.replace("/upload/", "/upload/w_500,f_auto/")
+                : "/images/default-product.png"
+            }
             alt={title}
-            className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
+            className="w-full h-[150px] object-cover rounded-lg hover:scale-110 transition-transform duration-300 "
           />
         </Link>
         <div className=" flex flex-col justify-center border-t pt-2 items-center   ga -rounded-lg  bg-white bg-opacity-65">
@@ -78,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           ) : (
             <button
               onClick={handleAddToCart}
-              className="whitespace-nowrap text-[13px] flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white "
+              className="whitespace-nowrap text-[13px] flex justify-center py-2 bg-primary hover:bg-black rounded-lg w-full  text-white "
             >
               <ParagraphLink2>Add to Cart</ParagraphLink2>
             </button>
