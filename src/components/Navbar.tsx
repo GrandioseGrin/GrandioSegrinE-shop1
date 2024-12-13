@@ -86,16 +86,6 @@ function Navbar() {
                 Home
               </ParagraphLink1>
             </Link>
-            <Link href="/about-us">
-              {" "}
-              <ParagraphLink1
-                className={
-                  pathname === "/about-us" ? "text-primary font-bold " : "  "
-                }
-              >
-                About
-              </ParagraphLink1>
-            </Link>
             <Link href="/products">
               {" "}
               <ParagraphLink1
@@ -104,6 +94,17 @@ function Navbar() {
                 }
               >
                 Shop
+              </ParagraphLink1>
+            </Link>
+
+            <Link href="/about-us">
+              {" "}
+              <ParagraphLink1
+                className={
+                  pathname === "/about-us" ? "text-primary font-bold " : "  "
+                }
+              >
+                About
               </ParagraphLink1>
             </Link>
 
@@ -170,16 +171,6 @@ function Navbar() {
                   Home
                 </ParagraphLink1>
               </Link>
-              <Link href="/about-us" onClick={toggleMenu}>
-                {" "}
-                <ParagraphLink1
-                  className={
-                    pathname === "/about-us" ? "text-primary font-bold " : "  "
-                  }
-                >
-                  About
-                </ParagraphLink1>
-              </Link>
               <Link href="/products" onClick={toggleMenu}>
                 {" "}
                 <ParagraphLink1
@@ -190,6 +181,17 @@ function Navbar() {
                   Shop
                 </ParagraphLink1>
               </Link>
+              <Link href="/about-us" onClick={toggleMenu}>
+                {" "}
+                <ParagraphLink1
+                  className={
+                    pathname === "/about-us" ? "text-primary font-bold " : "  "
+                  }
+                >
+                  About
+                </ParagraphLink1>
+              </Link>
+
               <Link href="/blog" onClick={toggleMenu}>
                 {" "}
                 <ParagraphLink1

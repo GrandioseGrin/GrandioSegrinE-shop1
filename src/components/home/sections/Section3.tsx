@@ -29,7 +29,7 @@ const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
         {" "}
         <div
           className=" flex xl:gap-[24px] flex-col text-center items-center w-full mb-[24px] xl:mb-[64px]"
-          data-aos="fade-up"
+          // data-aos="fade-up"
         >
           <Header3>
             Our Newest <span className="text-primary">Beauty</span> Essentials

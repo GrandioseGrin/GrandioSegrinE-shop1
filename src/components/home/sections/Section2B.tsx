@@ -30,10 +30,10 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
         {" "}
         <div
           className=" flex flex-col gap-[8px] xl:gap-[24px] text-center items-center w-full mb-[24px] xl:mb-[64px]"
-          // data-aos="fade-up"
+          data-aos="fade-up"
         >
           <Header3>
-            Our <span className="text-primary">Featured</span> Products
+            Our <span className="text-primary">Trending</span> Products
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
             Each product is carefully selected to celebrate your unique beauty,
@@ -42,10 +42,10 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}
-        <div className="xl:flex grid grid-cols-2 items-center xl:overflow-y-auto scrollbar-hide   gap-2 [24px] xl:gap-4 [30px]">
+        <div className="flex items-center overflow-y-auto scrollbar-hide   gap-[24px] xl:gap-[30px]">
           {featuredProducts && featuredProducts.length > 0
             ? featuredProducts.slice(0, 8).map((product: any) => (
-                <div className=" xl:min-w-[250px]">
+                <div className=" min-w-[250px]">
                   <ProductCard
                     key={product.id}
                     image={product.productImageURL1}
@@ -60,7 +60,7 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="h-[250px] xl:min-w-[250px] bg-gray-200 rounded-md animate-pulse"
+                    className="h-[250px] min-w-[250px] bg-gray-200 rounded-md animate-pulse"
                   ></div>
                 ))}
         </div>

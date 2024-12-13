@@ -1,94 +1,69 @@
-"use client";
+/** @format */
 
-import Button from "@/components/Button";
-import { Header1, Paragraph2, Paragraph3 } from "@/components/Text";
 import React from "react";
-import ElevatingBrands from "./others/ElevatingBrands";
-import AOS from "aos";
+import BannerCarousel from "./others/Banner";
+import Image from "next/image";
+import Button from "@/components/Button";
 
-function HeroSection() {
-  React.useEffect(() => {
-    AOS.init({
-      duration: 3000,
-    });
-  });
+const HomePage = () => {
+  const imageUrls = [
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057094/ad-banner-natural-beauty-products-600nw-1780339220_fi36g5.webp",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057163/cosmetic-banner-design-template-f144d95f86f429ed2b4cf012c01937cc_screen_xemfkc.jpg",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057163/HKen-blackFriday_FCbanana_web_banner_3b60d3ff-04ac-494d-af52-e198f9fa37bb_g02jmr.webp",
+  ];
 
   return (
-    <div className="  ">
-      <div className="xl:py-[150px] relative py-[50px] xl:pt-[150px] pt-[100px] bg-p_black pb-[100px]">
-        {/* Background image overlay */}
-        <div
-          className="absolute inset-0 bg-cover  bg-center- z-0"
-          style={{
-            backgroundImage:
-              "url('https://res.cloudinary.com/dtipo8fg3/image/upload/v1731516500/istockphoto-1536721205-612x612_bdmsat.jpg')",
-          }}
-        ></div>
-        {/* Dark overlay for the background image */}
-        <div className="absolute inset-0  bg-p_black opacity-80 z-0"></div>
-        <div className=" container1 flex justify-center w-full items-center ">
-          {" "}
-          <div
-            className="col-span-2 order-2 max-w-[900px] lg:order-1 text-center"
-            data-aos="fade-up-right"
-          >
-            <Header1 className="text-white mt-4 xl:mt-0">
-              Welcome to{" "}
-              <span className=" py-2 rounded-[24px] sm:border-b-4 border-primary">
-                {" "}
-                GrandioseGrin{" "}
-              </span>{" "}
-              – your destination for high-quality, original beauty and cosmetic
-              products.
-            </Header1>
-            <Paragraph3 className="mt-[16px] mb-[48px] text-white">
-              Beauty begins with self-love. Indulge in skincare and cosmetics
-              that celebrate the unique radiance within you.
-            </Paragraph3>
-
-            <div className="flex justify-center  xl:flex-row flex-col items-center mt-4 gap-[24px] xl:gap-[32px]">
-              <Button
-                text="Shop Now"
-                href="/products"
-                isLink={true}
-                border="border-2 border-primary "
-                additionalClasses="border-primary xl:w-fit w-full "
+    <div className="  pt-[70px] ">
+      <div className="bg-black text-white pt-[70px] hidden ">
+        <div className="flex py-2 container1">
+          <div className="">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
               />
-              <Button
-                text="About Us"
-                href="/about-us"
-                isLink={true}
-                color="text-white"
-                backgroundColor=" bg-p_black"
-                border="border-2 border-white "
-                additionalClasses=" xl:w-fit w-full "
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
               />
-            </div>
+            </svg>
           </div>
-          {/* <div className="col-span-1 order-1 lg:order-2 flex justify-center">
-            <div className=" relative  h-[200px] w-[250px] sm:h-[400px] sm:w-[500px]">
-              <div
-                style={{ transform: "rotate(-12deg)" }}
-                className=" rounded-lg border-4 relative border-white  bg-primary h-[200px] w-[250px] sm:h-[400px] sm:w-[500px]"
-              ></div>
-              <div
-                style={{ transform: "rotate(8deg)" }}
-                className=" bg-primary h-full w-full overflow-hidden absolute -top-[20px] -right-[20px] p-4 border-4 border-white rounded-lg object-cover"
-              >
-                <img
-                  data-aos="fade-left"
-                  src="/images/hero_photo.jpg"
-                  alt=""
-                  className="w-ful object-cover h-full w-full  "
-                />
-              </div>
-            </div>
-          </div> */}
+          <h1 className="text-white text-[14px]">
+            Delivery around FUTO (10:00 am - 8:00 pm)
+          </h1>
         </div>
       </div>
-      
+      <BannerCarousel imageUrls={imageUrls} />
+
+      <div className="flex container1 justify-center-  xl: flex-row -flex-col items-center mt-4 gap-4 xl:gap-[32px]">
+        <Button
+          text="Shop Now"
+          href="/products"
+          isLink={true}
+          border="border-2 border-primary "
+          additionalClasses="border-primary xl:w-fit- flex justify-center  w-full "
+        />
+        <Button
+          text="About Us"
+          href="/about-us"
+          isLink={true}
+          color="text-white"
+          backgroundColor=" bg-p_black"
+          border="border-2 border-white "
+          additionalClasses=" xl: w-fit- justify-center flex w-full "
+        />
+      </div>
     </div>
   );
-}
+};
 
-export default HeroSection;
+export default HomePage;

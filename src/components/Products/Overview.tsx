@@ -5,7 +5,7 @@ function Overview() {
   return (
     <div>
       <ShopFront />
-      <Section6 />
+      {/* <Section6 /> */}
     </div>
   );
 }

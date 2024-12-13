@@ -1,11 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import { Header3, Paragraph1, ParagraphLink1, ParagraphLink2 } from "../Text";
 import ProductCard from "./ProductCard";
 import AOS from "aos";
 import { db } from "@/lib/firebase"; // Firestore setup
-import { collection, getDocs } from "firebase/firestore"; // Firestore methods
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  startAfter,
+  limit,
+} from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import CategorySelector from "./CategorySelector";
@@ -33,6 +47,8 @@ interface Category {
   properties: Record<string, any>; // Store additional properties of the category
 }
 
+const PRODUCTS_PER_PAGE = 10; // Control the number of products loaded per page
+
 function Overview() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,6 +60,10 @@ function Overview() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("");
+  const [lastDoc, setLastDoc] = useState<any>(null); // For Firestore pagination
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
 
@@ -61,35 +81,81 @@ function Overview() {
       }
     };
 
-    const fetchProducts = async () => {
+    fetchCategories();
+  }, []);
+
+  // Fetch products with pagination
+  const fetchProducts = useCallback(
+    async (isInitialLoad = false) => {
+      if (isLoadingMore) return; // Prevent overlapping requests
+      setIsLoadingMore(true);
+
       try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const productsData = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            ...data,
-            createdAt: data.createdAt ? data.createdAt.toDate() : new Date(), // Convert Firestore Timestamp to Date
-          };
-        }) as Product[];
-
-        setProducts(productsData);
-
-        // Featured products
-        setFeaturedProducts(
-          productsData.filter((product) => product.isFeatured)
+        const productsQuery = query(
+          collection(db, "products"),
+          ...(selectedCategory
+            ? [where("category", "==", selectedCategory)]
+            : []),
+          orderBy("createdAt", "desc"),
+          ...(lastDoc && !isInitialLoad ? [startAfter(lastDoc)] : []),
+          limit(PRODUCTS_PER_PAGE)
         );
-        setDisplayedProducts(productsData); // Default: show all products
+
+        const querySnapshot = await getDocs(productsQuery);
+
+        const productsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt.toDate(),
+        })) as Product[];
+
+        setProducts((prev) =>
+          isInitialLoad ? productsData : [...prev, ...productsData]
+        );
+        setDisplayedProducts((prev) =>
+          isInitialLoad ? productsData : [...prev, ...productsData]
+        );
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false);
+        setIsLoadingMore(false);
+      }
+    },
+    [selectedCategory, lastDoc, isLoadingMore]
+  );
+
+  // Initial product fetch
+  useEffect(() => {
+    fetchProducts(true);
+  }, [selectedCategory]);
+
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting) {
+        fetchProducts();
+      }
+    },
+    [fetchProducts]
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "100px", // Trigger slightly before hitting the bottom
+      threshold: 0.1,
+    });
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
       }
     };
-
-    fetchCategories();
-    fetchProducts();
-  }, []);
+  }, [handleIntersection]);
 
   useEffect(() => {
     if (searchQuery) {
@@ -173,11 +239,7 @@ function Overview() {
     "Price: High to Low",
   ];
 
-  const section = [
-    "Elite Products",
-    "Special Products",
-    "Shop on Budget",
-  ];
+  const section = ["Elite Products", "Special Products", "Shop on Budget"];
 
   const sections = [
     {
@@ -332,7 +394,7 @@ function Overview() {
             </div>
             {/* data-aos="fade-right" */}
 
-            <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-2 xl:gap-[30px] ">
+            <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-2 xl:gap-4 [30px] ">
               {displayedProducts.length > 0 ? (
                 displayedProducts.map((product) => (
                   <ProductCard
@@ -370,6 +432,12 @@ function Overview() {
                   ))
               )}
             </div>
+            {isLoadingMore && (
+              <div className="flex items-center justify-center space-x-2 mt-6">
+                <div className="w-6 h-6 border-4 border-t-transparent border-primary rounded-full animate-spin"></div>
+              </div>
+            )}
+            <div className="observer scrollbar-hide" ref={observerRef} />
           </div>
         </div>
       </div>

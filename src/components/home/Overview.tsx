@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import HeroSection from "./sections/HeroSection";
 import Section2 from "./sections/Section2";
+import Section2B from "./sections/Section2B";
 import Section3 from "./sections/Section3";
 import Section6 from "./sections/Section6";
 import { db } from "@/lib/firebase"; // Firestore setup
@@ -27,6 +28,7 @@ function Overview() {
   const [products, setProducts] = useState<Product[]>([]);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -49,6 +51,11 @@ function Overview() {
           productsData.filter((product) => product.isFeatured)
         );
 
+        // Trending products
+        setTrendingProducts(
+          productsData.filter((product) => product.isTrending)
+        );
+
         // Latest products
         setLatestProducts(
           productsData.sort(
@@ -69,8 +76,9 @@ function Overview() {
   return (
     <div>
       <HeroSection />
-      <Section3 latestProducts={latestProducts} />
       <Section2 featuredProducts={featuredProducts} />
+      <Section2B featuredProducts={trendingProducts} />
+      <Section3 latestProducts={latestProducts} />
       <Features />
       <NewsLetter />
       <Section6 />

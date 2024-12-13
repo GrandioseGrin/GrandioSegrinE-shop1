@@ -18,10 +18,8 @@ function Footer() {
   return (
     <div
       className={
-        ["/contact-us", "/privacy-policy", "/terms-of-service"].includes(
-          pathname
-        )
-          ? "bg-bg_gray sm:py-[100px]-"
+        ["/products", "/blog"].includes(pathname)
+          ? "bg-bg_gray hidden sm:py-[100px]-"
           : " bg-white sm:py-[100px]-"
       }
     >
@@ -227,7 +225,11 @@ function Footer() {
               </Link>
               <div className=" flex flex-col p-4- gap-2 items-center- justify-center-">
                 <div className=" flex gap-4 items-center mb-4">
-                  <Link target="_blank" href="www.instagram.com/grandiosegrin">
+                  <Link
+                    href="https://www.instagram.com/grandiosegrin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <img
                       src="https://res.cloudinary.com/dcb4ilgmr/image/upload/v1729676533/utilities/templates/instagram_2_ujmgac.png"
                       alt="instagram"

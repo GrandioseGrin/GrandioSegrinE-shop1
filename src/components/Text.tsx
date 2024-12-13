@@ -2,19 +2,19 @@ import React from "react";
 import localFont from "next/font/local";
 
 const body_Font_Medium = localFont({
-  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Medium.woff",
+  src: "../app/fonts/Zodiak/fonts/Zodiak-Regular.woff",
 });
 
 const body_Font_Regular = localFont({
-  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Regular.woff",
+  src: "../app/fonts/Zodiak/fonts/Zodiak-Regular.woff",
 });
 
 const body_Font_Light = localFont({
-  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Light.woff",
+  src: "../app/fonts/Zodiak/fonts/Zodiak-Light.woff",
 });
 
 const body_Font_Bold = localFont({
-  src: "../app/fonts/ClashDisplay/fonts/ClashDisplay-Bold.woff",
+  src: "../app/fonts/Zodiak/fonts/Zodiak-Bold.woff",
 });
 
 const body_p_regular = localFont({

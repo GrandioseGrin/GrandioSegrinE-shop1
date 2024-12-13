@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box; /* Include padding and borders in width/height */
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: Roboto, sans-serif, Arial, Helvetica,;
@@ -9,7 +14,9 @@ body {
 }
 
 html, body {
-    overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 @layer utilities {
@@ -18,6 +25,20 @@ html, body {
   }
 }
 
+.observer {
+  width: 100%; /* Match parent width */
+  height: 1px; /* Minimal height to observe */
+  overflow: hidden; /* Prevent overflow */
+  position: absolute; /* Avoid affecting layout */
+  bottom: 0;
+}
+
+.infinite-scroll-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  margin: 0 auto; /* Center content if necessary */
+}
 /* globals.css */
 
 .container1 {
