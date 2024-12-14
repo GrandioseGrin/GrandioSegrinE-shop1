@@ -191,7 +191,7 @@ const ProductDetail = () => {
               )}
             </div>
             <div className=" flex justify-between sm:hidden my-2 gap-2 items-center">
-              {product.availableAmount === 0 ? (
+              {product.availableAmount === "0" ? (
                 <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
                   Out of Stock
                 </div>
@@ -235,7 +235,7 @@ const ProductDetail = () => {
               }}
             ></p>
             <div className=" flex justify-between gap-2 items-center">
-              {product.availableAmount === 0 ? (
+              {product.availableAmount === "0" ? (
                 <div className="py-2 flex w-full justify-center items-center rounded-lg bg-black text-white text-center">
                   Out of Stock
                 </div>

@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               : "/images/default-product.png"
           }
           alt={title}
-          className="w-full h-[150px] object-contain hover:scale-110 transition-transform duration-300 "
+          className="w-full h-[100px] object-cover rounded-lg hover:scale-110 transition-transform duration-300 "
         />
         <div
           className={`absolute top-2 left-2 px-2 py-1 rounded-lg ${

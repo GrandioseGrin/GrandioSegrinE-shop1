@@ -75,9 +75,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             "en-US",
             {}
           ).format(Number(formattedPrice))}`}</Paragraph2>
-          {product.availableAmount === 0 ? (
-            <div className="py-2 flex px-2 justify-center sm:hidden items-center rounded-lg bg-black text-white text-center">
-              Null
+          {product.availableAmount === "0" ? (
+            <div className="py-2 flex px-2 justify-center sm:hidden- w-full items-center rounded-lg bg-black text-white text-center">
+              Out of Stock
             </div>
           ) : (
             <button

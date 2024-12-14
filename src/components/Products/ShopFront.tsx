@@ -233,8 +233,8 @@ function Overview() {
 
   const filters = [
     "All",
-    "Trending",
-    "Latest",
+    // "Trending",
+    // "Latest",
     "Price: Low to High",
     "Price: High to Low",
   ];

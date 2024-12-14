@@ -135,10 +135,16 @@ function ProductSections() {
         );
         break;
 
-      case "Out of Stock":
+      case "Available Products":
         setLoading(true);
         filteredProducts = filteredProducts.filter(
-          (product) => product.availableAmount === 0
+          (product) => product.availableAmount > 0
+        );
+        break;
+       case "Out of Stock":
+        setLoading(true);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.availableAmount <= 0
         );
         break;
 
@@ -177,6 +183,7 @@ function ProductSections() {
     "Latest",
     // "Price: Low to High",
     // "Price: High to Low",
+    "Available Products",
     "Out of Stock",
     "Low Stock",
   ];
@@ -297,7 +304,7 @@ function ProductSections() {
               </div>
               {/* data-aos="fade-right" */}
 
-              <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-[24px] xl:gap-[30px] ">
+              <div className="grid grid-cols-2 xl:grid-cols-5 sm:grid-cols-1 gap-2 [24px] xl:gap-4 [30px] ">
                 {displayedProducts.length > 0 ? (
                   displayedProducts.map((product) => (
                     <ProductCard
@@ -331,7 +338,7 @@ function ProductSections() {
                     .map((_, index) => (
                       <div
                         key={index}
-                        className="h-[250px] w-full bg-gray-200 rounded-md animate-pulse"
+                        className="h-[150px] w-full bg-gray-200 rounded-md animate-pulse"
                       ></div>
                     ))
                 )}
