@@ -31,7 +31,7 @@ export const Header1: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[24px] sm:text-[32px] md:text-[40px]  ${body_Font_Medium.className} ${className}`}
+    className={`text-[24px] sm:text-[32px]   ${body_Font_Medium.className} ${className}`}
   >
     {children}
   </h1>
@@ -42,7 +42,7 @@ export const Header1Plus: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[24px] sm:text-[32px] md:text-[40px]  ${body_Font_Regular.className} ${className}`}
+    className={`text-[24px] sm:text-[32px] ${body_Font_Regular.className} ${className}`}
   >
     {children}
   </h1>
@@ -53,7 +53,7 @@ export const Header2: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h2
-    className={`text-[16px] sm:text-[20px] md:text-[24px]   font-bold ${body_Font_Bold.className} ${className}`}
+    className={`text-[16px] sm:text-[20px]  font-bold ${body_Font_Bold.className} ${className}`}
   >
     {children}
   </h2>
@@ -75,7 +75,7 @@ export const Header4: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h4
-    className={`text-[20px] sm:text-[24px] md:text-[28px]   font-bold ${body_Font_Regular.className} ${className}`}
+    className={`text-[20px] sm:text-[24px]    font-bold ${body_Font_Regular.className} ${className}`}
   >
     {children}
   </h4>
@@ -86,7 +86,7 @@ export const Header5: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h4
-    className={`text-[14px] sm:text-[14px] md:text-[16px]   font-bold ${body_Font_Medium.className} ${className}`}
+    className={`text-[14px] sm:text-[14px]    font-bold ${body_Font_Medium.className} ${className}`}
   >
     {children}
   </h4>
@@ -105,7 +105,7 @@ export const Paragraph1: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[14px] sm:text-[14px] md:text-[16px] lg:text-[16px]  leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]  ${body_p_regular.className} ${className}`}
+    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]  ${body_p_regular.className} ${className}`}
   >
     {children}
   </h1>
@@ -116,7 +116,7 @@ export const Paragraph2: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <p
-    className={`text-[14px] sm:text-[14px]  leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_regular.className} ${className}`}
+    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_regular.className} ${className}`}
   >
     {children}
   </p>
@@ -127,7 +127,7 @@ export const Paragraph3: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <p
-    className={`text-[14px] sm:text-[14px] md:text-[16px] lg:text-[17px]  leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_light.className} ${className}`}
+    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_light.className} ${className}`}
   >
     {children}
   </p>
@@ -138,7 +138,7 @@ export const ParagraphLink1: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[14px] sm:text-[14px] md:text-[16px] lg:text-[16px]  leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px] hover:scale-105 transition-transform duration-300  ${body_Font_Regular.className} ${className}`}
+    className={`text-[12px] sm:text-[14px]   leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px] hover:scale-105 transition-transform duration-300  ${body_Font_Regular.className} ${className}`}
   >
     {children}
   </h1>
@@ -149,7 +149,7 @@ export const ParagraphLink2: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={` hover:scale-105 transition-transform duration-300  ${body_Font_Light.className} ${className}`}
+    className={` hover:scale-105 transition-transform duration-300 text-[12px] sm:text-[14px] ${body_Font_Light.className} ${className}`}
   >
     {children}
   </h1>

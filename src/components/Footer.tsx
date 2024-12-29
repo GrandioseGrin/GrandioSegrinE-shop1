@@ -27,7 +27,7 @@ function Footer() {
         <div className=" container1 py-[32px] sm:py-[40px] ">
           {/* desktop */}
           <div className="sm:flex hidden items-start justify-between mb-[30px]">
-            <div className="w-[200px] relative">
+            <div className="w-[200px] relative hidden">
               <img src="/images/logo2.png" alt="photographer" />
             </div>
             <div className=" flex gap-[48px]">
@@ -290,7 +290,7 @@ function Footer() {
               </div>
             </div>
 
-            <div className="col-span-1 order-2 sm:order-1">
+            <div className="col-span-1 order-2 sm:order-1 hidden">
               {" "}
               <img
                 src="/images/logo2.png"

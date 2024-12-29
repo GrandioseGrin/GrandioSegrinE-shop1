@@ -39,7 +39,7 @@ const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
             routine and keep you at the forefront of beauty trends.
           </Paragraph1>
         </div>
-        <div className="flex items-center overflow-y-auto scrollbar-hide   gap-[24px] xl:gap-[30px]">
+        <div className="xl:flex items-center overflow-y-auto scrollbar-hide   gap-[24px] xl:gap-[30px]">
           {latestProducts && latestProducts.length > 0
             ? latestProducts.slice(0, 8).map((product: any) => (
                 <div className=" min-w-[250px]">

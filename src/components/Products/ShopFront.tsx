@@ -47,7 +47,7 @@ interface Category {
   properties: Record<string, any>; // Store additional properties of the category
 }
 
-const PRODUCTS_PER_PAGE = 10; // Control the number of products loaded per page
+const PRODUCTS_PER_PAGE = 200; // Control the number of products loaded per page
 
 function Overview() {
   const [categories, setCategories] = useState<Category[]>([]);

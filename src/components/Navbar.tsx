@@ -65,7 +65,7 @@ function Navbar() {
             <img
               src="/images/logo.png"
               alt=""
-              className="h-[25px] xl:flex hidden-"
+              className="h-[20px] xl:flex hidden-"
             />
             {/* <img
               src="/images/logo3.png"
