@@ -189,7 +189,7 @@ function Overview() {
       filteredProducts = filteredProducts.filter(
         (product) => product.isTrending
       );
-    } else if (activeFilter === "Elite Products") {
+    } else if (activeFilter === "Single Products") {
       setLoading(true);
 
       filteredProducts = filteredProducts.filter((product) => product.isElite);
@@ -249,17 +249,17 @@ function Overview() {
       bgColor: "bg-black",
     },
     {
-      name: "Elite Products",
+      name: "Single Products",
       BackgroundURL:
         "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733537996/kitera-dent-brwX1UMmeEc-unsplash_didfn4.jpg",
       bgColor: "bg-secondary",
     },
-    {
-      name: "Special Products",
-      BackgroundURL:
-        "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733538005/hanna-postova-oha7AANDiL8-unsplash_g4ykyj.jpg",
-      bgColor: "bg-primary",
-    },
+    // {
+    //   name: "Special Products",
+    //   BackgroundURL:
+    //     "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733538005/hanna-postova-oha7AANDiL8-unsplash_g4ykyj.jpg",
+    //   bgColor: "bg-primary",
+    // },
     {
       name: "Wholesale and Bulk Products",
       BackgroundURL:
