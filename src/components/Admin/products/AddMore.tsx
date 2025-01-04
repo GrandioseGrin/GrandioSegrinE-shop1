@@ -656,7 +656,7 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                     </div>
                     <div className="flex items-center gap-2 my-2">
                       <Field type="checkbox" name="isElite" />
-                      <label>Elite Product</label>
+                      <label>Single Products</label>
                     </div>
                     <div className="flex items-center gap-2 my-2">
                       <Field type="checkbox" name="isSpecial" />

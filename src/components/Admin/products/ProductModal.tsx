@@ -158,7 +158,6 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     fetchCategories();
   }, [product]);
 
-
   const validationSchema = Yup.object({
     name: Yup.string().required("Product name is required"),
     currentPrice: Yup.number().required("Current price is required"),
@@ -727,7 +726,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                 </div>
                 <div className="flex items-center gap-2 my-2">
                   <Field type="checkbox" name="isElite" />
-                  <label>Elite Product</label>
+                  <label>Single Products</label>
                 </div>
                 <div className="flex items-center gap-2 my-2">
                   <Field type="checkbox" name="isSpecial" />
@@ -735,7 +734,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                 </div>
                 <div className="flex items-center gap-2 my-2">
                   <Field type="checkbox" name="isBudget" />
-                  <label>Budget Product</label>
+                  <label>Wholesale and Bulk Products</label>
                 </div>
                 <div className="flex justify-between">
                   <button
