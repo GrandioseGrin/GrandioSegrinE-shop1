@@ -67,7 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </Link>
         <div className=" flex flex-col justify-center border-t- pt-2 items-center   ga -rounded-lg  bg-white bg-opacity-65">
-          <p className=" text-[12px] font-medium text-center  whitespace-nowrap w-[100%] truncate overflow-hidden">
+          <p className=" text-[13px] xl:text-[14px] font-medium text-center  whitespace-nowrap w-[100%] truncate overflow-hidden">
             {" "}
             {title}{" "}
           </p>
@@ -76,13 +76,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {}
           ).format(Number(formattedPrice))}`}</Paragraph2>
           {product.availableAmount === "0" ? (
-            <div className=" flex px-2 text-[12px] justify-center py-1 sm:hidden- w-full items-center rounded-lg bg-black text-white text-center">
+            <div className=" flex px-2 text-[13px] justify-center py-1 sm:hidden- w-full items-center rounded-lg bg-black text-white text-center">
               Out of Stock
             </div>
           ) : (
             <button
               onClick={handleAddToCart}
-              className="whitespace-nowrap text-[12px] flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white "
+              className="whitespace-nowrap font-semibold   flex justify-center py-1 bg-primary hover:bg-black rounded-lg w-full  text-white "
             >
               <ParagraphLink2>Add to Cart</ParagraphLink2>
             </button>

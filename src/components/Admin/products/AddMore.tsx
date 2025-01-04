@@ -664,7 +664,7 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                     </div>
                     <div className="flex items-center gap-2 my-2">
                       <Field type="checkbox" name="isBudget" />
-                      <label>Budget Product</label>
+                      <label>Wholesale and Bulk Products</label>
                     </div>
                     <div className="flex justify-between">
                       <button

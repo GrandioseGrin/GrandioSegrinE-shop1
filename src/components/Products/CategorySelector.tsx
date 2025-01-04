@@ -84,7 +84,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               )
             }
           >
-            <ParagraphLink2 className="whitespace-nowrap text-[14px]  - xl:w-[100px] py-2 truncate ">
+            <ParagraphLink2 className="whitespace-nowrap - xl:w-[100px] py-2 truncate ">
               {category.name}
             </ParagraphLink2>
 

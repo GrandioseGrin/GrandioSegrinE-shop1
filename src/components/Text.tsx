@@ -105,7 +105,7 @@ export const Paragraph1: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]  ${body_p_regular.className} ${className}`}
+    className={`text-[13px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]  ${body_p_regular.className} ${className}`}
   >
     {children}
   </h1>
@@ -116,7 +116,7 @@ export const Paragraph2: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <p
-    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_regular.className} ${className}`}
+    className={`text-[13px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_regular.className} ${className}`}
   >
     {children}
   </p>
@@ -127,7 +127,7 @@ export const Paragraph3: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <p
-    className={`text-[12px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_light.className} ${className}`}
+    className={`text-[13px] sm:text-[14px] leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px]   ${body_p_light.className} ${className}`}
   >
     {children}
   </p>
@@ -138,7 +138,7 @@ export const ParagraphLink1: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={`text-[12px] sm:text-[14px]   leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px] hover:scale-105 transition-transform duration-300  ${body_Font_Regular.className} ${className}`}
+    className={`text-[13px] sm:text-[14px]   leading-[24px] sm:leading-[28px] md:leading-[32px] lg:leading-[36px] xl:leading-[38px] 2xl:leading-[40px] hover:scale-105 transition-transform duration-300  ${body_Font_Regular.className} ${className}`}
   >
     {children}
   </h1>
@@ -149,7 +149,7 @@ export const ParagraphLink2: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <h1
-    className={` hover:scale-105 transition-transform duration-300 text-[12px] sm:text-[14px] ${body_Font_Light.className} ${className}`}
+    className={`   hover:scale-105 transition-transform duration-300 text-[13px] sm:text-[14px] ${body_Font_Light.className} ${className}`}
   >
     {children}
   </h1>

@@ -199,7 +199,7 @@ function Overview() {
       filteredProducts = filteredProducts.filter(
         (product) => product.isSpecial
       );
-    } else if (activeFilter === "Shop on Budget") {
+    } else if (activeFilter === "Wholesale and Bulk Products") {
       setLoading(true);
 
       filteredProducts = filteredProducts.filter((product) => product.isBudget);
@@ -233,15 +233,21 @@ function Overview() {
 
   const filters = [
     "All",
-    // "Trending",
-    // "Latest",
-    "Price: Low to High",
-    "Price: High to Low",
+    "Trending",
+    "Latest",
+    // "Price: Low to High",
+    // "Price: High to Low",
   ];
 
   const section = ["Elite Products", "Special Products", "Shop on Budget"];
 
   const sections = [
+    {
+      name: "All",
+      BackgroundURL:
+        "https://res.cloudinary.com/dcb4ilgmr/image/upload/v1736021991/utilities/images_2_ufuh7a.jpg",
+      bgColor: "bg-black",
+    },
     {
       name: "Elite Products",
       BackgroundURL:
@@ -255,7 +261,7 @@ function Overview() {
       bgColor: "bg-primary",
     },
     {
-      name: "Shop on Budget",
+      name: "Wholesale and Bulk Products",
       BackgroundURL:
         "https://res.cloudinary.com/dtipo8fg3/image/upload/v1733538011/enecta-cannabis-extracts-80wCkpt-IKE-unsplash_o77f6s.jpg",
       bgColor: "bg-black",
@@ -309,7 +315,7 @@ function Overview() {
                 <div
                   key={index}
                   onClick={() => setActiveFilter(section.name)}
-                  className={` relative flex cursor-pointer  justify-center min:w-[400px]- items-center h-[80px] px-[40px] xl: w-full  ${section.bgColor}- bg-black rounded-lg border`}
+                  className={` relative flex cursor-pointer  justify-center min:w-[400px]- items-center py-2 px-4 xl:h-[80px] xl:px-[40px] xl: w-full  ${section.bgColor}- bg-black rounded-lg border`}
                 >
                   <div
                     className="absolute inset-0 rounded-lg "
@@ -321,7 +327,7 @@ function Overview() {
                       zIndex: 0,
                     }}
                   ></div>
-                  <div className="bg-black  bg-opacity-55 rounded-lg py-2 px-4 text-white relative z-10">
+                  <div className="bg-black  bg-opacity-55 rounded-lg py-2 px-2 text-white relative z-10">
                     <ParagraphLink2 className=" font-bold">
                       {" "}
                       {section.name}
