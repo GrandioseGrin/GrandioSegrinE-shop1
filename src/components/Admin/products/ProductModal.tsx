@@ -40,6 +40,7 @@ interface Product {
   isElite: boolean;
   isSpecial: boolean;
   isBudget: boolean;
+  isPublish: boolean;
 }
 
 interface ModalProps {
@@ -73,6 +74,7 @@ type ProductValues = {
   isElite: boolean;
   isSpecial: boolean;
   isBudget: boolean;
+  isPublish: boolean;
 };
 
 interface Category {
@@ -122,6 +124,7 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
     isElite: product.isElite,
     isSpecial: product.isSpecial,
     isBudget: product.isBudget,
+    isPublish: product.isPublish,
   };
 
   const [formData, setFormData] = useState(initialValues);
@@ -715,6 +718,10 @@ const ProductModal: React.FC<ModalProps> = ({ product, onClose }) => {
                     component="div"
                     className="text-red-500 text-[12px]"
                   />
+                </div>
+                <div className="flex items-center gap-2 my-2">
+                  <Field type="checkbox" name="isPublish" />
+                  <label>Publish Product</label>
                 </div>
                 <div className="flex items-center gap-2 my-2">
                   <Field type="checkbox" name="isFeatured" />

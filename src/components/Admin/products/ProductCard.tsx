@@ -60,7 +60,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
               : `Qt: ${product.availableAmount}`}
           </p>
         </div>
-
+        {!product.isPublish && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-4 py-2 rounded">
+            <p className="text-white font-semibold">Unpublished</p>
+          </div>
+        )}
         <div className=" flex flex-col justify-center border-t pt-2 items-center   ga -rounded-lg  bg-white bg-opacity-65">
           <p className=" font-medium text-center pb-2  whitespace-nowrap w-[100%] truncate overflow-hidden">
             {" "}

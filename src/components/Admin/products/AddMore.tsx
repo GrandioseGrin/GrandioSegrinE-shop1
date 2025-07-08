@@ -41,6 +41,7 @@ type ProductValues = {
   isElite: boolean;
   isSpecial: boolean;
   isBudget: boolean;
+  isPublish: boolean;
 };
 
 const initialValues: ProductValues = {
@@ -69,6 +70,7 @@ const initialValues: ProductValues = {
   isElite: false,
   isSpecial: false,
   isBudget: false,
+  isPublish: false
 };
 
 interface Category {
@@ -505,7 +507,6 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                         />
                       </div>
                     </div>
-
                     <div className=" grid grid-cols-2 gap-2 ">
                       <div>
                         <label>Available Quantity</label>
@@ -645,6 +646,11 @@ const AddMore: React.FC<AddMoreProps> = ({ onRefetch }) => {
                         component="div"
                         className="text-red-500 text-[12px]"
                       />
+                    </div>
+
+                    <div className="flex items-center gap-2 my-2">
+                      <Field type="checkbox" name="isPublish" />
+                      <label>Publish Product</label>
                     </div>
                     <div className="flex items-center gap-2 my-2">
                       <Field type="checkbox" name="isFeatured" />
