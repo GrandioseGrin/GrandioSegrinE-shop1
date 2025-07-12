@@ -35,10 +35,10 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
           <Header3>
             Our <span className="text-primary">Trending</span> Products
           </Header3>
-          <Paragraph1 className="max-w-[883px] text-center hidden-">
-            Each product is carefully selected to celebrate your unique beauty,
-            empowering you to express yourself with confidence, elegance, and
-            radiance.
+          <Paragraph1 className="max-w-[883px] text-center">
+            Check out our most popular picks across groceries, fast food,
+            electronics, cosmetics, tools, and more—making everyday shopping
+            easier and better.
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}

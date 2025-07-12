@@ -20,9 +20,9 @@ function Overview() {
           <div className="flex flex-col bg-primary sm:gap-[20px] px-4 sm:p-[65px] py-12 sm:py- rounded-t-[24px] w-full sm:text-center text-white">
             <Header1Plus>Privacy Policy</Header1Plus>
             <Paragraph3>
-              At GrandioseGrin, your privacy is our priority. This policy
-              explains how we collect, use, and safeguard your personal
-              information when you shop with us or interact with our website.
+              At 9to5 Mart, your privacy is our priority. This policy explains
+              how we collect, use, and protect your personal information when
+              you shop with us or use our website.
             </Paragraph3>
           </div>
           <div className="absolute sm:-bottom-[200px] -bottom-[60px] overflow-hidden flex w-full">
@@ -40,15 +40,16 @@ function Overview() {
               Information We Collect
             </ParagraphLink1>
             <Paragraph1>
-              To provide the best experience at GrandioseGrin, we may collect:
+              To provide you with the best experience at 9to5 Mart, we may
+              collect:
               <br />
               - Personal Details: Name, email, phone number, and address
-              provided during account creation or checkout.
+              provided during checkout or account creation.
               <br />
-              - Purchase Data: Products bought and preferences to recommend
-              tailored solutions.
+              - Purchase Data: Items purchased and preferences to improve
+              recommendations and offers.
               <br />- Cookies: Used to personalize your shopping experience and
-              enhance website performance. Manage these via your browser
+              enhance website performance. You can manage these in your browser
               settings.
             </Paragraph1>
           </div>
@@ -58,14 +59,15 @@ function Overview() {
               How We Use Your Information
             </ParagraphLink1>
             <Paragraph1>
-              Your information allows us to:
+              We use your information to:
               <br />
-              - Process Orders: Ensure smooth order fulfillment and shipping.
+              - Process Orders: Ensure smooth payment, fulfillment, and
+              delivery.
               <br />
-              - Improve Services: Personalize product recommendations and
-              enhance user experience based on preferences.
+              - Improve Services: Personalize product suggestions and enhance
+              your experience.
               <br />- Stay Connected: With your consent, share updates on new
-              arrivals, promotions, or exclusive deals.
+              arrivals, promotions, and special deals.
             </Paragraph1>
           </div>
 
@@ -74,9 +76,9 @@ function Overview() {
               Safeguarding Your Data
             </ParagraphLink1>
             <Paragraph1>
-              We implement industry-standard security measures to protect your
-              personal data. While no system is completely secure, we are
-              committed to keeping your information safe.
+              We use industry-standard security measures to protect your data.
+              While no system is 100% secure, we are committed to keeping your
+              information safe and private.
             </Paragraph1>
           </div>
 
@@ -85,12 +87,12 @@ function Overview() {
               Sharing Your Information
             </ParagraphLink1>
             <Paragraph1>
-              Your information is not sold or shared except:
+              We do not sell your personal data. We may share it only:
               <br />
-              - With Trusted Vendors: To facilitate payment processing,
-              shipping, and other essential services.
-              <br />- For Legal Compliance: When required by law or to protect
-              our rights.
+              - With Trusted Partners: For payment processing, shipping, and
+              essential services.
+              <br />- For Legal Reasons: If required by law or to protect our
+              rights.
             </Paragraph1>
           </div>
 
@@ -101,10 +103,10 @@ function Overview() {
             <Paragraph1>
               You have the right to:
               <br />
-              - Access, correct, or delete your personal details.
+              - Access, correct, or delete your personal information.
               <br />
-              - Unsubscribe from marketing emails at any time.
-              <br />- Manage cookies through your browser settings.
+              - Unsubscribe from marketing communications at any time.
+              <br />- Manage cookies via your browser settings.
             </Paragraph1>
           </div>
 
@@ -113,9 +115,9 @@ function Overview() {
               Links to External Websites
             </ParagraphLink1>
             <Paragraph1>
-              Our website may include links to third-party platforms. We
-              encourage you to review their privacy policies, as we are not
-              responsible for their practices.
+              Our website may include links to third-party sites. We encourage
+              you to review their privacy policies, as we are not responsible
+              for their practices.
             </Paragraph1>
           </div>
 
@@ -124,8 +126,8 @@ function Overview() {
               Changes to Our Privacy Policy
             </ParagraphLink1>
             <Paragraph1>
-              Updates to this policy may occur periodically. All changes will be
-              published here with an effective date. We recommend reviewing this
+              We may update this policy from time to time. Changes will be
+              posted here with an effective date. We recommend reviewing this
               policy regularly.
             </Paragraph1>
           </div>

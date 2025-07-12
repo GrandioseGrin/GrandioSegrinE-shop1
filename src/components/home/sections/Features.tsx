@@ -5,30 +5,31 @@ import AOS from "aos";
 function Features() {
   const features = [
     {
-      title: "Worldwide Shipping",
+      title: "All-in-One Shopping",
       description:
-        "We deliver to over 100 countries, ensuring your orders reach you no matter where you are.",
-      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1732732969/planet-earth_jgsslh.png", // Replace with actual image path
+        "From groceries and fast food to electronics, cosmetics, and tools—find everything you need in one place.",
+      icon: "https://your-cdn-link.com/icons/all-in-one.png", // Replace with your actual image
     },
     {
-      title: "Best Quality",
+      title: "Fast, Reliable Delivery",
       description:
-        "Our products are crafted with premium materials, offering you unmatched quality and durability.",
-      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1732732972/makeup_xrfl3s.png", // Replace with actual image path
+        "We deliver quickly and reliably, so busy working-class customers can get what they need without the wait.",
+      icon: "https://your-cdn-link.com/icons/fast-delivery.png", // Replace with your actual image
     },
     {
-      title: "Best Offer",
+      title: "Great Prices & Deals",
       description:
-        "Enjoy unbeatable prices and incredible deals that make your shopping more rewarding.",
-      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1732732969/tag_lihdso.png", // Replace with actual image path
+        "Enjoy competitive prices and regular promotions that help you save on everyday essentials.",
+      icon: "https://your-cdn-link.com/icons/best-deals.png", // Replace with your actual image
     },
     {
-      title: "Secure Payment",
+      title: "Secure, Easy Payment",
       description:
-        "Your transactions are protected with advanced encryption, ensuring complete peace of mind.",
-      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1732732969/lock_fgzy8m.png", // Replace with actual image path
+        "Shop confidently with safe, encrypted payment options designed for convenience and peace of mind.",
+      icon: "https://your-cdn-link.com/icons/secure-payment.png", // Replace with your actual image
     },
   ];
+  
 
     React.useEffect(() => {
       AOS.init({

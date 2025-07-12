@@ -68,7 +68,7 @@ const BannerCarousel: React.FC<BannerCarouselProps> = ({ imageUrls }) => {
       <div className="flex justify-between items-center mt-2">
         <button
           onClick={prevSlide}
-          className="absolute sm:-left-4 - left-2 top-1/2 transform -translate-y-1/2 text-bg_gray bg-black bg-opacity-60 p-1 font-bold rounded-full"
+          className="absolute sm:left-4 - left-2 top-1/2 transform -translate-y-1/2 text-bg_gray bg-black bg-opacity-50 p-1 font-bold rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const BannerCarousel: React.FC<BannerCarouselProps> = ({ imageUrls }) => {
         </button>
         <button
           onClick={nextSlide}
-          className="absolute bg-black bg-opacity-60 - right-2 sm:-right-4 top-1/2 transform -translate-y-1/2  text-bg_gray p-1 font-bold rounded-full"
+          className="absolute bg-black bg-opacity-50 - right-2 sm:right-4 top-1/2 transform -translate-y-1/2  text-bg_gray p-1 font-bold rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

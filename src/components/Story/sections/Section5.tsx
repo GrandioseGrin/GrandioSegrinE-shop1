@@ -24,41 +24,42 @@ function Section5() {
   const faqs = [
     {
       id: 1,
-      question: "Q. What types of skincare and beauty products do you offer?",
+      question: "Q. What types of products does 9to5 Mart sell?",
       answer:
-        "At GrandioseGrin, we offer a wide range of skincare and cosmetic products, including moisturizers, serums, cleansers, and makeup. Each product is crafted to support different skin types and beauty needs.",
+        "9to5 Mart offers a wide variety of products, including groceries, fast food, cosmetics, tools, electronics, and household essentials. We’re your one-stop shop for everyday needs.",
     },
     {
       id: 2,
-      question: "Q. How can I place an order?",
+      question: "Q. How do I place an order?",
       answer:
-        "Placing an order is simple! Browse our collection, add items to your cart, and follow the checkout process. If you have any questions, our customer support team is here to help.",
+        "Placing an order is easy! Browse our categories, add items to your cart, and complete checkout in just a few steps. Our secure payment options make shopping safe and convenient.",
     },
     {
       id: 3,
-      question: "Q. How long will it take to receive my order?",
+      question: "Q. How long will delivery take?",
       answer:
-        "We aim to process and ship all orders within 2-3 business days. Shipping times may vary based on your location, but you’ll receive a tracking link as soon as your order is on its way!",
+        "We process and ship most orders within 1-2 business days. Delivery times depend on your location, and you'll receive a tracking link as soon as your order ships.",
     },
     {
       id: 4,
-      question: "Q. Can I return or exchange products?",
+      question: "Q. Can I return or exchange items?",
       answer:
-        "Yes, we offer a hassle-free return and exchange policy. If you’re not completely satisfied with your purchase, contact us within 30 days to initiate a return or exchange.",
+        "Yes! We offer an easy return and exchange policy. If something isn’t right, contact us within 30 days to start a return or exchange. We’re here to help.",
     },
     {
       id: 5,
-      question: "Q. Are your products suitable for sensitive skin?",
+      question: "Q. Is it safe to shop on 9to5 Mart?",
       answer:
-        "Many of our products are designed with gentle, skin-friendly ingredients suitable for sensitive skin. Please check each product's description for specific details, and reach out if you need personalized advice.",
+        "Absolutely. Your security is our priority. We use secure payment gateways and encryption to protect your personal and payment information.",
     },
     {
       id: 6,
-      question: "Q. Do you offer samples or trial sizes?",
+      question: "Q. Do you offer any special deals or discounts?",
       answer:
-        "Yes, we occasionally offer samples and trial sizes for select products. Keep an eye on our website or subscribe to our newsletter to stay updated on sample availability.",
+        "Yes! We regularly feature special offers, discounts, and bundles. Subscribe to our newsletter or check our homepage to stay updated on the latest deals.",
     },
   ];
+  
 
   return (
     <div>

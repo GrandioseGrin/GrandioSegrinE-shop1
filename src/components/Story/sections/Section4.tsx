@@ -16,30 +16,28 @@ function Section4() {
 
   return (
     <div className=" bg-bg_gray">
-      <div className=" container1 py-[54px] xl:py-[100px]  text-p_black">
-        {" "}
+      <div className="container1 py-[54px] xl:py-[100px] text-p_black">
         <div
-          className=" flex flex-col xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
+          className="flex flex-col xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]"
           data-aos="fade-up"
         >
           <Header3 className="text-center">
             Our <span className="text-primary">Simple 3-Step</span> Process for
-            Effortless Beauty Shopping
+            Effortless Everyday Shopping
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            At GrandioseGrin, we believe that finding the perfect skincare and
-            beauty products should be easy, enjoyable, and tailored just for
-            you.
+            At 9to5 Mart, we make shopping for everything you need fast, easy,
+            and stress-free—so you can spend more time on what matters.
           </Paragraph1>
         </div>
-        <div className=" grid grid-cols-1 xl:grid-cols-6 gap-[24px] xl:gap-[30px]">
-          <div className=" xl:col-span-2">
+        <div className="grid grid-cols-1 xl:grid-cols-6 gap-[24px] xl:gap-[30px]">
+          <div className="xl:col-span-2">
             <div
-              className=" bg-[#e1ceff] py-[24px] xl:py-[53px] p-[32px] rounded-lg "
+              className="bg-[#e1ceff] py-[24px] xl:py-[53px] p-[32px] rounded-lg"
               data-aos="fade-right"
             >
-              <div className="space-y-[24px] xl:space-y-[32px]    ">
-                <div className=" flex w-full justify-end-  ">
+              <div className="space-y-[24px] xl:space-y-[32px]">
+                <div className="flex w-full justify-end">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -55,12 +53,11 @@ function Section4() {
                     />
                   </svg>
                 </div>
-                <Header4>Discover & Explore</Header4>
+                <Header4>Browse & Discover</Header4>
                 <Paragraph2>
-                  Begin your journey by browsing our curated collection of
-                  premium skincare and beauty products. Whether you're looking
-                  for hydration, glow, or rejuvenation, explore products
-                  designed to meet your unique needs and goals.
+                  Explore our huge range of groceries, fast food, electronics,
+                  cosmetics, tools, and more. Easily find everything you need
+                  for workdays and weekends—all in one place.
                 </Paragraph2>
                 <div>
                   <Link
@@ -73,10 +70,10 @@ function Section4() {
               </div>
             </div>
           </div>
-          <div className=" xl:col-span-2 ">
-            <div className=" bg-[#c7cbb9]  rounded-lg " data-aos="fade-up">
-              <div className="space-y-[24px] xl:space-y-[32px] p-[32px] py-[24px]  xl:py-[53px]">
-                <div className=" flex w-full justify-end-  ">
+          <div className="xl:col-span-2">
+            <div className="bg-[#c7cbb9] rounded-lg" data-aos="fade-up">
+              <div className="space-y-[24px] xl:space-y-[32px] p-[32px] py-[24px] xl:py-[53px]">
+                <div className="flex w-full justify-end">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -92,17 +89,15 @@ function Section4() {
                     />
                   </svg>
                 </div>
-                <Header4>Choose & Customize</Header4>
+                <Header4>Select & Customize</Header4>
                 <Paragraph2>
-                  Add your selected products to your cart, and choose from a
-                  variety of sizes, scents, or bundles to suit your preferences.
-                  Our simple, guided checkout process makes it easy to customize
-                  your order and ensures a seamless experience from start to
-                  finish.
+                  Add everything you want to your cart—pick quantities,
+                  variations, and delivery options. Our easy checkout ensures a
+                  smooth, flexible, and secure shopping experience.
                 </Paragraph2>
                 <div>
                   <Link
-                    href="/products"
+                    href="/cart"
                     className="text-[20px] font-bold underline"
                   >
                     <ParagraphLink1>View Your Cart</ParagraphLink1>
@@ -111,10 +106,10 @@ function Section4() {
               </div>
             </div>
           </div>
-          <div className=" xl:col-span-2 ">
-            <div className=" bg-[#ff7878]  rounded-lg " data-aos="fade-left">
-              <div className="space-y-[24px] xl:space-y-[32px] p-[32px] py-[24px]  xl:py-[53px]">
-                <div className=" flex w-full justify-end-  ">
+          <div className="xl:col-span-2">
+            <div className="bg-[#ff7878] rounded-lg" data-aos="fade-left">
+              <div className="space-y-[24px] xl:space-y-[32px] p-[32px] py-[24px] xl:py-[53px]">
+                <div className="flex w-full justify-end">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -130,19 +125,18 @@ function Section4() {
                     />
                   </svg>
                 </div>
-                <Header4>Enjoy & Glow</Header4>
+                <Header4>Get It & Enjoy</Header4>
                 <Paragraph2>
-                  Once your order arrives, indulge in the luxury of self-care
-                  and feel the benefits of high-quality skincare. Our products
-                  are crafted to bring out your natural radiance and help you
-                  glow with confidence every day.
+                  Receive your order quickly and reliably. Enjoy the convenience
+                  of shopping for everything you need in one place—so you can
+                  get on with your day.
                 </Paragraph2>
                 <div>
                   <Link
                     href="/products"
                     className="text-[20px] font-bold underline"
                   >
-                    <ParagraphLink1>Explore More Products</ParagraphLink1>
+                    <ParagraphLink1>Shop More</ParagraphLink1>
                   </Link>
                 </div>
               </div>

@@ -21,13 +21,12 @@ function Overview() {
         {" "}
         <div className="  xl:px-[100px] xl:py-[50px] flex flex-col  xl:gap-[24px] items-center w-full mb-[24px] xl:mb-[64px]-">
           <Header1Plus className="text-center">
-            Let’s <span className="text-primary">Enhance</span> Your Beauty
-            Routine
+            Let’s <span className="text-primary">Simplify</span> Your Shopping
           </Header1Plus>
           <Paragraph1 className="text-center">
-            Have questions about our products or need personalized advice? Fill
-            out the form below, and let’s start your journey to radiant, healthy
-            skin together!
+            Have questions about our products or need help with your order? Fill
+            out the form below, and let’s make sure you get exactly what you
+            need—quickly and easily!
           </Paragraph1>
 
           <div className=" mt-[24px] flex w-full xl:mt-[36px] space-y-[24px] mb-[24px]">

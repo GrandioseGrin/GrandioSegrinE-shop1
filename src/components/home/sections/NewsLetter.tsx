@@ -31,8 +31,8 @@ function NewsLetter() {
       <div className="container1">
         <Header3 className="text-center">Newsletter</Header3>
         <Paragraph2 className="text-center">
-          Stay up to date with the latest beauty trends and exclusive offers
-          from GrandioseGrin.
+          Stay up to date with the latest deals, new arrivals, and exclusive
+          offers from 9to5 Mart—making shopping easier for you.
         </Paragraph2>
 
         <div className="pl-4 flex border border-primary text-[14px] bg-white rounded-full mt-4 overflow-hidden">

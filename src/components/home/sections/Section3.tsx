@@ -32,11 +32,12 @@ const Section3: React.FC<Section3Props> = ({ latestProducts }) => {
           // data-aos="fade-up"
         >
           <Header3>
-            Our Newest <span className="text-primary">Beauty</span> Essentials
-          </Header3>{" "}
+            Our Newest <span className="text-primary">Essentials</span>
+          </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            Handpicked just for you, these products are here to elevate your
-            routine and keep you at the forefront of beauty trends.
+            Handpicked for you—discover the latest arrivals across groceries,
+            fast food, electronics, cosmetics, tools, and more to make everyday
+            shopping easier.
           </Paragraph1>
         </div>
         <div className="xl:flex grid grid-cols-2 items-center xl:overflow-y-auto scrollbar-hide   gap-2 [24px] xl:gap-4 [30px]">

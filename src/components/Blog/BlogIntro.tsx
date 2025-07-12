@@ -57,14 +57,12 @@ function BlogIntro() {
         >
           <Header3>
             Explore the World of{" "}
-            <span className="text-primary text-center">Beauty</span> and
-            Wellness
+            <span className="text-primary text-center">Everyday Living</span>
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            Welcome to our beauty blog, your go-to source for the latest
-            updates, tips, and trends in the world of beauty. Here, we celebrate
-            individuality and inspire confidence, elegance, and self-expression
-            in every glow.
+            Welcome to our blog—your go-to source for tips, updates, and ideas
+            across food, home, electronics, self-care, and more. We’re here to
+            make shopping simpler and life easier for you.
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}

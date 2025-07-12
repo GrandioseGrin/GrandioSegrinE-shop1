@@ -18,22 +18,23 @@ function HeroSection() {
           className="relative z-10 px-2 xl:p-[100px] py-[32px] pt-[150px] xl:py-[70px]"
           data-aos="fade-right"
         >
-          <div className=" flex flex-col xl:w-[60%] w-full xl:space-y-[24px] ">
+          <div className="flex flex-col xl:w-[60%] w-full xl:space-y-[24px] ">
             <Header3 className="text-white col-span-1">
-              Discover the beauty of self-care with
-              <span className="border-primary  "> GrandioseGrin's </span>{" "}
-              premium cosmetics.
+              Simplify everyday shopping with
+              <span className="border-primary"> 9to5 Mart’s </span>
+              wide selection of essentials.
             </Header3>
             <Paragraph3 className="xl:mt-[16px] mb-[24px] xl:mb-[48px] text-white">
-              At GrandioseGrin, we celebrate your unique beauty, offering
-              products that nourish, inspire, and enhance your natural glow.
+              At 9to5 Mart, we make life easier for busy people with groceries,
+              fast food, electronics, cosmetics, tools, and more—all in one
+              convenient place.
             </Paragraph3>
 
             <Button
-              text="Start Your Beauty Journey"
+              text="Start Shopping Now"
               href="/products"
               isLink={true}
-              additionalClasses="border-primary xl:w-fit w-full  "
+              additionalClasses="border-primary xl:w-fit w-full"
             />
           </div>
         </div>

@@ -36,9 +36,9 @@ const Section2: React.FC<Section2Props> = ({ featuredProducts }) => {
             Our <span className="text-primary">Featured</span> Products
           </Header3>
           <Paragraph1 className="max-w-[883px] text-center">
-            Each product is carefully selected to celebrate your unique beauty,
-            empowering you to express yourself with confidence, elegance, and
-            radiance.
+            Discover our top picks across groceries, fast food, electronics,
+            cosmetics, tools, and more—handpicked to make your everyday shopping
+            easier and better.
           </Paragraph1>
         </div>
         {/* data-aos="fade-right" */}

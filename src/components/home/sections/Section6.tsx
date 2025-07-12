@@ -24,12 +24,13 @@ function section6() {
         {" "}
         <div className="flex flex-col xl:gap-[24px] items-center w-full text-center pb-[64px]">
           <Header1Plus>
-            Discover Your Best <span className="text-primary">Self</span> with
-            GrandioseGrin
+            Make Life <span className="text-primary">Easier</span> with 9to5
+            Mart
           </Header1Plus>
           <Paragraph1 className="max-w-[883px] text-center">
-            Have questions or need guidance? Our team is here to help you find
-            the perfect products for your beauty journey.
+            Got questions or need help? Our team is here to guide you—whether
+            you're ordering dinner, shopping tools, or picking up essentials for
+            the week.
           </Paragraph1>
           <Button
             text="Contact Us Today"
