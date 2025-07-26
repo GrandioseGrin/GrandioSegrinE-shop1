@@ -8,25 +8,25 @@ function Features() {
       title: "All-in-One Shopping",
       description:
         "From groceries and fast food to electronics, cosmetics, and tools—find everything you need in one place.",
-      icon: "https://your-cdn-link.com/icons/all-in-one.png", // Replace with your actual image
+      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753517777/shopping-cart_jldpx1.png", // Replace with your actual image
     },
     {
       title: "Fast, Reliable Delivery",
       description:
         "We deliver quickly and reliably, so busy working-class customers can get what they need without the wait.",
-      icon: "https://your-cdn-link.com/icons/fast-delivery.png", // Replace with your actual image
+      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753517777/fast-delivery_apydav.png", // Replace with your actual image
     },
     {
       title: "Great Prices & Deals",
       description:
         "Enjoy competitive prices and regular promotions that help you save on everyday essentials.",
-      icon: "https://your-cdn-link.com/icons/best-deals.png", // Replace with your actual image
+      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753517777/price-tag_k9hdnt.png", // Replace with your actual image
     },
     {
       title: "Secure, Easy Payment",
       description:
         "Shop confidently with safe, encrypted payment options designed for convenience and peace of mind.",
-      icon: "https://your-cdn-link.com/icons/secure-payment.png", // Replace with your actual image
+      icon: "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753517777/credit-card_xo3eb1.png", // Replace with your actual image
     },
   ];
   
@@ -49,7 +49,7 @@ function Features() {
             <img
               src={feature.icon}
               alt={feature.title}
-              className="w-16 h-16 mx-auto"
+              className="w-[100px] h-[100px] mx-auto"
             />
             <Header4 className="text-lg font-semibold">{feature.title}</Header4>
             <p className="text-sm text-gray-600">{feature.description}</p>

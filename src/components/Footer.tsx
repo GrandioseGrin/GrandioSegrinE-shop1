@@ -324,7 +324,7 @@ function Footer() {
               </div>
             </div>
             <ParagraphLink2 className=" text-[14px] text-[#ECECEC] ">
-              © 2024 GrandioseGrin Ltd. All rights reserved.
+              © 2024 9to5 Mart Ltd. All rights reserved.
             </ParagraphLink2>
             <div className="flex flex-wrap gap-[24px] items-center">
               <Link href="/privacy-policy" className="">

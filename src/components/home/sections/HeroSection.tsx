@@ -7,9 +7,10 @@ import Button from "@/components/Button";
 
 const HomePage = () => {
   const imageUrls = [
-    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057094/ad-banner-natural-beauty-products-600nw-1780339220_fi36g5.webp",
-    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057163/cosmetic-banner-design-template-f144d95f86f429ed2b4cf012c01937cc_screen_xemfkc.jpg",
-    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1734057163/HKen-blackFriday_FCbanana_web_banner_3b60d3ff-04ac-494d-af52-e198f9fa37bb_g02jmr.webp",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753519931/Screenshot_2025-07-26_095103_zbcnj0.png",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753519930/Screenshot_2025-07-26_095118_vt7g0f.png",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753519931/Screenshot_2025-07-26_095136_fkqpla.png",
+    "https://res.cloudinary.com/dtipo8fg3/image/upload/v1753519930/Screenshot_2025-07-26_095043_zqgsd4.png",
   ];
 
   return (
