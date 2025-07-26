@@ -44,7 +44,7 @@ function HeroSection() {
           className="absolute inset-0 bg-cover xl:-top-[100px] xl:-left-[0px] -left-[150px] -top-[24px] bg-center- z-0"
           style={{
             backgroundImage:
-              "url('https://res.cloudinary.com/dtipo8fg3/image/upload/v1731517423/istockphoto-637324230-612x612as_w7eazz.jpg')",
+              "url('https://res.cloudinary.com/dtipo8fg3/image/upload/v1753520733/Gemini_Generated_Image_ag21x2ag21x2ag21_fqbjq8.png')",
           }}
         ></div>
         {/* Dark overlay for the background image */}

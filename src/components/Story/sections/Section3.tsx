@@ -36,13 +36,13 @@ function Section3() {
         <div className="grid col-span-1 xl:items-center xl:grid-cols-6 gap-[24px] xl:gap-[30px]">
           <div className="xl:col-span-3">
             <div
-              className="bg-white rounded-lg p-[31px] overflow-hidden"
+              className="bg-white rounded-lg h-[250px] sm:h-[500px] sm:p-[31px] overflow-hidden"
               data-aos="fade-left"
             >
               <img
-                src="/images/section3.jpg"
+                src="https://res.cloudinary.com/dtipo8fg3/image/upload/v1753520729/Gemini_Generated_Image_eefhy3eefhy3eefh_gkgnid.png"
                 alt="branding"
-                className="w-full rounded-lg"
+                className="w-full h-full rounded-lg object-cover object-center "
               />
             </div>
           </div>
