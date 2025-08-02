@@ -69,10 +69,10 @@ export default function Overview() {
             <div className="mb-4 xl:hidden pt-2">
               <SearchBar />
             </div>
-            <SectionScroller
+            {/* <SectionScroller
               sections={sections}
               setActiveFilter={state.setActiveFilter}
-            />
+            /> */}
             <div className="flex w-full justify-between items-center mb-4">
               <div className="relative xl:hidden">
                 <button
